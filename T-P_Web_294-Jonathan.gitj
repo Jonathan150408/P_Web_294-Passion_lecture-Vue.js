@@ -1,0 +1,29 @@
+{
+  "repoUrl": "https://github.com/Jonathan150408/P_Web_294-Passion_lecture-Vue.js",
+  "projectName": "P_Web_294 : Passion lecture avec Vue.js",
+  "branch": "main",
+  "me": "jonathan150408",
+  "journalStartDate": null,
+  "exceptions": [
+    {
+      "id": "47f1a74f-6ce0-4562-bf2b-6ccbabad0958",
+      "type": "commitless",
+      "name": "learn(intro) : introduction au projet",
+      "description": "En classe, à l'oral",
+      "date": "2026-02-10T13:32:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "20fa10de-2f40-40ba-a625-ac0868c99c0e",
+      "type": "commitless",
+      "name": "chore(repo et gitproject) : créer et initialiser le gitproject",
+      "description": "création du repo et du github project (+tâches)",
+      "date": "2026-02-10T13:33:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "jonathan150408"
+    }
+  ]
+}
