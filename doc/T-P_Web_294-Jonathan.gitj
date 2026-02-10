@@ -24,6 +24,16 @@
       "duration": 30,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "8ae7405c-8d55-4bb4-9f3c-7fdf779311c0",
+      "type": "commitless",
+      "name": "chore(figma) : créer le projet",
+      "description": "A pris plus de temps que prévu, car mon compte a été supprimé -> chercher mon compte (non retrouvé) et en créer un autre",
+      "date": "2026-02-10T13:42:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
