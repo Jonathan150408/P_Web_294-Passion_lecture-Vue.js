@@ -1,0 +1,49 @@
+{
+  "repoUrl": "https://github.com/Jonathan150408/P_Web_294-Passion_lecture-Vue.js",
+  "projectName": "P_Web_294 : Passion lecture avec Vue.js",
+  "branch": "main",
+  "me": "jonathan150408",
+  "journalStartDate": null,
+  "exceptions": [
+    {
+      "id": "47f1a74f-6ce0-4562-bf2b-6ccbabad0958",
+      "type": "commitless",
+      "name": "learn(intro) : introduction au projet",
+      "description": "En classe, à l'oral",
+      "date": "2026-02-10T13:32:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "20fa10de-2f40-40ba-a625-ac0868c99c0e",
+      "type": "commitless",
+      "name": "chore(repo et gitproject) : créer et initialiser le gitproject",
+      "description": "création du repo et du github project (+tâches)",
+      "date": "2026-02-10T13:33:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "8ae7405c-8d55-4bb4-9f3c-7fdf779311c0",
+      "type": "commitless",
+      "name": "chore(figma) : créer le projet",
+      "description": "A pris plus de temps que prévu, car mon compte a été supprimé -> chercher mon compte (non retrouvé) et en créer un autre",
+      "date": "2026-02-10T13:42:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "103ca79c-52b3-4f61-be2a-6b5e488f914f",
+      "type": "commitless",
+      "name": "feat(wireframe) : créer les wireframes",
+      "description": "Travail sur le wireframe afin d'avoir un exemple concret de ce à quoi ressemblera le site",
+      "date": "2026-02-10T17:23",
+      "duration": 85,
+      "status": "WIP",
+      "author": "jonathan150408"
+    }
+  ]
+}
