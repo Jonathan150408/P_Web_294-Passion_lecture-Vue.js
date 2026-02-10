@@ -10,8 +10,38 @@
       "type": "commitless",
       "name": "chore(Projet): Création du projet",
       "description": "Création du repo et projet Github ainsi que la création des tâches",
-      "date": "2026-02-10T12:40:00.000Z",
-      "duration": 40,
+      "date": "2026-02-10T13:40",
+      "duration": 50,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "58f4621c-3ea0-48af-818b-a7e19c0667fc",
+      "type": "commitless",
+      "name": "learn(projet): Introduction au projet",
+      "description": "",
+      "date": "2026-02-10T12:10:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "720e757e-e493-4257-b2fd-2b9f7d627924",
+      "type": "commitless",
+      "name": "chore(Test): Passer le TS3 du module",
+      "description": "J'étais absent la semaine passée, et donc j'ai passé le test à blanc aujourd'hui pour que le professeur décide si j'ai besoin de passer le test en vrai ou non",
+      "date": "2026-02-10T13:30:00.000Z",
+      "duration": 55,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "425d247a-d592-4ea1-90df-c59562d26aa5",
+      "type": "commitless",
+      "name": "feat(Wireframe): Début de la wireframe",
+      "description": "Nous avons passé le restant de la journée à travailler sur la wireframe du site, pour avoir quelque chose de bien",
+      "date": "2026-02-10T14:40:00.000Z",
+      "duration": 105,
       "status": "Done",
       "author": "neo-darbellay"
     }
