@@ -1,0 +1,19 @@
+{
+  "repoUrl": "https://github.com/Jonathan150408/P_Web_294-Passion_lecture-Vue.js",
+  "projectName": "P_Web_294",
+  "branch": "main",
+  "me": "neo-darbellay",
+  "journalStartDate": null,
+  "exceptions": [
+    {
+      "id": "a66c41d7-d4b5-449c-84f9-9f43bfabc128",
+      "type": "commitless",
+      "name": "chore(Projet): Création du projet",
+      "description": "Création du repo et projet Github ainsi que la création des tâches",
+      "date": "2026-02-10T12:40:00.000Z",
+      "duration": 40,
+      "status": "Done",
+      "author": "neo-darbellay"
+    }
+  ]
+}
