@@ -44,6 +44,26 @@
       "duration": 105,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "46ec88d2-0672-485a-a188-464e23bcdfc2",
+      "type": "commitless",
+      "name": "feat(Wireframe): Continuation des wireframes",
+      "description": "https://github.com/Jonathan150408/P_Web_294-Passion_lecture-Vue.js/commit/9a26db11f69366c04ab16483feb3c2e57bd0bae5",
+      "date": "2026-02-11T07:00:00.000Z",
+      "duration": 95,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "80bbeab0-0785-4e89-8551-d244a31e23c9",
+      "type": "commitless",
+      "name": "feat(mockups): Début",
+      "description": "",
+      "date": "2026-02-11T10:25:00.000Z",
+      "duration": 65,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
