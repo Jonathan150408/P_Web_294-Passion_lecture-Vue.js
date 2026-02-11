@@ -34,6 +34,56 @@
       "duration": 10,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "103ca79c-52b3-4f61-be2a-6b5e488f914f",
+      "type": "commitless",
+      "name": "feat(wireframe) : créer les wireframes",
+      "description": "Travail sur le wireframe afin d'avoir un exemple concret de ce à quoi ressemblera le site",
+      "date": "2026-02-10T17:23",
+      "duration": 85,
+      "status": "WIP",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "bee862b1-f991-4153-9b23-2768738c092a",
+      "type": "commitless",
+      "name": "fix(jdt et git) : supprimer le double du jdt",
+      "description": "Mon jdt a été dupliqué pour une raison absurde... -> fix",
+      "date": "2026-02-11T07:07:00.000Z",
+      "duration": 5,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "0449d2e4-cf32-4a5e-8b94-e6b9d54b312c",
+      "type": "commitless",
+      "name": "feat(wireframes) : ajout des wireframes",
+      "description": "https://github.com/Jonathan150408/P_Web_294-Passion_lecture-Vue.js/commit/9a26db11f69366c04ab16483feb3c2e57bd0bae5",
+      "date": "2026-02-11T09:33",
+      "duration": 95,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "db87d6db-8c51-4b9e-84c5-c18c8fcd1ad0",
+      "type": "commitless",
+      "name": "fix(wireframes) : finalisation des wireframes",
+      "description": "Nous avions utilisé la mauvaise résolution avant, nous avons donc changé pour du 1920x1080",
+      "date": "2026-02-11T09:19:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "fb1fe314-6306-4a51-b9f0-ae991122ed98",
+      "type": "commitless",
+      "name": "feat(mockups) : avancer",
+      "description": "",
+      "date": "2026-02-11T10:26:00.000Z",
+      "duration": 90,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
