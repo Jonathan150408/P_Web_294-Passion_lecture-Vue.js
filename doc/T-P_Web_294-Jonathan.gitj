@@ -84,6 +84,46 @@
       "duration": 90,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "b0f52952-818e-4f9e-a624-996d6e0a7a3d",
+      "type": "commitless",
+      "name": "learn(test) : planification du test et en parler avec la classe",
+      "description": "",
+      "date": "2026-02-24T13:13:00.000Z",
+      "duration": 5,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "a8ee73f4-ef07-475e-8352-78b5113c9fac",
+      "type": "commitless",
+      "name": "feat(maquettes) : avancer dans les mockups",
+      "description": "",
+      "date": "2026-02-24T13:13:00.000Z",
+      "duration": 25,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "4ef4ef2e-8849-4adf-8fd8-356b1c4dd841",
+      "type": "commitless",
+      "name": "learn(projet) : parler des routes composées + autres points techniques",
+      "description": "théorie en classe",
+      "date": "2026-02-24T13:15:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "179c37a4-0d0c-45a2-8106-8a55f8beeae6",
+      "type": "commitless",
+      "name": "doc(github) : revoir le backlog",
+      "description": "Revoir le backlog et diviser la tâche vue en sous-tâches",
+      "date": "2026-02-24T15:00:00.000Z",
+      "duration": 85,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
