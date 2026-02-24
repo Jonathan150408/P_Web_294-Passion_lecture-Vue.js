@@ -64,6 +64,76 @@
       "duration": 65,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "6e355268-52e4-49bd-bf1d-a8407f3e6b0a",
+      "type": "commitless",
+      "name": "Learn(Test): Début du cours",
+      "description": "Annonce de la date du test (mardi 10 mars)",
+      "date": "2026-02-24T12:16:00.000Z",
+      "duration": 6,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "0f471a28-68d3-429d-a2e1-686af524030b",
+      "type": "commitless",
+      "name": "feat(Mockup) Début des mockups",
+      "description": "",
+      "date": "2026-02-24T12:25:00.000Z",
+      "duration": 9,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "d309bfc2-907b-47cf-81ae-9db2bbb8c821",
+      "type": "commitless",
+      "name": "Learn(Projet): Compréhension de certains points avec le Professeur",
+      "description": "",
+      "date": "2026-02-24T12:33:00.000Z",
+      "duration": 8,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "b9be6ddb-4a8e-412f-8222-cfd9985fa384",
+      "type": "commitless",
+      "name": "feat(Mockups): Continuation des mockups",
+      "description": "",
+      "date": "2026-02-24T12:48:00.000Z",
+      "duration": 15,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "f0f540b4-346a-42d1-8ef0-c9db8d4bc944",
+      "type": "commitless",
+      "name": "chore(Verification): Vérification de la planification avec le Professeur",
+      "description": "Ils nous faut faire des modifications",
+      "date": "2026-02-24T14:12",
+      "duration": 24,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "d8b2583d-dbdb-42f9-8c98-77e226cbd03b",
+      "type": "commitless",
+      "name": "feat(Mockups): Continuation des mockups",
+      "description": "",
+      "date": "2026-02-24T13:45:00.000Z",
+      "duration": 33,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "5b299967-2ba7-4210-8254-d527b8ba2a07",
+      "type": "commitless",
+      "name": "feat(Mockups): Finalisation des wireframes (pour le moment)",
+      "description": "",
+      "date": "2026-02-24T14:25:00.000Z",
+      "duration": 25,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
