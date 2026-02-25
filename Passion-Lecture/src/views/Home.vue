@@ -34,9 +34,9 @@ onMounted(() => {
       </p>
       <h2>Les 5 derniers ajouts</h2>
       <!-- Lister les livres -->
-      <div>
+      <div class="books">
         <Book
-          v-for="(book, index) in books"
+          v-for="(book, index) in books?.slice(0, 5)"
           :key="index"
           :book="book"
           :appearBig="true"
@@ -73,5 +73,13 @@ onMounted(() => {
   margin: 0;
   letter-spacing: 0.1rem;
   padding-top: 10rem;
+}
+
+.books {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 5rem;
 }
 </style>
