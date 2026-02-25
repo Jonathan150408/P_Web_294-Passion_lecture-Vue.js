@@ -1,0 +1,175 @@
+/* === Reset and base === */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    color: #fff;
+}
+
+body {
+    background-image: url('/src/assets/background-image.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* === Header === */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    background: #6DA3FF;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 1000;
+}
+
+header a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+header img {
+    height: 64px;
+    margin-right: 24px;
+}
+
+header a:last-child img {
+    margin-right: 0;
+}
+
+/* === Sidebar (Aside) === */
+aside {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    width: 260px;
+    height: calc(100vh - 150px);
+    background: rgba(247, 243, 237, 0.5);
+    border-right: 2px solid #e3e6ee;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+aside nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 1rem;
+}
+
+aside a {
+    color: #fff;
+    background: rgba(30, 26, 23, 0.8);
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, color 0.2s;
+    padding: 0.8rem 0;
+    box-shadow: 0 2px 8px 0 rgba(30, 26, 23, 0.08);
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+aside a.indented {
+    margin-left: 0.8rem;
+}
+
+aside a:hover {
+    background: rgba(30, 26, 23, 1);
+    color: #fff;
+}
+
+/* Bottom link in aside */
+.aside-bottom-link {
+    margin-top: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.aside-bottom-link a {
+    color: #fff;
+    background: rgba(30, 26, 23, 0.8);
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    padding: 0.8rem 0;
+    box-shadow: 0 2px 8px 0 rgba(30, 26, 23, 0.08);
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+.aside-bottom-link a:hover {
+    background: rgba(30, 26, 23, 1);
+    color: #fff;
+}
+
+/* === Main Content === */
+main,
+.router-view {
+    margin-top: 90px;
+    margin-left: 260px;
+    margin-bottom: 60px;
+    padding: 40px 48px 24px 48px;
+    min-height: calc(100vh - 150px);
+    background: rgba(42, 38, 35, 0.75);
+    box-sizing: border-box;
+}
+
+/* === Footer === */
+footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    background: #6DA3FF;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    z-index: 1000;
+    padding-left: 1rem;
+}
+
+footer a {
+    color: #90caf9;
+    text-decoration: underline;
+    margin: 0 0.4em;
+    font-weight: 500;
+}
+
+/* === Responsive adjustments === */
+@media (max-width: 900px) {
+    aside {
+        width: 180px;
+    }
+
+    main,
+    .router-view {
+        margin-left: 180px;
+        padding: 24px 12px 12px 12px;
+    }
+
+    header {
+        padding: 0 12px;
+    }
+}

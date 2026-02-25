@@ -17,8 +17,11 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/">Accueil</RouterLink>
       <RouterLink to="/books">Livres</RouterLink>
       <!-- il faudra remplacer les valeurs 1 par un id interactif -->
-      <RouterLink to="/books/category/1">La liste des catégories</RouterLink>
+      <RouterLink to="/books/category/1" class="indented">La liste des catégories</RouterLink>
     </nav>
+    <div class="aside-bottom-link">
+      <RouterLink to="/books/create">+ Ajouter un livre</RouterLink>
+    </div>
   </aside>
   <RouterView />
 
