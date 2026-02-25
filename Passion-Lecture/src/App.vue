@@ -34,29 +34,4 @@ import { RouterLink, RouterView } from 'vue-router'
   </footer>
 </template>
 
-<style scoped>
-main {
-  display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-nav a {
-  display: block;
-  padding: 15px 20px;
-  text-decoration: none;
-  color: inherit;
-  border: 1px solid #ccc;
-  text-align: center;
-}
-
-nav a:hover {
-  color: #fff;
-  background-color: #000;
-}
-</style>
+<style scoped></style>
