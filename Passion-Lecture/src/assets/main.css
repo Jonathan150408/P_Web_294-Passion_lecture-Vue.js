@@ -124,13 +124,18 @@ aside a:hover {
 /* === Main Content === */
 main,
 .router-view {
-    margin-top: 90px;
+    margin-top: 80px;
     margin-left: 260px;
     margin-bottom: 60px;
     padding: 40px 48px 24px 48px;
     min-height: calc(100vh - 150px);
     background: rgba(42, 38, 35, 0.75);
     box-sizing: border-box;
+}
+
+h1,
+h2 {
+    text-align: center;
 }
 
 /* === Footer === */

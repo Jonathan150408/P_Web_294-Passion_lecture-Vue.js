@@ -3,10 +3,9 @@ import Book from '../components/Book.vue'
 </script>
 
 <template>
-  <main>
-    <div>
+  <main class="home">
+    <div class="hero">
       <div><h1>Bienvenue</h1></div>
-      <img src="../assets/MM-P_Web_294-Logo-Cropped.png" alt="Bannière du site / hero" />
     </div>
     <div>
       <h2>Notre But</h2>
@@ -32,4 +31,31 @@ import Book from '../components/Book.vue'
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.hero {
+  position: relative;
+  left: auto;
+  top: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000 url('/src/assets/MM-P_Web_294-Logo-Cropped.png') no-repeat center center;
+  box-shadow: 0 4px 24px 0 rgba(30, 26, 23, 0.1);
+  padding: 18rem 3rem 2.5rem;
+  margin-top: -40px;
+  margin-left: -48px;
+  margin-right: -48px;
+  margin-bottom: 2.5rem;
+  min-height: 180px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.1rem;
+  padding-top: 10rem;
+}
+</style>
