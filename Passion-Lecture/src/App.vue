@@ -1,5 +1,19 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import HttpService from './services/HttpService'
+
+const categories = ref(null)
+onMounted(() => {
+  HttpService.getCategories()
+    .then((response) => {
+      categories.value = response.data
+      console.log(categories.value)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
 </script>
 
 <template>
@@ -17,7 +31,13 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/">Accueil</RouterLink>
       <RouterLink to="/books">Livres</RouterLink>
       <!-- il faudra remplacer les valeurs 1 par un id interactif -->
-      <RouterLink to="/books/category/1" class="indented">La liste des catégories</RouterLink>
+      <RouterLink
+        v-for="categorie in categories"
+        :key="categorie.id"
+        :to="`/books/category/${categorie.id}`"
+        class="indented"
+        >{{ categorie.label }}</RouterLink
+      >
     </nav>
     <div class="aside-bottom-link">
       <RouterLink to="/books/create">+ Ajouter un livre</RouterLink>
