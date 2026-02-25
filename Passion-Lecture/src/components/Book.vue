@@ -1,6 +1,11 @@
 <script setup>
-defineProps({
+/*defineProps({
   appearBig: {
+    type: boolean,
+    required: true,
+  },
+
+  showCategory: {
     type: boolean,
     required: true,
   },
@@ -9,16 +14,19 @@ defineProps({
     type: Object,
     required: true,
   },
-})
+})*/
 </script>
 
 <template>
   <RouterLink to="/books/1">
     <div>
-      <p>Auteur du livre</p>
-      <h3>Titre du livre</h3>
+      <div>
+        <p>Éditeur</p>
+        <p>Type (BD)</p>
+      </div>
+      <p>Titre du livre</p>
     </div>
-    <img src="" alt="Background : couverture du livre" />
+    <img src="" alt="En background : couverture du livre" />
   </RouterLink>
 </template>
 

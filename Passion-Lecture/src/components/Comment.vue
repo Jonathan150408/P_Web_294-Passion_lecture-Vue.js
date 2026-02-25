@@ -1,10 +1,10 @@
 <script setup>
-defineProps({
+/*defineProps({
   content: {
     type: Object,
     required: true,
   },
-})
+})*/
 </script>
 
 <template>

@@ -1,12 +1,12 @@
 <script setup>
 import Comment from './Comment.vue'
 
-defineProps({
+/*defineProps({
   comments: {
     type: Array,
     required: true,
   },
-})
+})*/
 </script>
 
 <template>
