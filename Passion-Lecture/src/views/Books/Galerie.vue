@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import Book from '../../components/Book.vue'
+</script>
 
 <template>
   <main>
@@ -10,27 +12,9 @@
       </div>
       <!-- liste des livres -->
       <div>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
+        <Book></Book>
+        <Book></Book>
+        <Book></Book>
       </div>
     </section>
     <section>
@@ -41,27 +25,9 @@
       </div>
       <!-- liste des livres -->
       <div>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
+        <Book></Book>
+        <Book></Book>
+        <Book></Book>
       </div>
     </section>
     <section>
@@ -72,27 +38,9 @@
       </div>
       <!-- liste des livres -->
       <div>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <p>Auteur du livre</p>
-            <h3>Titre du livre</h3>
-          </div>
-          <img src="" alt="Background : couverture du livre" />
-        </RouterLink>
+        <Book></Book>
+        <Book></Book>
+        <Book></Book>
       </div>
     </section>
   </main>
