@@ -1,1 +1,258 @@
-{}
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin"
+    }
+  ],
+  "books": [
+    {
+      "id": "6",
+      "title": "1984",
+      "numberOfPages": 328,
+      "pdfLink": "https://example.com/1984.pdf",
+      "abstract": "Roman dystopique de George Orwell paru en 1949.",
+      "editor": "Secker & Warburg",
+      "editionYear": 1949,
+      "imagePath": "https://covers.openlibrary.org/b/id/966097-L.jpg",
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "2",
+      "writerId": "6",
+      "userId": 1,
+      "category": {
+        "id": "2",
+        "label": "Science-fiction",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "6",
+        "lastname": "Orwell",
+        "firstname": "George",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": 1,
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "5",
+      "title": "À la recherche du temps perdu",
+      "numberOfPages": 4215,
+      "pdfLink": "https://example.com/temps-perdu.pdf",
+      "abstract": "Cycle romanesque de Marcel Proust publié entre 1913 et 1927.",
+      "editor": "Grasset / Gallimard",
+      "editionYear": 1913,
+      "imagePath": "https://covers.openlibrary.org/b/id/0010461751-L.jpg",
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "1",
+      "writerId": "5",
+      "userId": "1",
+      "category": {
+        "id": "1",
+        "label": "Roman",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "5",
+        "lastname": "Proust",
+        "firstname": "Marcel",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "9",
+      "title": "Crime et Châtiment",
+      "numberOfPages": 671,
+      "pdfLink": "https://example.com/crime-chatiment.pdf",
+      "abstract": "Roman philosophique de Dostoïevski publié en 1866.",
+      "editor": "The Russian Messenger",
+      "editionYear": 1866,
+      "imagePath": "https://covers.openlibrary.org/b/id/0013643709.jpg",
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "10",
+      "writerId": "9",
+      "userId": "1",
+      "category": {
+        "id": "10",
+        "label": "Philosophie",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "9",
+        "lastname": "Dostoevsky",
+        "firstname": "Fyodor",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "3",
+      "title": "Germinal",
+      "numberOfPages": 592,
+      "pdfLink": "https://example.com/germinal.pdf",
+      "abstract": "Roman naturaliste d’Émile Zola publié en 1885.",
+      "editor": "Charpentier",
+      "editionYear": 1885,
+      "imagePath": "https://covers.openlibrary.org/b/id/0008236934-L.jpg",
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "1",
+      "writerId": "3",
+      "userId": "1",
+      "category": {
+        "id": "1",
+        "label": "Roman",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "3",
+        "lastname": "Zola",
+        "firstname": "Émile",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "10",
+      "title": "Guerre et Paix",
+      "numberOfPages": 1225,
+      "pdfLink": "https://example.com/guerre-paix.pdf",
+      "abstract": "Roman historique de Léon Tolstoï publié entre 1865 et 1869.",
+      "editor": "The Russian Messenger",
+      "editionYear": 1869,
+      "imagePath": null,
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "9",
+      "writerId": "10",
+      "userId": "1",
+      "category": {
+        "id": "9",
+        "label": "Histoire",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "10",
+        "lastname": "Tolstoy",
+        "firstname": "Leo",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "8",
+      "title": "Hamlet",
+      "numberOfPages": 200,
+      "pdfLink": "https://example.com/hamlet.pdf",
+      "abstract": "Tragédie de William Shakespeare, écrite vers 1600.",
+      "editor": "N/A",
+      "editionYear": 1600,
+      "imagePath": "https://covers.openlibrary.org/b/id/0010179859-L.jpg",
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "1",
+      "writerId": "8",
+      "userId": "1",
+      "category": {
+        "id": "1",
+        "label": "Roman",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "8",
+        "lastname": "Shakespeare",
+        "firstname": "William",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "4",
+      "title": "L’Étranger",
+      "numberOfPages": 184,
+      "pdfLink": "https://example.com/letranger.pdf",
+      "abstract": "Roman philosophique d’Albert Camus paru en 1942.",
+      "editor": "Gallimard",
+      "editionYear": 1942,
+      "imagePath": "https://covers.openlibrary.org/b/id/15152916-L.jpg",
+      "createdAt": "2026-02-22T07:48:00.000+00:00",
+      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "categoryId": "10",
+      "writerId": "4",
+      "userId": "1",
+      "category": {
+        "id": "10",
+        "label": "Philosophie",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "writer": {
+        "id": "4",
+        "lastname": "Camus",
+        "firstname": "Albert",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    }
+  ],
+  "profile": {
+    "name": "Mon Projet Vue.js"
+  }
+}
