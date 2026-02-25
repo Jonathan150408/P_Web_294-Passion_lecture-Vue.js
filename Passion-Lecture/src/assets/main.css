@@ -124,13 +124,18 @@ aside a:hover {
 /* === Main Content === */
 main,
 .router-view {
-    margin-top: 90px;
+    margin-top: 80px;
     margin-left: 260px;
     margin-bottom: 60px;
     padding: 40px 48px 24px 48px;
     min-height: calc(100vh - 150px);
     background: rgba(42, 38, 35, 0.75);
     box-sizing: border-box;
+}
+
+h1,
+h2 {
+    text-align: center;
 }
 
 /* === Footer === */
@@ -141,7 +146,7 @@ footer {
     bottom: 0;
     height: 60px;
     background: #6DA3FF;
-    color: #fff;
+    color: #000;
     display: flex;
     align-items: center;
     font-size: 1.1rem;
@@ -151,10 +156,9 @@ footer {
 }
 
 footer a {
-    color: #90caf9;
+    color: #000;
     text-decoration: underline;
     margin: 0 0.4em;
-    font-weight: 500;
 }
 
 /* === Responsive adjustments === */
