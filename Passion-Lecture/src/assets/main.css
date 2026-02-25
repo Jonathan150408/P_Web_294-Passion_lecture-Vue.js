@@ -141,7 +141,7 @@ footer {
     bottom: 0;
     height: 60px;
     background: #6DA3FF;
-    color: #fff;
+    color: #000;
     display: flex;
     align-items: center;
     font-size: 1.1rem;
@@ -151,10 +151,9 @@ footer {
 }
 
 footer a {
-    color: #90caf9;
+    color: #000;
     text-decoration: underline;
     margin: 0 0.4em;
-    font-weight: 500;
 }
 
 /* === Responsive adjustments === */
