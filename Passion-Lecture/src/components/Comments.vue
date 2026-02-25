@@ -10,11 +10,14 @@ defineProps({
 </script>
 
 <template>
-  <p>A remplir</p>
+  <!-- <Comment v-for="comment in comments" :key="comment.id" :content="comment" /> -->
+  <Comment></Comment>
+  <Comment></Comment>
+  <Comment></Comment>
+  <Comment></Comment>
+
+  <a href="">Scroll down pour voir la suite des commentaires</a>
+  <a href="">Ajouter un commentaire</a>
 </template>
 
-<style scoped>
-p {
-  color: red;
-}
-</style>
+<style scoped></style>

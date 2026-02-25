@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import Comments from '../../components/Comments.vue'
+</script>
 
 <template>
   <main>
@@ -34,27 +36,7 @@
       </div>
     </section>
     <section>
-      <ul>
-        <!-- liste des commentaires -->
-        <li class="commentaire">
-          <div>
-            <a href=""
-              ><img src="../../assets/MM-logo_utilisateur.webp" alt="Image de l'utilisateur"
-            /></a>
-            <p>Commentaire laissé</p>
-          </div>
-          <div>
-            Rating :
-            <img src="" alt="Étoile" />
-            <img src="" alt="Étoile" />
-            <img src="" alt="Étoile" />
-            <img src="" alt="Étoile" />
-            <img src="" alt="Étoile" />
-          </div>
-        </li>
-      </ul>
-      <a href="">Scroll down pour voir la suite des commentaires</a>
-      <a href="">Ajouter un commentaire</a>
+      <Comments></Comments>
     </section>
   </main>
 </template>

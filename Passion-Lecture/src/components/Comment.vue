@@ -8,11 +8,11 @@ defineProps({
 </script>
 
 <template>
-  <p>A remplir</p>
+  <div>
+    <a href=""><img src="../../assets/MM-logo_utilisateur.webp" alt="Image de l'utilisateur" /></a>
+    <p>Commentaire laissé</p>
+  </div>
+  <div>Rating : <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span></div>
 </template>
 
-<style scoped>
-p {
-  color: red;
-}
-</style>
+<style scoped></style>
