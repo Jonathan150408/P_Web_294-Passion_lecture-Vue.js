@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import Book from '../components/Book.vue'
+</script>
 
 <template>
   <main>
@@ -20,56 +22,11 @@
       <h2>Les 5 derniers ajouts</h2>
       <!-- Lister les livres -->
       <div>
-        <RouterLink to="/books/1">
-          <div>
-            <div>
-              <p>Éditeur</p>
-              <p>Type (BD)</p>
-            </div>
-            <p>Titre du livre</p>
-          </div>
-          <img src="" alt="En background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <div>
-              <p>Éditeur</p>
-              <p>Type (BD)</p>
-            </div>
-            <p>Titre du livre</p>
-          </div>
-          <img src="" alt="En background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <div>
-              <p>Éditeur</p>
-              <p>Type (BD)</p>
-            </div>
-            <p>Titre du livre</p>
-          </div>
-          <img src="" alt="En background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <div>
-              <p>Éditeur</p>
-              <p>Type (BD)</p>
-            </div>
-            <p>Titre du livre</p>
-          </div>
-          <img src="" alt="En background : couverture du livre" />
-        </RouterLink>
-        <RouterLink to="/books/1">
-          <div>
-            <div>
-              <p>Éditeur</p>
-              <p>Type (BD)</p>
-            </div>
-            <p>Titre du livre</p>
-          </div>
-          <img src="" alt="En background : couverture du livre" />
-        </RouterLink>
+        <Book></Book>
+        <Book></Book>
+        <Book></Book>
+        <Book></Book>
+        <Book></Book>
       </div>
     </div>
   </main>
