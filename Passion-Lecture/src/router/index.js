@@ -47,9 +47,7 @@ const router = createRouter({
     },
     /*
     il manque 
-    - Ajouter un livre
     - ajouter un commentaire
-    - modifier un livre
     - modifier un commentaire
     - supprimer un livre
     - supprimer un commentaire
