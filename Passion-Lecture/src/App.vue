@@ -22,15 +22,8 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView />
 
   <footer>
-    Tous droits réservés © 2026
-    <ul>
-      <li>
-        <a href="mailto:neo.darbellay@eduvaud.ch">Néo</a>
-      </li>
-      <li>
-        <a href="mailto:jonathan.junod@eduvaud.ch">Jonathan</a>
-      </li>
-    </ul>
+    Tous droits réservés © 2026 <a href="mailto:jonathan.junod@eduvaud.ch">Jonathan</a> et
+    <a href="mailto:neo.darbellay@eduvaud.ch">Néo</a>
   </footer>
 </template>
 
