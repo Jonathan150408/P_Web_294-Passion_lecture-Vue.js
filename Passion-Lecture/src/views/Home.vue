@@ -1,5 +1,19 @@
 <script setup>
 import Book from '../components/Book.vue'
+import HttpService from '../services/HttpService'
+import { ref, onMounted } from 'vue'
+
+//import des livres
+const books = ref(null)
+onMounted(() => {
+  HttpService.getBooks()
+    .then((response) => {
+      books.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
 </script>
 
 <template>
@@ -21,11 +35,13 @@ import Book from '../components/Book.vue'
       <h2>Les 5 derniers ajouts</h2>
       <!-- Lister les livres -->
       <div>
-        <Book></Book>
-        <Book></Book>
-        <Book></Book>
-        <Book></Book>
-        <Book></Book>
+        <Book
+          v-for="(book, index) in books"
+          :key="index"
+          :book="book"
+          :appearBig="true"
+          :showCategory="true"
+        ></Book>
       </div>
     </div>
   </main>
