@@ -13,7 +13,7 @@ const router = createRouter({
       path: '/books',
       name: 'livres',
       //IA : import asynchrone
-      component: () => import('../views/Books/Main.vue'),
+      component: () => import('../views/Books/Galerie.vue'),
     },
     {
       path: '/books/:book_id',
@@ -32,6 +32,18 @@ const router = createRouter({
       name: 'livres par catégorie',
       //IA : import asynchrone
       component: () => import('../views/Books/Categorie.vue'),
+    },
+    {
+      path: '/books/:book_id',
+      name: 'modifier un livre',
+      //IA : import asynchrone
+      component: () => import('../views/Books/CreateOrUpdateBook.vue'),
+    },
+    {
+      // à modifier
+      path: '/books/create',
+      name: 'Ajouter un livre',
+      component: () => import('../views/Books/CreateOrUpdateBook.vue'),
     },
     /*
     il manque 
