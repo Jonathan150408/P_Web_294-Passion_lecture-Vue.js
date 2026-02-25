@@ -16,4 +16,7 @@ export default {
   getBooks() {
     return apiClient.get('/books')
   },
+  getCategories() {
+    return apiClient.get('/categories')
+  },
 }
