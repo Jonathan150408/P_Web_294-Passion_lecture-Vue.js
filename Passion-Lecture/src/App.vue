@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <img src="./assets/MM-P_Web_294-Logo-Cropped.png" alt="Logo du site" />
     </RouterLink>
     <RouterLink to="/my-books">
-      <img src="./assets/MM-logo_utilisateur.webp" alt="Logo d'un utilisateur" />
+      <img src="./assets/MM-logo_utilisateur.png" alt="Logo d'un utilisateur" />
     </RouterLink>
   </header>
 
