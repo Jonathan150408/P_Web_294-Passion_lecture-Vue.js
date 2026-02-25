@@ -10,36 +10,36 @@
       </div>
     </div>
     <!-- Lister les livres -->
-    <ul>
-      <li>
+    <div>
+      <RouterLink to="/books/1">
         <div>
           <p>Auteur du livre</p>
           <h3>Titre du livre</h3>
         </div>
         <img src="" alt="Background : couverture du livre" />
-      </li>
-      <li>
+      </RouterLink>
+      <RouterLink to="/books/1">
         <div>
           <p>Auteur du livre</p>
           <h3>Titre du livre</h3>
         </div>
         <img src="" alt="Background : couverture du livre" />
-      </li>
-      <li>
+      </RouterLink>
+      <RouterLink to="/books/1">
         <div>
           <p>Auteur du livre</p>
           <h3>Titre du livre</h3>
         </div>
         <img src="" alt="Background : couverture du livre" />
-      </li>
-      <li>
+      </RouterLink>
+      <RouterLink to="/books/1">
         <div>
           <p>Auteur du livre</p>
           <h3>Titre du livre</h3>
         </div>
         <img src="" alt="Background : couverture du livre" />
-      </li>
-    </ul>
+      </RouterLink>
+    </div>
   </main>
 </template>
 

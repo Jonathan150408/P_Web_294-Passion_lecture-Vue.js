@@ -18,8 +18,9 @@
         construire, ensemble, une bibliothèque collaborative et interactive. 📚
       </p>
       <h2>Les 5 derniers ajouts</h2>
-      <ul>
-        <li>
+      <!-- Lister les livres -->
+      <div>
+        <RouterLink to="/books/1">
           <div>
             <div>
               <p>Éditeur</p>
@@ -28,8 +29,8 @@
             <p>Titre du livre</p>
           </div>
           <img src="" alt="En background : couverture du livre" />
-        </li>
-        <li>
+        </RouterLink>
+        <RouterLink to="/books/1">
           <div>
             <div>
               <p>Éditeur</p>
@@ -38,8 +39,8 @@
             <p>Titre du livre</p>
           </div>
           <img src="" alt="En background : couverture du livre" />
-        </li>
-        <li>
+        </RouterLink>
+        <RouterLink to="/books/1">
           <div>
             <div>
               <p>Éditeur</p>
@@ -48,8 +49,8 @@
             <p>Titre du livre</p>
           </div>
           <img src="" alt="En background : couverture du livre" />
-        </li>
-        <li>
+        </RouterLink>
+        <RouterLink to="/books/1">
           <div>
             <div>
               <p>Éditeur</p>
@@ -58,8 +59,8 @@
             <p>Titre du livre</p>
           </div>
           <img src="" alt="En background : couverture du livre" />
-        </li>
-        <li>
+        </RouterLink>
+        <RouterLink to="/books/1">
           <div>
             <div>
               <p>Éditeur</p>
@@ -68,8 +69,8 @@
             <p>Titre du livre</p>
           </div>
           <img src="" alt="En background : couverture du livre" />
-        </li>
-      </ul>
+        </RouterLink>
+      </div>
     </div>
   </main>
 </template>
