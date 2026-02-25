@@ -10,18 +10,16 @@ import { RouterLink, RouterView } from 'vue-router'
     <img src="./assets/MM-logo_utilisateur.webp" alt="Logo d'un utilisateur" />
   </header>
 
-  <main>
-    <aside>
-      <nav>
-        <RouterLink to="/">Accueil</RouterLink>
-        <RouterLink to="/books">Livres</RouterLink>
-        <!-- il faudra remplacer les valeurs 1 par un id interactif -->
-        <RouterLink to="/users/1">Un utilisateur spécifique (!changer!)</RouterLink>
-        <RouterLink to="/books/category/1">La liste des catégories</RouterLink>
-      </nav>
-    </aside>
-    <RouterView />
-  </main>
+  <aside>
+    <nav>
+      <RouterLink to="/">Accueil</RouterLink>
+      <RouterLink to="/books">Livres</RouterLink>
+      <!-- il faudra remplacer les valeurs 1 par un id interactif -->
+      <RouterLink to="/users/1">Un utilisateur spécifique (!changer!)</RouterLink>
+      <RouterLink to="/books/category/1">La liste des catégories</RouterLink>
+    </nav>
+  </aside>
+  <RouterView />
 
   <footer>
     Tous droits réservés © 2026
