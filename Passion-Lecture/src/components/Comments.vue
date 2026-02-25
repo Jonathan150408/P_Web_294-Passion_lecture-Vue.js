@@ -1,7 +1,9 @@
 <script setup>
+import Comment from './Comment.vue'
+
 defineProps({
-  content: {
-    type: Object,
+  comments: {
+    type: Array,
     required: true,
   },
 })

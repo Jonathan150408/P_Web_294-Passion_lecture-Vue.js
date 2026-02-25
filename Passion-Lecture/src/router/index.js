@@ -6,38 +6,14 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home?limit=5',
+      name: 'Page principal',
       component: Home,
     },
     {
       path: '/books',
-      name: 'livres',
+      name: 'Tout les livres',
       //IA : import asynchrone
       component: () => import('../views/Books/Galerie.vue'),
-    },
-    {
-      path: '/books/:book_id',
-      name: 'livre',
-      //IA : import asynchrone
-      component: () => import('../views/Books/Book.vue'),
-    },
-    {
-      path: '/users/:user_id/books',
-      name: "livres de l'utilisateur",
-      //IA : import asynchrone
-      component: () => import('../views/Books/MyBooks.vue'),
-    },
-    {
-      path: '/books/category/:category_id',
-      name: 'livres par catégorie',
-      //IA : import asynchrone
-      component: () => import('../views/Books/Categorie.vue'),
-    },
-    {
-      path: '/books/:book_id',
-      name: 'modifier un livre',
-      //IA : import asynchrone
-      component: () => import('../views/Books/CreateOrUpdateBook.vue'),
     },
     {
       // à modifier
@@ -45,13 +21,30 @@ const router = createRouter({
       name: 'Ajouter un livre',
       component: () => import('../views/Books/CreateOrUpdateBook.vue'),
     },
-    /*
-    il manque 
-    - ajouter un commentaire
-    - modifier un commentaire
-    - supprimer un livre
-    - supprimer un commentaire
-     */
+    {
+      // à modifier
+      path: '/books/:book_id/update',
+      name: 'Modifier un livre',
+      component: () => import('../views/Books/CreateOrUpdateBook.vue'),
+    },
+    {
+      path: '/books/:book_id',
+      name: 'Voir les détails d\'un livre',
+      //IA : import asynchrone
+      component: () => import('../views/Books/Book.vue'),
+    },
+    {
+      path: '/users/:user_id/books',
+      name: "Livres de l'utilisateur",
+      //IA : import asynchrone
+      component: () => import('../views/Books/MyBooks.vue'),
+    },
+    {
+      path: '/books/category/:category_id',
+      name: 'Livres par catégorie',
+      //IA : import asynchrone
+      component: () => import('../views/Books/Categorie.vue'),
+    },
   ],
 })
 
