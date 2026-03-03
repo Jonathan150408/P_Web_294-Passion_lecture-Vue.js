@@ -30,16 +30,16 @@ onMounted(() => {
 
 <template>
   <main>
-    <section v-for="(categorie, index) in categories" :key="index">
+    <section class="category" v-for="(categorie, index) in categories" :key="index">
       <!-- catégorie -->
-      <div>
+      <div class="categoryTitles">
         <h2>{{ categorie.label }}</h2>
         <RouterLink :to="`/books/category/${categorie.id}`"
           >Voir plus (redirige vers catégorie)</RouterLink
         >
       </div>
       <!-- liste des livres -->
-      <div>
+      <div class="books">
         <Book
           v-for="(book, index) in books"
           :key="index"
@@ -51,4 +51,22 @@ onMounted(() => {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.category {
+  background-color: white;
+  border-radius: 2rem;
+
+  margin: 2rem 0;
+  padding: 0 2rem 1rem;
+}
+
+.categoryTitles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.categoryTitles * {
+  color: black;
+}
+</style>
