@@ -15,16 +15,14 @@ const apiClient = axios.create({
 export default {
   //get tous les livres
   getBooks() {
-    return apiClient.get('/books')
+    return apiClient.get('/books?_sort=createdAt&_order=desc')
   },
+  //get un seul livre
   getBook(id) {
     return apiClient.get('/books/' + id)
   },
-  //en cours
-  addBook(datas) {
-    apiClient.post({
-      url: '/books',
-      data: datas,
-    })
+  //post pour ajouter un livre
+  addBook(book) {
+    return apiClient.post('/book', book)
   },
 }
