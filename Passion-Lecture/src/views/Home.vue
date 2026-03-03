@@ -1,12 +1,12 @@
 <script setup>
 import Book from '../components/Book.vue'
-import HttpService from '../services/HttpService'
+import BookService from '../services/BookService.js'
 import { ref, onMounted } from 'vue'
 
 //import des livres
 const books = ref(null)
 onMounted(() => {
-  HttpService.getBooks()
+  BookService.getBooks()
     .then((response) => {
       books.value = response.data
     })
