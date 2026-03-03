@@ -34,6 +34,20 @@ onMounted(() => {
       console.log(error)
     })
 })
+
+function getCategoryLabelFromId(id) {
+  if (!categories.value) return '...'
+
+  const category = categories.value.find((c) => c.id == id)
+  return category ? category.label : 'Catégorie inconnue'
+}
+
+function getAuthorNameFromId(id) {
+  if (!authors.value) return '...'
+
+  const author = authors.value.find((a) => a.id == id)
+  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
+}
 </script>
 
 <template>
@@ -47,6 +61,8 @@ onMounted(() => {
         v-for="(book, index) in books"
         :key="index"
         :book="book"
+        :categoryLabel="getCategoryLabelFromId(book.categoryId)"
+        :authorName="getAuthorNameFromId(book.writerId)"
         :appearBig="false"
         :showCategory="true"
       ></Book>
