@@ -66,6 +66,9 @@ function getAuthorNameFromId(id) {
           v-for="(book, index) in books"
           :key="index"
           :book="book"
+          :appearBig="false"
+          :show-category="false"
+          :category-label="getCategoryLabelFromId(book.categoryId)"
           :authorName="getAuthorNameFromId(book.writerId)"
           v-show="book.categoryId === categorie.id"
         ></Book>

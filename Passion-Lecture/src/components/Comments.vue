@@ -1,20 +1,17 @@
 <script setup>
 import Comment from './Comment.vue'
 
-/*defineProps({
+defineProps({
   comments: {
     type: Array,
     required: true,
   },
-})*/
+})
 </script>
 
 <template>
-  <!-- <Comment v-for="comment in comments" :key="comment.id" :content="comment" /> -->
-  <Comment></Comment>
-  <Comment></Comment>
-  <Comment></Comment>
-  <Comment></Comment>
+  <h3>Commentaires</h3>
+  <Comment v-for="comment in comments" :key="comment.id" :content="comment" />
 
   <a href="">Scroll down pour voir la suite des commentaires</a>
   <a href="">Ajouter un commentaire</a>
