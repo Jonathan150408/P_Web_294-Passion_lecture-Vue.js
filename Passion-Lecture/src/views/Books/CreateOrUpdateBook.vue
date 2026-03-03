@@ -4,12 +4,36 @@ import EditorService from '@/services/EditorService'
 import CategoriesService from '@/services/CategoriesService'
 import { onMounted, onScopeDispose, ref } from 'vue'
 import BookService from '@/services/BookService'
+import { useRoute } from 'vue-router'
+import router from '@/router'
 
+//url actuelle (/books/:book_id/update ou juste /books/create)
+const route = useRoute()
+//savoir si on update ou create
+const isEditMode = !!route.params.book_id
+
+//variables utilisées dans le html
+let book = ref({
+  id: null,
+  title: null,
+  numberOfPages: null,
+  pdfLink: null,
+  abstract: null,
+  //editionYear:,
+  //imagePath:,
+  //createdAt:,
+  //updatedAt:,
+  categoryId: null,
+  writerId: null,
+  userId: '1',
+  editorId: [],
+  comments: [],
+})
 const authors = ref(null)
 const editors = ref(null)
 const categories = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
   //auteurs
   AuthorService.getAuthors()
     .then((response) => {
@@ -34,30 +58,27 @@ onMounted(() => {
     .catch((error) => {
       console.log(error)
     })
-})
 
-let new_book = {
-  id: null,
-  title: null,
-  numberOfPages: null,
-  pdfLink: null,
-  abstract: null,
-  //editionYear: 1885,
-  //imagePath: 'https://covers.openlibrary.org/b/id/0008236934-L.jpg',
-  //createdAt: '2026-02-22T07:48:00.000+00:00',
-  //updatedAt: '2026-02-22T07:48:00.000+00:00',
-  categoryId: null,
-  writerId: null,
-  //userId: '1',
-  editorId: [],
-  //comments: [],
-}
+  //si on edit, on récupère d'abords les valeurs actuelles pour book
+  console.log('Mode edit : ' + isEditMode)
+  if (isEditMode) {
+    const id = route.params.book_id
+    await BookService.getBook(route.params.book_id)
+      .then((response) => {
+        book.value = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+})
 
 //ajouter un livre
 function submitBook() {
-  BookService.addBook(new_book)
-    .then((response) => {
-      console.log('Réponse serveur :', response.data)
+  BookService.addBook(book)
+    .then(() => {
+      //ramène vers home
+      router.push('/')
     })
     .catch((error) => {
       console.error(error)
@@ -67,8 +88,7 @@ function submitBook() {
 
 <template>
   <main>
-    <h1>Créer/Modifier un livre</h1>
-    <hr />
+    <h1>{{ isEditMode ? 'Modifier un livre' : 'Créer un livre' }}</h1>
     <form @submit.prevent="submitBook">
       <!-- titre -->
       <fieldset>
@@ -78,7 +98,7 @@ function submitBook() {
           name="title"
           id="title"
           placeholder="Titre du livre"
-          v-model="new_book.title"
+          v-model="book.title"
         />
       </fieldset>
       <!-- nombre de pages -->
@@ -90,7 +110,7 @@ function submitBook() {
           id="pages"
           min="1"
           value="1"
-          v-model="new_book.numberOfPages"
+          v-model="book.numberOfPages"
         />
       </fieldset>
       <!-- lien vers extrait -->
@@ -101,7 +121,7 @@ function submitBook() {
           name="excerpt"
           id="excerpt"
           placeholder="Un lien vers un extrait du livre"
-          v-model="new_book.pdfLink"
+          v-model="book.pdfLink"
         />
       </fieldset>
       <!-- résumé -->
@@ -111,7 +131,7 @@ function submitBook() {
           name="summary"
           id="summary"
           placeholder="Résumé du livre"
-          v-model="new_book.abstract"
+          v-model="book.abstract"
         ></textarea>
       </fieldset>
       <!-- editionYear = null -->
@@ -120,7 +140,7 @@ function submitBook() {
       <fieldset>
         <legend>Catégorie</legend>
         <div>
-          <select name="categories" id="categories" v-model="new_book.categoryId">
+          <select name="categories" id="categories" v-model="book.categoryId">
             <option value="" disabled selected>-- Sélectionnez --</option>
             <option v-for="(categorie, index) in categories" :key="index" :value="categorie.id">
               {{ categorie.label }}
@@ -132,7 +152,7 @@ function submitBook() {
       <fieldset>
         <legend>Auteur(s)</legend>
         <div>
-          <select name="authors" id="authors" v-model="new_book.writerId">
+          <select name="authors" id="authors" v-model="book.writerId">
             <option value="" disabled selected>-- Sélectionnez --</option>
             <option v-for="(author, index) in authors" :key="index" :value="author.id">
               {{ author.firstname }} {{ author.lastname }}
@@ -145,7 +165,7 @@ function submitBook() {
       <fieldset>
         <legend>Editeur(s)</legend>
         <div>
-          <select name="editors" id="editors" v-model="new_book.editorId">
+          <select name="editors" id="editors" v-model="book.editorId">
             <option value="" disabled selected>-- Sélectionnez --</option>
             <option v-for="(editor, index) in editors" :key="index" :value="editor.id">
               {{ editor.name }}
@@ -156,8 +176,9 @@ function submitBook() {
       <!-- comments = [] -->
 
       <div>
-        <RouterLink to="/books">Annuler</RouterLink>
-        <button type="submit" value="Submit">Sauvegarder les changements</button>
+        <button type="submit" value="Submit">
+          {{ isEditMode ? 'Valider les changements' : 'Créer le livre' }}
+        </button>
       </div>
     </form>
   </main>
