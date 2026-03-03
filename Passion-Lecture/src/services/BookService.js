@@ -17,4 +17,14 @@ export default {
   getBooks() {
     return apiClient.get('/books')
   },
+  getBook(id) {
+    return apiClient.get('/books' + id)
+  },
+  //en cours
+  addBook(datas) {
+    apiClient.post({
+      url: '/books',
+      data: datas,
+    })
+  },
 }
