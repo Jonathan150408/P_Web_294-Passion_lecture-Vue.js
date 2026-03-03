@@ -80,9 +80,9 @@ function getEditorNameFromId(id) {
           <h2>Catégories</h2>
           <ul>
             <li>
-              <RouterLink :to="`/books/${book.categoryId}`">{{
-                getCategoryLabelFromId(book.categoryId)
-              }}</RouterLink>
+              <RouterLink :to="{ name: 'book-category', params: { category_id: book.categoryId } }">
+                {{ getCategoryLabelFromId(book.categoryId) }}</RouterLink
+              >
             </li>
           </ul>
         </div>
@@ -92,7 +92,7 @@ function getEditorNameFromId(id) {
           <p><a :href="book.pdfLink">Lien vers un extrait</a></p>
           <p>{{ getAuthorNameFromId(book.writerId) }}</p>
           <h3>Editeurs</h3>
-          <p v-for="editorId in book.editorId" :key editor.id>
+          <p v-for="editorId in book.editorId" :key="editorId">
             {{ getEditorNameFromId(editorId) }}
           </p>
         </div>

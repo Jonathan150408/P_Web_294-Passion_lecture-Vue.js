@@ -18,29 +18,28 @@ onMounted(() => {
 
 <template>
   <header>
-    <RouterLink to="/">
+    <RouterLink :to="{ name: 'home' }">
       <img src="./assets/MM-P_Web_294-Logo-Cropped.png" alt="Logo du site" />
     </RouterLink>
-    <RouterLink to="/my-books">
+    <RouterLink :to="{ name: 'my-books' }">
       <img src="./assets/MM-logo_utilisateur.png" alt="Logo d'un utilisateur" />
     </RouterLink>
   </header>
 
   <aside>
     <nav>
-      <RouterLink to="/">Accueil</RouterLink>
-      <RouterLink to="/books">Livres</RouterLink>
-      <!-- il faudra remplacer les valeurs 1 par un id interactif -->
+      <RouterLink :to="{ name: 'home' }">Accueil</RouterLink>
+      <RouterLink :to="{ name: 'books' }">Livres</RouterLink>
       <RouterLink
-        v-for="categorie in categories"
-        :key="categorie.id"
-        :to="`/books/category/${categorie.id}`"
+        v-for="category in categories"
+        :key="category.id"
+        :to="{ name: 'book-category', params: { category_id: category.id } }"
         class="indented"
-        >{{ categorie.label }}</RouterLink
+        >{{ category.label }}</RouterLink
       >
     </nav>
     <div class="aside-bottom-link">
-      <RouterLink to="/books/create">+ Ajouter un livre</RouterLink>
+      <RouterLink :to="{ name: 'create-book' }">+ Ajouter un livre</RouterLink>
     </div>
   </aside>
   <RouterView />
