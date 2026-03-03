@@ -31,7 +31,7 @@ const router = createRouter({
       path: '/books/:book_id',
       name: 'Voir les détails d\'un livre',
       //IA : import asynchrone
-      component: () => import('../views/Books/Book.vue'),
+      component: () => import('../views/Books/BookInfo.vue'),
     },
     {
       path: '/my-books',
