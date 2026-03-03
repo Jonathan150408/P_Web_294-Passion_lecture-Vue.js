@@ -124,6 +124,26 @@
       "duration": 85,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "9fcd1344-712f-4fae-961a-f4ef76b0a177",
+      "type": "commitless",
+      "name": "chore(remise en route) : se rapeller de ce qu'il faut faire, ce qui a été fait et comment lancer l'application",
+      "description": "",
+      "date": "2026-03-03T12:54:00.000Z",
+      "duration": 20,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "9c203073-f180-49ce-8dff-01b9bfce9736",
+      "type": "commitless",
+      "name": "chore(review avec l'enseignant) : faire l'éval des 80%",
+      "description": "",
+      "date": "2026-03-03T12:54:00.000Z",
+      "duration": 15,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
