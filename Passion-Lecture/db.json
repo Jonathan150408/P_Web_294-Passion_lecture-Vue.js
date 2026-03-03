@@ -85,6 +85,36 @@
       "updatedAt": "2026-02-22T07:48:00.000+00:00"
     }
   ],
+  "editors": [
+    {
+      "id": "1",
+      "name": "Charpentier"
+    },
+    {
+      "id": "2",
+      "name": "Gallimard"
+    },
+    {
+      "id": "3",
+      "name": "Grasset"
+    },
+    {
+      "id": "4",
+      "name": "Secker"
+    },
+    {
+      "id": "5",
+      "name": "Warburg"
+    },
+    {
+      "id": "6",
+      "name": "N/A"
+    },
+    {
+      "id": "7",
+      "name": "The Russian Messenger"
+    }
+  ],
   "books": [
     {
       "id": "3",
@@ -92,14 +122,15 @@
       "numberOfPages": 592,
       "pdfLink": "https://example.com/germinal.pdf",
       "abstract": "Roman naturaliste d'Émile Zola publié en 1885.",
-      "editor": "Charpentier",
       "editionYear": 1885,
       "imagePath": "https://covers.openlibrary.org/b/id/0008236934-L.jpg",
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "1",
       "writerId": "3",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["1"],
+      "comments": []
     },
     {
       "id": "4",
@@ -107,14 +138,15 @@
       "numberOfPages": 184,
       "pdfLink": "https://example.com/letranger.pdf",
       "abstract": "Roman philosophique d'Albert Camus paru en 1942.",
-      "editor": "Gallimard",
       "editionYear": 1942,
       "imagePath": "https://covers.openlibrary.org/b/id/15152916-L.jpg",
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "10",
       "writerId": "4",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["2"],
+      "comments": []
     },
     {
       "id": "5",
@@ -122,14 +154,15 @@
       "numberOfPages": 4215,
       "pdfLink": "https://example.com/temps-perdu.pdf",
       "abstract": "Cycle romanesque de Marcel Proust publié entre 1913 et 1927.",
-      "editor": "Grasset / Gallimard",
       "editionYear": 1913,
       "imagePath": "https://covers.openlibrary.org/b/id/0010461751-L.jpg",
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "1",
       "writerId": "5",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["3", "2"],
+      "comments": []
     },
     {
       "id": "6",
@@ -137,14 +170,15 @@
       "numberOfPages": 328,
       "pdfLink": "https://example.com/1984.pdf",
       "abstract": "Roman dystopique de George Orwell paru en 1949.",
-      "editor": "Secker & Warburg",
       "editionYear": 1949,
       "imagePath": "https://covers.openlibrary.org/b/id/966097-L.jpg",
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "2",
       "writerId": "6",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["4", "5"],
+      "comments": []
     },
     {
       "id": "8",
@@ -152,14 +186,15 @@
       "numberOfPages": 200,
       "pdfLink": "https://example.com/hamlet.pdf",
       "abstract": "Tragédie de William Shakespeare, écrite vers 1600.",
-      "editor": "N/A",
       "editionYear": 1600,
       "imagePath": "https://covers.openlibrary.org/b/id/0010179859-L.jpg",
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "1",
       "writerId": "8",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["6"],
+      "comments": []
     },
     {
       "id": "9",
@@ -167,14 +202,15 @@
       "numberOfPages": 671,
       "pdfLink": "https://example.com/crime-chatiment.pdf",
       "abstract": "Roman philosophique de Dostoïevski publié en 1866.",
-      "editor": "The Russian Messenger",
       "editionYear": 1866,
       "imagePath": "https://covers.openlibrary.org/b/id/0013643709.jpg",
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "10",
       "writerId": "9",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["7"],
+      "comments": []
     },
     {
       "id": "10",
@@ -182,14 +218,15 @@
       "numberOfPages": 1225,
       "pdfLink": "https://example.com/guerre-paix.pdf",
       "abstract": "Roman historique de Léon Tolstoï publié entre 1865 et 1869.",
-      "editor": "The Russian Messenger",
       "editionYear": 1869,
       "imagePath": null,
       "createdAt": "2026-02-22T07:48:00.000+00:00",
       "updatedAt": "2026-02-22T07:48:00.000+00:00",
       "categoryId": "9",
       "writerId": "10",
-      "userId": "1"
+      "userId": "1",
+      "editorId": ["7"],
+      "comments": []
     }
   ],
   "profile": {
