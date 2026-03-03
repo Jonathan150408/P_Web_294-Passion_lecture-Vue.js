@@ -12,6 +12,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  categoryLabel: {
+    type: String,
+    required: true,
+  },
+  authorName: {
+    type: String,
+    required: true,
+  },
 })
 </script>
 
@@ -22,12 +30,14 @@ const props = defineProps({
       :class="appearBig ? 'big' : 'normal'"
       :style="{ backgroundImage: book.imagePath ? `url('${book.imagePath}')` : '' }"
     >
-      <div class="info-bar">
-        <span class="author">{{ book.writerId }}</span>
-        <span class="category" v-if="showCategory">{{ book.categoryId }}</span>
-      </div>
-      <div class="title-bar">
-        <span class="title">{{ book.title }}</span>
+      <div class="info">
+        <div class="info-bar">
+          <span class="author">{{ authorName }}</span>
+          <span class="category" v-if="showCategory">{{ categoryLabel }}</span>
+        </div>
+        <div class="title-bar">
+          <span class="title">{{ book.title }}</span>
+        </div>
       </div>
     </div>
   </RouterLink>
@@ -57,12 +67,18 @@ a:hover {
   text-decoration: none;
 }
 
-.info-bar {
+.info {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 48px;
-  background: #585553;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  background-color: #585553;
+}
+
+.info-bar {
   color: #fff;
   padding: 1em 1em 0.5em 1em;
   border-bottom-left-radius: 0;
@@ -84,11 +100,6 @@ a:hover {
   margin: 0;
 }
 .title-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #585553;
   color: #fff;
   padding: 0.5em 1em 1em 1em;
   border-bottom-left-radius: 10px;

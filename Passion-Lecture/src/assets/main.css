@@ -94,11 +94,10 @@ aside a:hover {
 }
 
 .books {
-    display: flex;
-
-    justify-content: center;
-
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
     gap: 5rem;
+    justify-content: center;
 }
 
 /* Bottom link in aside */

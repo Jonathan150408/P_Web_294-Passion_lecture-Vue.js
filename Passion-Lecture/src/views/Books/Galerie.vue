@@ -1,31 +1,53 @@
 <script setup>
 import Book from '../../components/Book.vue'
-import HttpService from '@/services/HttpService'
+import BookService from '../../services/BookService'
+import CategoriesService from '../../services/CategoriesService'
+import AuthorService from '../../services/AuthorService'
 import { ref, onMounted } from 'vue'
 
 //import des livres
 const books = ref(null)
+const categories = ref(null)
+const authors = ref(null)
+
 onMounted(() => {
-  HttpService.getBooks()
+  BookService.getBooks()
     .then((response) => {
       books.value = response.data
     })
     .catch((error) => {
       console.log(error)
     })
-})
-
-//import des catégories
-const categories = ref(null)
-onMounted(() => {
-  HttpService.getCategories()
+  CategoriesService.getCategories()
     .then((response) => {
       categories.value = response.data
+      console.log(categories.value)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  AuthorService.getAuthors()
+    .then((response) => {
+      authors.value = response.data
     })
     .catch((error) => {
       console.log(error)
     })
 })
+
+function getCategoryLabelFromId(id) {
+  if (!categories.value) return '...'
+
+  const category = categories.value.find((c) => c.id == id)
+  return category ? category.label : 'Catégorie inconnue'
+}
+
+function getAuthorNameFromId(id) {
+  if (!authors.value) return '...'
+
+  const author = authors.value.find((a) => a.id == id)
+  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
+}
 </script>
 
 <template>
@@ -44,6 +66,7 @@ onMounted(() => {
           v-for="(book, index) in books"
           :key="index"
           :book="book"
+          :authorName="getAuthorNameFromId(book.writerId)"
           v-show="book.categoryId === categorie.id"
         ></Book>
       </div>
