@@ -134,6 +134,16 @@
       "duration": 25,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "010ca00a-f284-4941-b498-6e903ca1592b",
+      "type": "commitless",
+      "name": "chore(Eval): Evaluation des 80%",
+      "description": "",
+      "date": "2026-03-03T12:45:00.000Z",
+      "duration": 15,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
