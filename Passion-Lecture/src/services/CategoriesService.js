@@ -11,11 +11,9 @@ const apiClient = axios.create({
   },
 })
 
-// Mettre la méthode getBooks() à disposition
+//mettre à dispo
 export default {
-  getBooks() {
-    return apiClient.get('/books')
-  },
+  //get toutes les catégories
   getCategories() {
     return apiClient.get('/categories')
   },
