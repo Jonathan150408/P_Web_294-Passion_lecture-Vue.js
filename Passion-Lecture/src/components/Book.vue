@@ -24,7 +24,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <RouterLink :to="`/books/${book.id}`">
+  <RouterLink :to="{ name: 'book', params: { book_id: book.id } }">
     <div
       class="book"
       :class="appearBig ? 'big' : 'normal'"
