@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Création de l'instance de Axios
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://localhost:3000/books',
   withCredentials: false,
   headers: {
     Accept: 'application/json',
@@ -15,14 +15,16 @@ const apiClient = axios.create({
 export default {
   //get tous les livres
   getBooks() {
-    return apiClient.get('/books?_sort=createdAt&_order=desc')
+    return apiClient.get('?_sort=createdAt&_order=desc')
   },
   //get un seul livre
   getBook(id) {
-    return apiClient.get('/books/' + id)
+    return apiClient.get('/' + id)
   },
   //post pour ajouter un livre
   addBook(book) {
-    return apiClient.post('/book', book)
+    console.log('addbook called')
+    console.log(book)
+    return apiClient.post('/', book)
   },
 }

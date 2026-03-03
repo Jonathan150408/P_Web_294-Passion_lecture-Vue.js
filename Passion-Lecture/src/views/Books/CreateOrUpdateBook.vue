@@ -55,9 +55,13 @@ let new_book = {
 
 //ajouter un livre
 function submitBook() {
-  console.log('envoi de la soumission du formulaire')
-  console.log(new_book)
   BookService.addBook(new_book)
+    .then((response) => {
+      console.log('Réponse serveur :', response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 }
 </script>
 
