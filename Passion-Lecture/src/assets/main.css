@@ -94,6 +94,14 @@ aside a:hover {
     color: #fff;
 }
 
+.books {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 5rem;
+}
+
 /* Bottom link in aside */
 .aside-bottom-link {
     margin-top: auto;

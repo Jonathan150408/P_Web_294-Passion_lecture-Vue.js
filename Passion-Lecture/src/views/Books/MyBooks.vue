@@ -8,12 +8,14 @@ import Book from '../../components/Book.vue'
       <h1>Mes livres</h1>
     </div>
 
-    <div>
-      <Book></Book>
-      <Book></Book>
-      <Book></Book>
-      <Book></Book>
-      <Book></Book>
+    <div class="books">
+      <Book
+        v-for="(book, index) in books"
+        :key="index"
+        :book="book"
+        :appearBig="false"
+        :showCategory="true"
+      ></Book>
     </div>
   </main>
 </template>

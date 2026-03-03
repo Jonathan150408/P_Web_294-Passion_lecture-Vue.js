@@ -74,12 +74,4 @@ onMounted(() => {
   letter-spacing: 0.1rem;
   padding-top: 10rem;
 }
-
-.books {
-  display: flex;
-
-  justify-content: center;
-
-  gap: 5rem;
-}
 </style>
