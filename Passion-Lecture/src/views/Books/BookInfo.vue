@@ -4,15 +4,16 @@ import Comments from '../../components/Comments.vue'
 import BookService from '../../services/BookService'
 import CategoriesService from '../../services/CategoriesService'
 import AuthorService from '../../services/AuthorService'
+import EditorService from '../../services/EditorService'
 import { ref, onMounted } from 'vue'
-
-//import des Catégories/auteurs
-const categories = ref(null)
-const authors = ref(null)
 
 const route = useRoute()
 
+//import des Catégories/auteurs
 const book = ref(null)
+const authors = ref(null)
+const categories = ref(null)
+const editors = ref(null)
 
 onMounted(() => {
   BookService.getBook(route.params.book_id).then((res) => {
@@ -33,6 +34,13 @@ onMounted(() => {
     .catch((error) => {
       console.log(error)
     })
+  EditorService.getEditors()
+    .then((response) => {
+      editors.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 function getCategoryLabelFromId(id) {
@@ -47,6 +55,13 @@ function getAuthorNameFromId(id) {
 
   const author = authors.value.find((a) => a.id == id)
   return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
+}
+
+function getEditorNameFromId(id) {
+  if (!editors.value) return '...'
+
+  const editor = editors.value.find((a) => a.id == id)
+  return editor ? editor.name : 'Editeur inconnu'
 }
 </script>
 
@@ -72,10 +87,14 @@ function getAuthorNameFromId(id) {
           </ul>
         </div>
         <div>
+          <h3>Infos divers</h3>
           <p>{{ book.numberOfPages }} pages</p>
           <p><a :href="book.pdfLink">Lien vers un extrait</a></p>
           <p>{{ getAuthorNameFromId(book.writerId) }}</p>
-          <p>{{ book.editor }}</p>
+          <h3>Editeurs</h3>
+          <p v-for="editorId in book.editorId" :key editor.id>
+            {{ getEditorNameFromId(editorId) }}
+          </p>
         </div>
         <p>Noté ⭐⭐⭐⭐</p>
       </div>
