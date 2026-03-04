@@ -136,6 +136,8 @@ function submitBook() {
     })
   }
 }
+
+console.log(book.editorId)
 </script>
 
 <template>
@@ -197,7 +199,7 @@ function submitBook() {
         <legend>Catégorie</legend>
         <div>
           <select name="categories" id="categories" v-model="book.categoryId">
-            <option value="" disabled selected>-- Sélectionnez --</option>
+            <option value="null" disabled selected hidden>-- Sélectionnez --</option>
             <option v-for="(categorie, index) in categories" :key="index" :value="categorie.id">
               {{ categorie.label }}
             </option>
@@ -210,7 +212,7 @@ function submitBook() {
         <legend>Auteur(s)</legend>
         <div>
           <select name="authors" id="authors" v-model="book.writerId">
-            <option value="" disabled selected>-- Sélectionnez --</option>
+            <option value="null" disabled selected hidden>-- Sélectionnez --</option>
             <option v-for="(author, index) in authors" :key="index" :value="author.id">
               {{ author.firstname }} {{ author.lastname }}
             </option>
@@ -225,7 +227,7 @@ function submitBook() {
         <div>
           <!-- ALERTE, ne fonctionne que pour 1 éditeur -->
           <select name="editors" id="editors" v-model="book.editorId[0]">
-            <option value="" disabled selected>-- Sélectionnez --</option>
+            <option value="undefined" disabled selected hidden>-- Sélectionnez --</option>
             <option v-for="(editor, index) in editors" :key="index" :value="editor.id">
               {{ editor.name }}
             </option>
