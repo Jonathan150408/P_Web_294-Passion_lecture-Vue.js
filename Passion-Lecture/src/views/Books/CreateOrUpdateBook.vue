@@ -78,8 +78,12 @@ function submitBook() {
   if (isEditMode) {
     BookService.updateBook(book.value)
       .then(() => {
-        //ramène vers home
-        router.push('/')
+        //ramène vers la page du livre
+        router.push({
+          name: 'book',
+
+          params: { book_id: book.id },
+        })
       })
       .catch((error) => {
         console.error(error)
@@ -87,8 +91,8 @@ function submitBook() {
   } else {
     BookService.addBook(book.value)
       .then(() => {
-        //ramène vers home
-        router.push('/')
+        //ramène vers la galerie
+        router.push('/books')
       })
       .catch((error) => {
         console.error(error)
