@@ -6,22 +6,25 @@ import AuthorService from '../../services/AuthorService'
 import { ref, onMounted } from 'vue'
 
 //import des livres
-const books = ref(null)
 const categories = ref(null)
 const authors = ref(null)
 
+const booksByCategory = ref({})
+
 onMounted(() => {
-  BookService.getBooks()
-    .then((response) => {
-      books.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
   CategoriesService.getCategories()
     .then((response) => {
       categories.value = response.data
       console.log(categories.value)
+
+      // Fetch books for each category
+      categories.value.forEach((categorie) => {
+        BookService.getBooksFromCategory(categorie.id)
+          .then((res) => {
+            booksByCategory.value[categorie.id] = res.data
+          })
+          .catch((err) => console.log(err))
+      })
     })
     .catch((error) => {
       console.log(error)
@@ -63,7 +66,7 @@ function getAuthorNameFromId(id) {
       <!-- liste des livres -->
       <div class="books">
         <Book
-          v-for="(book, index) in books"
+          v-for="(book, index) in booksByCategory[categorie.id] || []"
           :key="index"
           :book="book"
           :appearBig="false"

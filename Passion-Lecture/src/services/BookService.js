@@ -21,6 +21,10 @@ export default {
   getBooksFromUser(id) {
     return apiClient.get('?userId=' + id)
   },
+  //get les livres d'une catégorie
+  getBooksFromCategory(id) {
+    return apiClient.get('?categoryId=' + id)
+  },
   //get un seul livre
   getBook(id) {
     return apiClient.get('/' + id)
