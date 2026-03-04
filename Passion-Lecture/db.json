@@ -117,7 +117,7 @@
   ],
   "books": [
     {
-      "id": "3",
+      "id": 3,
       "title": "Germinal",
       "numberOfPages": 592,
       "pdfLink": "https://example.com/germinal.pdf",
@@ -133,7 +133,7 @@
       "comments": []
     },
     {
-      "id": "4",
+      "id": 4,
       "title": "L'Étranger",
       "numberOfPages": 184,
       "pdfLink": "https://example.com/letranger.pdf",
@@ -149,7 +149,7 @@
       "comments": []
     },
     {
-      "id": "5",
+      "id": 5,
       "title": "À la recherche du temps perdu",
       "numberOfPages": 4215,
       "pdfLink": "https://example.com/temps-perdu.pdf",
@@ -165,7 +165,7 @@
       "comments": []
     },
     {
-      "id": "6",
+      "id": 6,
       "title": "1984",
       "numberOfPages": 328,
       "pdfLink": "https://example.com/1984.pdf",
@@ -181,7 +181,7 @@
       "comments": []
     },
     {
-      "id": "8",
+      "id": 8,
       "title": "Hamlet",
       "numberOfPages": 200,
       "pdfLink": "https://example.com/hamlet.pdf",
@@ -197,7 +197,7 @@
       "comments": []
     },
     {
-      "id": "9",
+      "id": 9,
       "title": "Crime et Châtiment",
       "numberOfPages": 671,
       "pdfLink": "https://example.com/crime-chatiment.pdf",
@@ -213,7 +213,7 @@
       "comments": []
     },
     {
-      "id": "10",
+      "id": 10,
       "title": "Guerre et Paix",
       "numberOfPages": 1225,
       "pdfLink": "https://example.com/guerre-paix.pdf",

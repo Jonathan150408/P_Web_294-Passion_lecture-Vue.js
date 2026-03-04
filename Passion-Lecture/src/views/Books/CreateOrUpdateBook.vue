@@ -76,7 +76,7 @@ onMounted(async () => {
 //ajouter un livre
 function submitBook() {
   if (isEditMode) {
-    BookService.updateBook(book)
+    BookService.updateBook(book.value)
       .then(() => {
         //ramène vers home
         router.push('/')
@@ -85,7 +85,7 @@ function submitBook() {
         console.error(error)
       })
   } else {
-    BookService.addBook(book)
+    BookService.addBook(book.value)
       .then(() => {
         //ramène vers home
         router.push('/')
