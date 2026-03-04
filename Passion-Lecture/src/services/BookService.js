@@ -29,7 +29,10 @@ export default {
     const response = await apiClient.get('/?_sort=id&_order=desc&_limit=1')
     const books = response.data
 
-    const newId = books.length > 0 ? Number(books[0].id) + 1 : 1
+    // Prendre l'ID la plus grande (Number(b.id) car nos ID sont des strings)
+    const maxId = books.length ? Math.max(...books.map(b => Number(b.id))) : 0
+
+    const newId = maxId + 1
 
     const now = new Date().toISOString()
 
