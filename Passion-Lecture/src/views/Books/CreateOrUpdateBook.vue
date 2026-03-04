@@ -75,14 +75,25 @@ onMounted(async () => {
 
 //ajouter un livre
 function submitBook() {
-  BookService.addBook(book)
-    .then(() => {
-      //ramène vers home
-      router.push('/')
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+  if (isEditMode) {
+    BookService.updateBook(book)
+      .then(() => {
+        //ramène vers home
+        router.push('/')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  } else {
+    BookService.addBook(book)
+      .then(() => {
+        //ramène vers home
+        router.push('/')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 }
 </script>
 
@@ -165,7 +176,8 @@ function submitBook() {
       <fieldset>
         <legend>Editeur(s)</legend>
         <div>
-          <select name="editors" id="editors" v-model="book.editorId">
+          <!-- ALERTE, ne fonctionne que pour 1 éditeur -->
+          <select name="editors" id="editors" v-model="book.editorId[0]">
             <option value="" disabled selected>-- Sélectionnez --</option>
             <option v-for="(editor, index) in editors" :key="index" :value="editor.id">
               {{ editor.name }}
@@ -176,6 +188,7 @@ function submitBook() {
       <!-- comments = [] -->
 
       <div>
+        <RouterLink :to="{ name: 'books' }">Annuler</RouterLink>
         <button type="submit" value="Submit">
           {{ isEditMode ? 'Valider les changements' : 'Créer le livre' }}
         </button>
