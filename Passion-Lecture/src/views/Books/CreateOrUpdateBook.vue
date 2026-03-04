@@ -73,30 +73,63 @@ onMounted(async () => {
   }
 })
 
+import * as yup from 'yup'
+// critères de validation du form
+const schema = yup.object({
+  title: yup
+    .string()
+    .required('Le titre ne peut pas être vide')
+    .min(3, 'Le titre doit contenir au moins 3 caractères'),
+  numberOfPages: yup
+    .number('Le nombre de pages doit être un nombre entier')
+    .required('Le nombre de pages ne peut pas être vide')
+    .positive('Le nombre de pages ne peut pas être négatif'),
+  pdfLink: yup
+    .string()
+    .required('Le lien ne peut pas être vide')
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      "l'url doit être valide",
+    ),
+  abstract: yup
+    .string()
+    .required('Le résumé ne peut pas être vide')
+    .min(10, 'Le résumé est trop court'),
+  categoryId: yup.number().required('Le livre doit appartenir à une catégorie'),
+  writerId: yup.number().required('Le livre doit avoir un auteur'),
+  editorId: yup.array().required(),
+})
+
 //ajouter un livre
 function submitBook() {
-  if (isEditMode) {
-    BookService.updateBook(book.value)
-      .then(() => {
-        //ramène vers la page du livre
-        router.push({
-          name: 'book',
+  try {
+    schema.validateSync(book.value) // valider les champs du form
 
-          params: { book_id: book.id },
+    // envoi de la requête
+    if (isEditMode) {
+      BookService.updateBook(book.value)
+        .then(() => {
+          //ramène vers la page du livre
+          router.push({
+            name: 'book',
+            params: { book_id: book.id },
+          })
         })
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  } else {
-    BookService.addBook(book.value)
-      .then(() => {
-        //ramène vers la galerie
-        router.push('/books')
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+        .catch((error) => {
+          console.error(error)
+        })
+    } else {
+      BookService.addBook(book.value)
+        .then(() => {
+          //ramène vers la galerie
+          router.push('/books')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  } catch (error) {
+    console.log(error.message)
   }
 }
 </script>
