@@ -100,7 +100,9 @@ function getEditorNameFromId(id) {
       </div>
       <div>
         <a href="">Supprimer le livre (non-fonctionel)</a>
-        <a href="">Modifier le livre (non-fonctionel)</a>
+        <RouterLink :to="{ name: 'update-book', params: { category_id: book.id } }">
+          Modifier le livre (non-fonctionel)
+        </RouterLink>
       </div>
     </section>
     <section>
