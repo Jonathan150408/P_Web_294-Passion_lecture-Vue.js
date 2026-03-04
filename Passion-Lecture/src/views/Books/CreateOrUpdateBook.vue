@@ -2,7 +2,7 @@
 import AuthorService from '@/services/AuthorService'
 import EditorService from '@/services/EditorService'
 import CategoriesService from '@/services/CategoriesService'
-import { onMounted, onScopeDispose, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import BookService from '@/services/BookService'
 import { useRoute } from 'vue-router'
 import router from '@/router'
@@ -15,14 +15,10 @@ const isEditMode = !!route.params.book_id
 //variables utilisées dans le html
 let book = ref({
   id: null,
-  title: null,
+  title: '',
   numberOfPages: null,
-  pdfLink: null,
-  abstract: null,
-  //editionYear:,
-  //imagePath:,
-  //createdAt:,
-  //updatedAt:,
+  pdfLink: '',
+  abstract: '',
   categoryId: null,
   writerId: null,
   userId: '1',
@@ -60,7 +56,6 @@ onMounted(async () => {
     })
 
   //si on edit, on récupère d'abords les valeurs actuelles pour book
-  console.log('Mode edit : ' + isEditMode)
   if (isEditMode) {
     const id = route.params.book_id
     await BookService.getBook(route.params.book_id)
@@ -97,20 +92,20 @@ const schema = yup.object({
     .min(10, 'Le résumé est trop court'),
   categoryId: yup.number().required('Le livre doit appartenir à une catégorie'),
   writerId: yup.number().required('Le livre doit avoir un auteur'),
-  editorId: yup.array().required(),
+  editorId: yup.array().required().min(1, 'Le livre doit avoir au moins 1 éditeur'),
 })
 
-//tableau de critères non-respectés
-const errors = {}
+//tableau des critères non-respectés
+const errors = ref({})
 
 //ajouter un livre
 function submitBook() {
   try {
-    schema.validate(book.value) // valider les champs du form
+    schema.validateSync(book.value, { abortEarly: false }) // valider les champs du form
 
     // envoi de la requête
     if (isEditMode) {
-      BookService.updateBook(book.value, { abortEarly: false })
+      BookService.updateBook(book.value)
         .then(() => {
           //ramène vers la page du livre
           router.push({
@@ -125,20 +120,19 @@ function submitBook() {
       BookService.addBook(book.value)
         .then(() => {
           //ramène vers la galerie
-          router.push('/books')
+          router.push({
+            name: 'books',
+          })
         })
         .catch((error) => {
           console.error(error)
         })
     }
   } catch (e) {
-    //erreur de validation
-    console.log(e)
-    console.log(e.errors)
-    console.log(e.inner)
     //update le tableau de critères non-respectés
+    errors.value = {}
     e.inner.forEach((err) => {
-      errors[err.path] = err.message
+      errors.value[err.path] = err.message
     })
   }
 }
@@ -158,6 +152,7 @@ function submitBook() {
           placeholder="Titre du livre"
           v-model="book.title"
         />
+        <p v-if="!!errors.title" class="error">{{ errors.title }}</p>
       </fieldset>
       <!-- nombre de pages -->
       <fieldset>
@@ -170,6 +165,7 @@ function submitBook() {
           value="1"
           v-model="book.numberOfPages"
         />
+        <p v-if="!!errors.numberOfPages" class="error">{{ errors.numberOfPages }}</p>
       </fieldset>
       <!-- lien vers extrait -->
       <fieldset>
@@ -181,6 +177,7 @@ function submitBook() {
           placeholder="Un lien vers un extrait du livre"
           v-model="book.pdfLink"
         />
+        <p v-if="!!errors.pdfLink" class="error">{{ errors.pdfLink }}</p>
       </fieldset>
       <!-- résumé -->
       <fieldset>
@@ -191,6 +188,7 @@ function submitBook() {
           placeholder="Résumé du livre"
           v-model="book.abstract"
         ></textarea>
+        <p v-if="!!errors.abstract" class="error">{{ errors.abstract }}</p>
       </fieldset>
       <!-- editionYear = null -->
       <!-- image = null -->
@@ -205,6 +203,7 @@ function submitBook() {
             </option>
           </select>
         </div>
+        <p v-if="!!errors.categoryId" class="error">{{ errors.categoryId }}</p>
       </fieldset>
       <!-- auteur -->
       <fieldset>
@@ -217,6 +216,7 @@ function submitBook() {
             </option>
           </select>
         </div>
+        <p v-if="!!errors.writerId" class="error">{{ errors.writerId }}</p>
       </fieldset>
       <!-- userId = null -->
       <!-- editeur -->
@@ -231,6 +231,7 @@ function submitBook() {
             </option>
           </select>
         </div>
+        <p v-if="!!errors.editorId" class="error">{{ errors.editorId }}</p>
       </fieldset>
       <!-- comments = [] -->
 
@@ -244,4 +245,8 @@ function submitBook() {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.error {
+  color: red;
+}
+</style>
