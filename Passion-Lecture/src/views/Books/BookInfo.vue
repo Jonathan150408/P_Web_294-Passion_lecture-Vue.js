@@ -19,6 +19,9 @@ const categories = ref(null)
 const editors = ref(null)
 
 onMounted(() => {
+  if (route.query.openDelete) {
+    showDeleteModal.value = true
+  }
   BookService.getBook(route.params.book_id).then((res) => {
     book.value = res.data
   })
@@ -113,8 +116,8 @@ function confirmDelete() {
       </div>
       <div>
         <button @click="showDeleteModal = true">Supprimer le livre</button>
-        <RouterLink :to="{ name: 'update-book', params: { category_id: book.id } }">
-          Modifier le livre (non-fonctionel)
+        <RouterLink :to="{ name: 'update-book', params: { book_id: book.id } }">
+          Modifier le livre
         </RouterLink>
       </div>
     </section>

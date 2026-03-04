@@ -17,6 +17,10 @@ export default {
   getBooks() {
     return apiClient.get('?_sort=createdAt&_order=desc')
   },
+  //get les livres de l'utilisateur
+  getBooksFromUser(id) {
+    return apiClient.get('?userId=' + id)
+  },
   //get un seul livre
   getBook(id) {
     return apiClient.get('/' + id)

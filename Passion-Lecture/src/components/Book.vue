@@ -1,4 +1,8 @@
 <script setup>
+import { useRouter } from 'vue-router'
+import BookService from '../services/BookService'
+import { ref } from 'vue'
+
 const props = defineProps({
   appearBig: {
     type: Boolean,
@@ -20,27 +24,47 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  hasButtons: {
+    type: Boolean,
+    required: false,
+  },
 })
+
+const router = useRouter()
+const showDeleteModal = ref(false)
+
+function handleDelete() {
+  router.push({ name: 'book', params: { book_id: props.book.id }, query: { openDelete: '1' } })
+}
+
+function handleEdit() {
+  router.push({ name: 'update-book', params: { book_id: props.book.id } })
+}
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'book', params: { book_id: book.id } }">
-    <div
-      class="book"
-      :class="appearBig ? 'big' : 'normal'"
-      :style="{ backgroundImage: book.imagePath ? `url('${book.imagePath}')` : '' }"
-    >
-      <div class="info">
-        <div class="info-bar">
-          <span class="author">{{ authorName }}</span>
-          <span class="category" v-if="showCategory">{{ categoryLabel }}</span>
-        </div>
-        <div class="title-bar">
-          <span class="title">{{ book.title }}</span>
-        </div>
+  <div
+    class="book"
+    :class="appearBig ? 'big' : 'normal'"
+    :style="{ backgroundImage: book.imagePath ? `url('${book.imagePath}')` : '' }"
+  >
+    <div v-if="hasButtons" class="book-buttons">
+      <span @click.stop.prevent="handleEdit" class="edit-btn" title="Modifier">✏️</span>
+      <span @click.stop.prevent="handleDelete" class="delete-btn" title="Supprimer">🗑️</span>
+    </div>
+
+    <RouterLink :to="{ name: 'book', params: { book_id: book.id } }" class="book-link"></RouterLink>
+
+    <div class="info">
+      <div class="info-bar">
+        <span class="author">{{ authorName }}</span>
+        <span class="category" v-if="showCategory">{{ categoryLabel }}</span>
+      </div>
+      <div class="title-bar">
+        <span class="title">{{ book.title }}</span>
       </div>
     </div>
-  </RouterLink>
+  </div>
 </template>
 
 <style scoped>
@@ -56,6 +80,27 @@ const props = defineProps({
   border: 2px solid #fff;
   position: relative;
   display: block;
+  cursor: pointer;
+}
+
+.book-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.book-buttons {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  display: flex;
+  gap: 0.5em;
+  z-index: 2;
+}
+
+.book-buttons span {
+  cursor: pointer;
+  font-size: 1.2em;
 }
 
 a {

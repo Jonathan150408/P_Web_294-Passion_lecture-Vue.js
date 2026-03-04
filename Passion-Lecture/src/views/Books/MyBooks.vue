@@ -11,7 +11,7 @@ const categories = ref(null)
 const authors = ref(null)
 
 onMounted(() => {
-  BookService.getBooks()
+  BookService.getBooksFromUser(1)
     .then((response) => {
       books.value = response.data
     })
@@ -61,6 +61,7 @@ function getAuthorNameFromId(id) {
         v-for="(book, index) in books"
         :key="index"
         :book="book"
+        :hasButtons="true"
         :categoryLabel="getCategoryLabelFromId(book.categoryId)"
         :authorName="getAuthorNameFromId(book.writerId)"
         :appearBig="false"
