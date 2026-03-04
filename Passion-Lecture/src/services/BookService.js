@@ -56,4 +56,7 @@ export default {
 
     return apiClient.put(`/${book.id}`, updatedBook)
   },
+  deleteBook(id) {
+    return apiClient.delete('/' + id)
+  }
 }

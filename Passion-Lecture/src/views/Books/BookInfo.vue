@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Comments from '../../components/Comments.vue'
 import BookService from '../../services/BookService'
 import CategoriesService from '../../services/CategoriesService'
@@ -8,6 +8,9 @@ import EditorService from '../../services/EditorService'
 import { ref, onMounted } from 'vue'
 
 const route = useRoute()
+const router = useRouter()
+
+const showDeleteModal = ref(false)
 
 //import des Catégories/auteurs
 const book = ref(null)
@@ -63,6 +66,16 @@ function getEditorNameFromId(id) {
   const editor = editors.value.find((a) => a.id == id)
   return editor ? editor.name : 'Editeur inconnu'
 }
+
+function confirmDelete() {
+  const id = Number(book.value.id)
+  BookService.deleteBook(id)
+    .then(() => {
+      showDeleteModal.value = false
+      router.push({ name: 'books' })
+    })
+    .catch(console.error)
+}
 </script>
 
 <template>
@@ -99,7 +112,7 @@ function getEditorNameFromId(id) {
         <p>Noté ⭐⭐⭐⭐</p>
       </div>
       <div>
-        <a href="">Supprimer le livre (non-fonctionel)</a>
+        <button @click="showDeleteModal = true">Supprimer le livre</button>
         <RouterLink :to="{ name: 'update-book', params: { category_id: book.id } }">
           Modifier le livre (non-fonctionel)
         </RouterLink>
@@ -109,6 +122,18 @@ function getEditorNameFromId(id) {
       <Comments :comments="book.comments" />
     </section>
   </main>
+
+  <!-- Modale de confirmation -->
+  <div v-if="showDeleteModal" class="modal-overlay">
+    <div class="modal">
+      <p>Êtes-vous certain de vouloir supprimer cet ouvrage ?</p>
+
+      <div class="modal-actions">
+        <button @click="confirmDelete">Supprimer</button>
+        <button @click="showDeleteModal = false">Annuler</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -174,6 +199,29 @@ main > section:last-of-type {
   background: rgba(30, 26, 23, 0.6);
   padding: 2rem;
   border-radius: 12px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #2a2522;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* === Responsive === */

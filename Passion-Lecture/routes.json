@@ -1,3 +1,4 @@
 {
+  "/books/:id": "/books/:id",
   "/users/:userId/books": "/books?userId=:userId"
 }
