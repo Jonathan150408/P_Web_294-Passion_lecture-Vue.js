@@ -88,7 +88,7 @@ const schema = yup.object({
     .string()
     .required('Le lien ne peut pas être vide')
     .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/, //regex pour url
       "l'url doit être valide",
     ),
   abstract: yup
@@ -100,14 +100,17 @@ const schema = yup.object({
   editorId: yup.array().required(),
 })
 
+//tableau de critères non-respectés
+const errors = {}
+
 //ajouter un livre
 function submitBook() {
   try {
-    schema.validateSync(book.value) // valider les champs du form
+    schema.validate(book.value) // valider les champs du form
 
     // envoi de la requête
     if (isEditMode) {
-      BookService.updateBook(book.value)
+      BookService.updateBook(book.value, { abortEarly: false })
         .then(() => {
           //ramène vers la page du livre
           router.push({
@@ -128,8 +131,15 @@ function submitBook() {
           console.error(error)
         })
     }
-  } catch (error) {
-    console.log(error.message)
+  } catch (e) {
+    //erreur de validation
+    console.log(e)
+    console.log(e.errors)
+    console.log(e.inner)
+    //update le tableau de critères non-respectés
+    e.inner.forEach((err) => {
+      errors[err.path] = err.message
+    })
   }
 }
 </script>

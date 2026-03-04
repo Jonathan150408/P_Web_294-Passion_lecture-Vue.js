@@ -1,4 +1,4 @@
-﻿{
+{
   "users": [
     {
       "id": "1",
@@ -129,7 +129,9 @@
       "categoryId": "1",
       "writerId": "3",
       "userId": "1",
-      "editorId": ["1"],
+      "editorId": [
+        "1"
+      ],
       "comments": []
     },
     {
@@ -145,7 +147,9 @@
       "categoryId": "10",
       "writerId": "4",
       "userId": "1",
-      "editorId": ["2"],
+      "editorId": [
+        "2"
+      ],
       "comments": []
     },
     {
@@ -161,7 +165,10 @@
       "categoryId": "1",
       "writerId": "5",
       "userId": "1",
-      "editorId": ["3", "2"],
+      "editorId": [
+        "3",
+        "2"
+      ],
       "comments": []
     },
     {
@@ -177,7 +184,10 @@
       "categoryId": "2",
       "writerId": "6",
       "userId": "1",
-      "editorId": ["4", "5"],
+      "editorId": [
+        "4",
+        "5"
+      ],
       "comments": []
     },
     {
@@ -193,7 +203,9 @@
       "categoryId": "1",
       "writerId": "8",
       "userId": "1",
-      "editorId": ["6"],
+      "editorId": [
+        "6"
+      ],
       "comments": []
     },
     {
@@ -209,7 +221,9 @@
       "categoryId": "10",
       "writerId": "9",
       "userId": "1",
-      "editorId": ["7"],
+      "editorId": [
+        "7"
+      ],
       "comments": []
     },
     {
@@ -225,7 +239,9 @@
       "categoryId": "9",
       "writerId": "10",
       "userId": "1",
-      "editorId": ["7"],
+      "editorId": [
+        "7"
+      ],
       "comments": []
     }
   ],
