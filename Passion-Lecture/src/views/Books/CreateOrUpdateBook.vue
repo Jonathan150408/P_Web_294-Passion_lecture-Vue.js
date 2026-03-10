@@ -28,6 +28,7 @@ let book = ref({
 const authors = ref(null)
 const editors = ref(null)
 const categories = ref(null)
+const books = ref(null)
 
 onMounted(async () => {
   //auteurs
@@ -50,6 +51,14 @@ onMounted(async () => {
   CategoriesService.getCategories()
     .then((response) => {
       categories.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  //livres
+  BookService.getBooks()
+    .then((response) => {
+      books.value = response.data
     })
     .catch((error) => {
       console.log(error)
@@ -117,18 +126,36 @@ function submitBook() {
           console.error(error)
         })
     } else {
-      BookService.addBook(book.value)
-        .then(() => {
-          //ramène vers la galerie
-          router.push({
-            name: 'books',
+      //vérification d'un potentiel duplicat
+      let isAlreadyInDb = false
+
+      for (let currentBook of books.value) {
+        if (currentBook.title == book.value.title && currentBook.title == book.value.title) {
+          isAlreadyInDb = true
+        } else {
+          continue
+        }
+      }
+      console.log('tout est bon')
+
+      // ajout du livre en db
+      if (!isAlreadyInDb) {
+        BookService.addBook(book.value)
+          .then(() => {
+            //ramène vers la galerie
+            router.push({
+              name: 'books',
+            })
           })
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+          .catch((error) => {
+            console.error(error)
+          })
+      } else {
+        console.log('livre dupliqué non ajoutable')
+      }
     }
   } catch (e) {
+    console.log('Erreur lors de la validation du livre' + e)
     //update le tableau de critères non-respectés
     errors.value = {}
     e.inner.forEach((err) => {
@@ -136,8 +163,6 @@ function submitBook() {
     })
   }
 }
-
-console.log(book.editorId)
 </script>
 
 <template>
