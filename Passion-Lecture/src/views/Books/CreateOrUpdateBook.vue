@@ -16,7 +16,7 @@ const isEditMode = !!route.params.book_id
 let book = ref({
   id: null,
   title: '',
-  numberOfPages: null,
+  numberOfPages: 0,
   pdfLink: '',
   abstract: '',
   categoryId: null,
@@ -173,8 +173,8 @@ function checkDuplicateEntry() {
           name="pages"
           id="pages"
           min="1"
-          value="1"
           v-model="book.numberOfPages"
+          :style="{ width: String(book.numberOfPages || ' ').length + 2 + 'ch' }"
         />
         <p v-if="!!errors.numberOfPages" class="error">{{ errors.numberOfPages }}</p>
       </fieldset>
@@ -259,5 +259,16 @@ function checkDuplicateEntry() {
 <style scoped>
 .error {
   color: red;
+}
+
+textarea,
+select,
+input:not([type='number']) {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+textarea {
+  resize: vertical;
+  min-height: 40px;
 }
 </style>
