@@ -59,14 +59,14 @@ function getAuthorNameFromId(id) {
       <!-- catégorie -->
       <div class="categoryTitles">
         <h2>{{ categorie.label }}</h2>
-        <RouterLink :to="`/books/category/${categorie.id}`"
+        <RouterLink :to="{ name: 'book-category', params: { category_id: categorie.id } }"
           >Voir plus (redirige vers catégorie)</RouterLink
         >
       </div>
       <!-- liste des livres -->
       <div class="books">
         <Book
-          v-for="(book, index) in booksByCategory[categorie.id].slice(0, 5) || []"
+          v-for="(book, index) in booksByCategory[categorie.id]?.slice(0, 5) || []"
           :key="index"
           :book="book"
           :appearBig="false"

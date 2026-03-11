@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Création de l'instance de Axios
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://localhost:3000/categories',
   withCredentials: false,
   headers: {
     Accept: 'application/json',
@@ -15,6 +15,9 @@ const apiClient = axios.create({
 export default {
   //get toutes les catégories
   getCategories() {
-    return apiClient.get('/categories')
+    return apiClient.get('/')
   },
+  getCategory(id) {
+    return apiClient.get('/' + id)
+  }
 }

@@ -2,17 +2,16 @@
 import AuthorService from '@/services/AuthorService'
 import EditorService from '@/services/EditorService'
 import CategoriesService from '@/services/CategoriesService'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import BookService from '@/services/BookService'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 
 //url actuelle (/books/:book_id/update ou juste /books/create)
 const route = useRoute()
-//savoir si on update ou create
-const isEditMode = !!route.params.book_id
 
-//variables utilisées dans le html
+let isEditMode = false
+
 let book = ref({
   id: null,
   title: '',
@@ -25,12 +24,23 @@ let book = ref({
   editorId: [],
   comments: [],
 })
-const authors = ref(null)
-const editors = ref(null)
-const categories = ref(null)
-const books = ref(null)
 
-onMounted(async () => {
+async function loadData() {
+  // Reset
+  isEditMode = !!route.params.book_id
+  book = ref({
+    id: null,
+    title: '',
+    numberOfPages: 0,
+    pdfLink: '',
+    abstract: '',
+    categoryId: null,
+    writerId: null,
+    userId: '1',
+    editorId: [],
+    comments: [],
+  })
+
   //auteurs
   const authorData = await AuthorService.getAuthors()
   authors.value = authorData.data
@@ -58,7 +68,22 @@ onMounted(async () => {
         console.log(error)
       })
   }
+}
+
+// Faire en sorte que la page refresh si l'url change
+watch(route, () => {
+  loadData()
 })
+
+//savoir si on update ou create
+
+//variables utilisées dans le html
+const authors = ref(null)
+const editors = ref(null)
+const categories = ref(null)
+const books = ref(null)
+
+onMounted(loadData)
 
 import * as yup from 'yup'
 // critères de validation du form
