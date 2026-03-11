@@ -66,7 +66,7 @@ function getAuthorNameFromId(id) {
       <!-- liste des livres -->
       <div class="books">
         <Book
-          v-for="(book, index) in booksByCategory[categorie.id] || []"
+          v-for="(book, index) in booksByCategory[categorie.id].slice(0, 5) || []"
           :key="index"
           :book="book"
           :appearBig="false"
