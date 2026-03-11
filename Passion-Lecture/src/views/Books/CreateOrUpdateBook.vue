@@ -32,37 +32,20 @@ const books = ref(null)
 
 onMounted(async () => {
   //auteurs
-  AuthorService.getAuthors()
-    .then((response) => {
-      authors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const authorData = await AuthorService.getAuthors()
+  authors.value = authorData.data
+
   //éditeurs
-  EditorService.getEditors()
-    .then((response) => {
-      editors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const editorsData = await EditorService.getEditors()
+  editors.value = editorsData.data
+
   //categories
-  CategoriesService.getCategories()
-    .then((response) => {
-      categories.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const categoriesData = await CategoriesService.getCategories()
+  categories.value = categoriesData.data
+
   //livres
-  BookService.getBooks()
-    .then((response) => {
-      books.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const booksData = await BookService.getBooks()
+  books.value = booksData.data
 
   //si on edit, on récupère d'abords les valeurs actuelles pour book
   if (isEditMode) {
@@ -126,17 +109,9 @@ function submitBook() {
           console.error(error)
         })
     } else {
-      //vérification d'un potentiel duplicat
-      let isAlreadyInDb = false
-
-      for (let currentBook of books.value) {
-        if (currentBook.title == book.value.title && currentBook.title == book.value.title) {
-          isAlreadyInDb = true
-        } else {
-          continue
-        }
-      }
-      console.log('tout est bon')
+      //vérification d'un potentiel duplicat seulement si on ajoute, pas si on modifie
+      //si titre + auteur + éditeur(s) sont les mêmes, on considère que le livre est un doublon
+      const isAlreadyInDb = checkDuplicateEntry()
 
       // ajout du livre en db
       if (!isAlreadyInDb) {
@@ -151,17 +126,26 @@ function submitBook() {
             console.error(error)
           })
       } else {
-        console.log('livre dupliqué non ajoutable')
+        alert('Le livre figure déjà sur le site') //alerter l'utilisateur que le livre est déjà enregistré
       }
     }
   } catch (e) {
-    console.log('Erreur lors de la validation du livre' + e)
+    console.error('Erreur lors de la validation du livre' + e)
     //update le tableau de critères non-respectés
     errors.value = {}
     e.inner.forEach((err) => {
       errors.value[err.path] = err.message
     })
   }
+}
+
+function checkDuplicateEntry() {
+  return books.value.some(
+    (currentBook) =>
+      currentBook.title.trim().toLowerCase() === book.value.title.trim().toLowerCase() &&
+      Number(currentBook.writerId) === Number(book.value.writerId) &&
+      Number(currentBook.editorId) === Number(book.value.editorId),
+  )
 }
 </script>
 
