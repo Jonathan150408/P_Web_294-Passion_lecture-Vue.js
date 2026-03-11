@@ -144,6 +144,26 @@
       "duration": 15,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "241520ec-2614-4fca-a819-9198873bffba",
+      "type": "commitless",
+      "name": "Absence",
+      "description": "",
+      "date": "2026-03-10T13:10",
+      "duration": 240,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "a638035e-cd14-4e53-8825-69a3cb636c4c",
+      "type": "commitless",
+      "name": "learn(Test): récapitulatif du test",
+      "description": "Je vais le faire ce samedi",
+      "date": "2026-03-11T07:00:00.000Z",
+      "duration": 21,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
