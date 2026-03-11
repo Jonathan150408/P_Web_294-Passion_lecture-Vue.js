@@ -2,17 +2,16 @@
 import AuthorService from '@/services/AuthorService'
 import EditorService from '@/services/EditorService'
 import CategoriesService from '@/services/CategoriesService'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import BookService from '@/services/BookService'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 
 //url actuelle (/books/:book_id/update ou juste /books/create)
 const route = useRoute()
-//savoir si on update ou create
-const isEditMode = !!route.params.book_id
 
-//variables utilisées dans le html
+let isEditMode = false
+
 let book = ref({
   id: null,
   title: '',
@@ -25,12 +24,23 @@ let book = ref({
   editorId: [],
   comments: [],
 })
-const authors = ref(null)
-const editors = ref(null)
-const categories = ref(null)
-const books = ref(null)
 
-onMounted(async () => {
+async function loadData() {
+  // Reset
+  isEditMode = !!route.params.book_id
+  book = ref({
+    id: null,
+    title: '',
+    numberOfPages: 0,
+    pdfLink: '',
+    abstract: '',
+    categoryId: null,
+    writerId: null,
+    userId: '1',
+    editorId: [],
+    comments: [],
+  })
+
   //auteurs
   const authorData = await AuthorService.getAuthors()
   authors.value = authorData.data
@@ -58,7 +68,22 @@ onMounted(async () => {
         console.log(error)
       })
   }
+}
+
+// Faire en sorte que la page refresh si l'url change
+watch(route, () => {
+  loadData()
 })
+
+//savoir si on update ou create
+
+//variables utilisées dans le html
+const authors = ref(null)
+const editors = ref(null)
+const categories = ref(null)
+const books = ref(null)
+
+onMounted(loadData)
 
 import * as yup from 'yup'
 // critères de validation du form
@@ -246,9 +271,15 @@ function checkDuplicateEntry() {
       </fieldset>
       <!-- comments = [] -->
 
-      <div>
-        <RouterLink :to="{ name: 'books' }">Annuler</RouterLink>
-        <button type="submit" value="Submit">
+      <div class="form-buttons">
+        <RouterLink
+          class="btn-base btn-cancel"
+          :to="isEditMode ? { name: 'book', params: { book_id: book.id } } : { name: 'books' }"
+        >
+          Annuler
+        </RouterLink>
+
+        <button class="btn-base btn-submit" type="submit">
           {{ isEditMode ? 'Valider les changements' : 'Créer le livre' }}
         </button>
       </div>
@@ -270,5 +301,58 @@ input:not([type='number']) {
 textarea {
   resize: vertical;
   min-height: 40px;
+}
+
+input[type='number'] {
+  margin-left: 8px;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+/* ----- BASE COMMUNE ----- */
+.btn-base {
+  display: inline-flex; /* même comportement pour a et button */
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: normal;
+
+  border-radius: 8px;
+  border: none;
+  outline: none;
+
+  color: black;
+  background-color: #555; /* remplacé ensuite */
+  cursor: pointer;
+
+  text-decoration: none !important;
+
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  transition: 0.2s ease;
+}
+
+/* ----- STYLE ANNULER ----- */
+.btn-cancel {
+  background-color: #ffc965;
+}
+.btn-cancel:hover {
+  background-color: #aa8644;
+}
+
+/* ----- STYLE CRÉER / VALIDER ----- */
+.btn-submit {
+  background-color: #007bff;
+}
+.btn-submit:hover {
+  background-color: #0066d6;
 }
 </style>
