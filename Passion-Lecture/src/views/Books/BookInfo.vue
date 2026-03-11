@@ -5,7 +5,7 @@ import BookService from '../../services/BookService'
 import CategoriesService from '../../services/CategoriesService'
 import AuthorService from '../../services/AuthorService'
 import EditorService from '../../services/EditorService'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -79,6 +79,28 @@ function confirmDelete() {
     })
     .catch(console.error)
 }
+
+const getRating = computed(() => {
+  let total = 0
+
+  console.log(book)
+
+  if (
+    book.value.comments == undefined ||
+    book.value.comments == null ||
+    book.value.comments.length === 0
+  ) {
+    return "Ce livre n'a pas été évalué."
+  }
+
+  book.value.comments.forEach((comment) => {
+    total += comment.rating
+  })
+
+  const average = total / book.value.comments.length
+
+  return 'Note : ' + average + '⭐'
+})
 </script>
 
 <template>
@@ -112,11 +134,17 @@ function confirmDelete() {
             {{ getEditorNameFromId(editorId) }}
           </p>
         </div>
-        <p>Noté ⭐⭐⭐⭐</p>
+        <p>{{ getRating }}</p>
       </div>
       <div>
-        <button @click="showDeleteModal = true">Supprimer le livre</button>
-        <RouterLink :to="{ name: 'update-book', params: { book_id: book.id } }">
+        <button class="book-action delete" @click="showDeleteModal = true">
+          Supprimer le livre
+        </button>
+
+        <RouterLink
+          class="book-action edit"
+          :to="{ name: 'update-book', params: { book_id: book.id } }"
+        >
           Modifier le livre
         </RouterLink>
       </div>
@@ -185,16 +213,63 @@ h2 {
   color: #aaccff;
 }
 
-/* === Liens utilitaires (modifier/supprimer) === */
+/* === Boutons Modifier / Supprimer === */
 main > section:first-of-type > div:last-child {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
 }
 
-main > section:first-of-type a {
-  color: #ffbdbd;
-  text-decoration: underline;
+/* === Boutons Modifier / Supprimer === */
+main > section:first-of-type > div:last-child {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Style IDENTIQUE pour les deux boutons */
+.book-action {
+  display: inline-flex; /* Même comportement pour <a> et <button> */
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+  font-size: 1rem; /* fixe la taille */
+  font-weight: normal;
+
+  border-radius: 8px;
+  border: none;
+  outline: none;
+
+  color: black;
+  background-color: #555; /* remplacée ensuite par delete / edit */
+  cursor: pointer;
+
+  text-decoration: none !important; /* enlève souligné */
+
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  transition: 0.2s ease;
+}
+
+/* Hover commun */
+.book-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Variantes */
+.book-action.delete {
+  background-color: #e0865b;
+}
+.book-action.delete:hover {
+  background-color: #a05f41;
+}
+
+.book-action.edit {
+  background-color: #ffc965;
+}
+.book-action.edit:hover {
+  background-color: #aa8644;
 }
 
 /* === Section des commentaires === */
@@ -211,6 +286,7 @@ main > section:last-of-type {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .modal {
