@@ -246,9 +246,15 @@ function checkDuplicateEntry() {
       </fieldset>
       <!-- comments = [] -->
 
-      <div>
-        <RouterLink :to="{ name: 'books' }">Annuler</RouterLink>
-        <button type="submit" value="Submit">
+      <div class="form-buttons">
+        <RouterLink
+          class="btn-base btn-cancel"
+          :to="isEditMode ? { name: 'book', params: { book_id: book.id } } : { name: 'books' }"
+        >
+          Annuler
+        </RouterLink>
+
+        <button class="btn-base btn-submit" type="submit">
           {{ isEditMode ? 'Valider les changements' : 'Créer le livre' }}
         </button>
       </div>
@@ -270,5 +276,58 @@ input:not([type='number']) {
 textarea {
   resize: vertical;
   min-height: 40px;
+}
+
+input[type='number'] {
+  margin-left: 8px;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+/* ----- BASE COMMUNE ----- */
+.btn-base {
+  display: inline-flex; /* même comportement pour a et button */
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: normal;
+
+  border-radius: 8px;
+  border: none;
+  outline: none;
+
+  color: black;
+  background-color: #555; /* remplacé ensuite */
+  cursor: pointer;
+
+  text-decoration: none !important;
+
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  transition: 0.2s ease;
+}
+
+/* ----- STYLE ANNULER ----- */
+.btn-cancel {
+  background-color: #ffc965;
+}
+.btn-cancel:hover {
+  background-color: #aa8644;
+}
+
+/* ----- STYLE CRÉER / VALIDER ----- */
+.btn-submit {
+  background-color: #007bff;
+}
+.btn-submit:hover {
+  background-color: #0066d6;
 }
 </style>
