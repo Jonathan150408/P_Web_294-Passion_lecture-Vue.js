@@ -1,18 +1,36 @@
 <script setup>
 import { ref } from 'vue'
 import Comment from './Comment.vue'
+import BookService from '@/services/BookService'
 
-defineProps({
-  comments: {
-    type: Array,
+const { book } = defineProps({
+  book: {
+    type: Object,
     required: true,
   },
 })
 
 const showForm = ref(false)
 
+const form = ref({
+  content: '',
+  rating: 5,
+})
+
 function toggleForm() {
   showForm.value = !showForm.value
+}
+
+async function submitComment() {
+  const newComment = {
+    content: form.value.content,
+    rating: form.value.rating,
+    userId: 1,
+  }
+
+  await BookService.addComment(book.id, newComment)
+
+  window.location.reload()
 }
 </script>
 
@@ -23,12 +41,24 @@ function toggleForm() {
       <a href="" class="add-comment" @click.prevent="toggleForm"> Ajouter un commentaire </a>
     </div>
 
-    <div v-if="showForm" class="comment-form">
-      <textarea placeholder="Votre commentaire..."></textarea>
-      <button>Envoyer</button>
-    </div>
+    <form v-if="showForm" class="comment-form" @submit.prevent="submitComment">
+      <textarea v-model="form.content" placeholder="Votre commentaire..." required></textarea>
 
-    <Comment v-for="comment in comments" :key="comment.id" :comment="comment" />
+      <label>
+        Note :
+        <select v-model.number="form.rating">
+          <option :value="1">1</option>
+          <option :value="2">2</option>
+          <option :value="3">3</option>
+          <option :value="4">4</option>
+          <option :value="5">5</option>
+        </select>
+      </label>
+
+      <button type="submit">Envoyer</button>
+    </form>
+
+    <Comment v-for="comment in book.comments" :key="comment.id" :comment="comment" />
   </div>
 </template>
 
@@ -63,7 +93,6 @@ function toggleForm() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* FORM STYLE */
 .comment-form {
   display: flex;
   flex-direction: column;
@@ -77,6 +106,12 @@ function toggleForm() {
   padding: 10px;
   border-radius: 8px;
   border: none;
+}
+
+.comment-form select {
+  margin-left: 8px;
+  padding: 5px;
+  border-radius: 6px;
 }
 
 .comment-form button {

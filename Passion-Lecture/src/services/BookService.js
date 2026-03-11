@@ -29,6 +29,25 @@ export default {
   getBook(id) {
     return apiClient.get('/' + id)
   },
+  //post pour créer un commentaire
+  async addComment(bookId, comment) {
+    console.log('addComment called')
+    console.log(bookId, comment)
+
+    const response = this.getBook(bookId)
+    const book = (await response).data
+
+    // Créer l'array s'il n'existe pas
+    if (!book.comments) {
+      book.comments = []
+    }
+
+    comment.createdAt = new Date().toISOString()
+
+    book.comments.unshift(comment)
+
+    return apiClient.put('/' + bookId, book)
+  },
   //post pour ajouter un livre
   async addBook(book) {
     console.log('addBook called')

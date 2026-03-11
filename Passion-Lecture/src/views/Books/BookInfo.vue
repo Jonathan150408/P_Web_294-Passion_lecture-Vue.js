@@ -83,8 +83,6 @@ function confirmDelete() {
 const getRating = computed(() => {
   let total = 0
 
-  console.log(book)
-
   if (
     book.value.comments == undefined ||
     book.value.comments == null ||
@@ -99,7 +97,7 @@ const getRating = computed(() => {
 
   const average = total / book.value.comments.length
 
-  return 'Note : ' + average + '⭐'
+  return 'Note : ' + average.toFixed(1) + '⭐'
 })
 </script>
 
@@ -119,8 +117,8 @@ const getRating = computed(() => {
           <ul>
             <li>
               <RouterLink :to="{ name: 'book-category', params: { category_id: book.categoryId } }">
-                {{ getCategoryLabelFromId(book.categoryId) }}</RouterLink
-              >
+                {{ getCategoryLabelFromId(book.categoryId) }}
+              </RouterLink>
             </li>
           </ul>
         </div>
@@ -150,7 +148,7 @@ const getRating = computed(() => {
       </div>
     </section>
     <section>
-      <Comments :comments="book.comments" />
+      <Comments :book="book" />
     </section>
   </main>
 
