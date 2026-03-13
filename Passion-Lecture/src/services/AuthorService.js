@@ -17,4 +17,14 @@ export default {
   getAuthors() {
     return apiClient.get('/writers')
   },
+
+  async getAuthorNameFromId(id) {
+    const authorsData = await this.getAuthors()
+    const authors = authorsData.data
+
+    if (!authors) return '...'
+
+    const author = authors.find((a) => a.id == id)
+    return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
+  },
 }

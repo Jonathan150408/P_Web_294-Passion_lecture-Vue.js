@@ -17,4 +17,13 @@ export default {
   getEditors() {
     return apiClient.get('/editors')
   },
+  async getEditorNameFromId(id) {
+    const editorsData = await this.getEditors()
+    const editors = editorsData.data
+
+    if (!editors) return '...'
+
+    const editor = editors.find((a) => a.id == id)
+    return editor ? editor.name : 'Editeur inconnu'
+  },
 }

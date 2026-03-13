@@ -14,61 +14,28 @@ const showDeleteModal = ref(false)
 
 //import des Catégories/auteurs
 const book = ref(null)
-const authors = ref(null)
-const categories = ref(null)
-const editors = ref(null)
 
-onMounted(() => {
+const editorNames = ref([])
+const authorName = ref(null)
+const categoryLabel = ref(null)
+
+onMounted(async () => {
   if (route.query.openDelete) {
     showDeleteModal.value = true
   }
-  BookService.getBook(route.params.book_id).then((res) => {
-    book.value = res.data
-  })
-  CategoriesService.getCategories()
-    .then((response) => {
-      categories.value = response.data
-      console.log(categories.value)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  AuthorService.getAuthors()
-    .then((response) => {
-      authors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  EditorService.getEditors()
-    .then((response) => {
-      editors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const bookData = await BookService.getBook(route.params.book_id)
+  book.value = bookData.data
+
+  authorName.value = await AuthorService.getAuthorNameFromId(book.value.writerId)
+
+  categoryLabel.value = await CategoriesService.getCategoryLabelFromId(book.value.categoryId)
+
+  // Prendre tout les noms d'éditeurs nécessaire
+  for (const editorId of book.value.editorId) {
+    const name = await EditorService.getEditorNameFromId(editorId)
+    editorNames.value.push(name)
+  }
 })
-
-function getCategoryLabelFromId(id) {
-  if (!categories.value) return '...'
-
-  const category = categories.value.find((c) => c.id == id)
-  return category ? category.label : 'Catégorie inconnue'
-}
-
-function getAuthorNameFromId(id) {
-  if (!authors.value) return '...'
-
-  const author = authors.value.find((a) => a.id == id)
-  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
-}
-
-function getEditorNameFromId(id) {
-  if (!editors.value) return '...'
-
-  const editor = editors.value.find((a) => a.id == id)
-  return editor ? editor.name : 'Editeur inconnu'
-}
 
 function confirmDelete() {
   const id = Number(book.value.id)
@@ -117,7 +84,7 @@ const getRating = computed(() => {
           <ul>
             <li>
               <RouterLink :to="{ name: 'book-category', params: { category_id: book.categoryId } }">
-                {{ getCategoryLabelFromId(book.categoryId) }}
+                {{ categoryLabel }}
               </RouterLink>
             </li>
           </ul>
@@ -126,10 +93,10 @@ const getRating = computed(() => {
           <h3>Infos divers</h3>
           <p>{{ book.numberOfPages }} pages</p>
           <p><a :href="book.pdfLink">Lien vers un extrait</a></p>
-          <p>{{ getAuthorNameFromId(book.writerId) }}</p>
+          <p>{{ authorName }}</p>
           <h3>Editeurs</h3>
-          <p v-for="editorId in book.editorId" :key="editorId">
-            {{ getEditorNameFromId(editorId) }}
+          <p v-for="name in editorNames" :key="name">
+            {{ name }}
           </p>
         </div>
         <p>{{ getRating }}</p>

@@ -1,18 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue'
-import CategorieService from './services/CategoriesService.js'
+import CategoriesService from './services/CategoriesService.js'
 
 const categories = ref(null)
-onMounted(() => {
-  CategorieService.getCategories()
-    .then((response) => {
-      categories.value = response.data
-      console.log(categories.value)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+onMounted(async () => {
+  const categoriesData = await CategoriesService.getCategories()
+  categories.value = categoriesData.data
 })
 </script>
 

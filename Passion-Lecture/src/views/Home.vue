@@ -5,49 +5,31 @@ import CategoriesService from '../services/CategoriesService'
 import AuthorService from '../services/AuthorService'
 import { ref, onMounted } from 'vue'
 
-//import des livres
-const books = ref(null)
-const categories = ref(null)
-const authors = ref(null)
+//import
+const books = ref([])
+const categories = ref([])
+const authors = ref({})
+const categoryLabels = ref({})
 
-onMounted(() => {
-  BookService.getBooks()
-    .then((response) => {
-      books.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  CategoriesService.getCategories()
-    .then((response) => {
-      categories.value = response.data
-      console.log(categories.value)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  AuthorService.getAuthors()
-    .then((response) => {
-      authors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+onMounted(async () => {
+  //livres
+  const booksData = await BookService.getBooks()
+  books.value = booksData.data
+
+  //catégories
+  const categoriesData = await CategoriesService.getCategories()
+  categories.value = categoriesData.data
+  for (const category of categories.value) {
+    categoryLabels.value[category.id] = category.label
+  }
+
+  //auteurs
+  for (const book of books.value) {
+    if (!authors.value[book.writerId]) {
+      authors.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
+    }
+  }
 })
-
-function getCategoryLabelFromId(id) {
-  if (!categories.value) return '...'
-
-  const category = categories.value.find((c) => c.id == id)
-  return category ? category.label : 'Catégorie inconnue'
-}
-
-function getAuthorNameFromId(id) {
-  if (!authors.value) return '...'
-
-  const author = authors.value.find((a) => a.id == id)
-  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
-}
 </script>
 
 <template>
@@ -73,8 +55,8 @@ function getAuthorNameFromId(id) {
           v-for="(book, index) in books?.slice(0, 5)"
           :key="index"
           :book="book"
-          :categoryLabel="getCategoryLabelFromId(book.categoryId)"
-          :authorName="getAuthorNameFromId(book.writerId)"
+          :categoryLabel="categoryLabels[book.categoryId] || '...'"
+          :authorName="authors[book.writerId] || '...'"
           :appearBig="true"
           :showCategory="true"
         ></Book>

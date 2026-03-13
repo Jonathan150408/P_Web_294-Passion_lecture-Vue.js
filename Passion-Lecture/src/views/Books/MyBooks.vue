@@ -8,7 +8,6 @@ import { ref, onMounted } from 'vue'
 //import des livres
 const books = ref(null)
 const categories = ref(null)
-const authors = ref(null)
 
 onMounted(() => {
   BookService.getBooksFromUser(1)
@@ -26,28 +25,7 @@ onMounted(() => {
     .catch((error) => {
       console.log(error)
     })
-  AuthorService.getAuthors()
-    .then((response) => {
-      authors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
 })
-
-function getCategoryLabelFromId(id) {
-  if (!categories.value) return '...'
-
-  const category = categories.value.find((c) => c.id == id)
-  return category ? category.label : 'Catégorie inconnue'
-}
-
-function getAuthorNameFromId(id) {
-  if (!authors.value) return '...'
-
-  const author = authors.value.find((a) => a.id == id)
-  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
-}
 </script>
 
 <template>
@@ -62,8 +40,8 @@ function getAuthorNameFromId(id) {
         :key="index"
         :book="book"
         :hasButtons="true"
-        :categoryLabel="getCategoryLabelFromId(book.categoryId)"
-        :authorName="getAuthorNameFromId(book.writerId)"
+        :categoryLabel="CategoriesService.getCategoryLabelFromId(book.categoryId)"
+        :authorName="AuthorService.getAuthorNameFromId(book.writerId)"
         :appearBig="false"
         :showCategory="true"
       ></Book>

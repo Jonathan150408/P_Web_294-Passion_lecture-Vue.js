@@ -59,7 +59,6 @@ async function loadData() {
 
   //si on edit, on récupère d'abords les valeurs actuelles pour book
   if (isEditMode) {
-    const id = route.params.book_id
     await BookService.getBook(route.params.book_id)
       .then((response) => {
         book.value = response.data

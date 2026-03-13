@@ -7,50 +7,33 @@ import { ref, onMounted } from 'vue'
 
 //import des livres
 const categories = ref(null)
-const authors = ref(null)
 
 const booksByCategory = ref({})
+const authorNames = ref({})
+const categoryLabels = ref({})
 
-onMounted(() => {
-  CategoriesService.getCategories()
-    .then((response) => {
-      categories.value = response.data
-      console.log(categories.value)
+onMounted(async () => {
+  const categoriesData = await CategoriesService.getCategories()
+  categories.value = categoriesData.data
 
-      // Fetch books for each category
-      categories.value.forEach((categorie) => {
-        BookService.getBooksFromCategory(categorie.id)
-          .then((res) => {
-            booksByCategory.value[categorie.id] = res.data
-          })
-          .catch((err) => console.log(err))
-      })
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  AuthorService.getAuthors()
-    .then((response) => {
-      authors.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  // Fetch books for each category
+  categories.value.forEach(async (categorie) => {
+    const booksData = await BookService.getBooksFromCategory(categorie.id)
+
+    booksByCategory.value[categorie.id] = booksData.data
+
+    // Récupère aussi les noms d'auteur et les nom de catégories des livres
+    categoryLabels.value[categorie.id] = await CategoriesService.getCategoryLabelFromId(
+      categorie.id,
+    )
+
+    for (const book of booksData.data) {
+      if (!authorNames.value[book.writerId]) {
+        authorNames.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
+      }
+    }
+  })
 })
-
-function getCategoryLabelFromId(id) {
-  if (!categories.value) return '...'
-
-  const category = categories.value.find((c) => c.id == id)
-  return category ? category.label : 'Catégorie inconnue'
-}
-
-function getAuthorNameFromId(id) {
-  if (!authors.value) return '...'
-
-  const author = authors.value.find((a) => a.id == id)
-  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
-}
 </script>
 
 <template>
@@ -71,8 +54,8 @@ function getAuthorNameFromId(id) {
           :book="book"
           :appearBig="false"
           :show-category="false"
-          :category-label="getCategoryLabelFromId(book.categoryId)"
-          :authorName="getAuthorNameFromId(book.writerId)"
+          :category-label="categoryLabels[categorie.id] || '...'"
+          :authorName="authorNames[book.writerId] || '...'"
           v-show="book.categoryId === categorie.id"
         ></Book>
       </div>

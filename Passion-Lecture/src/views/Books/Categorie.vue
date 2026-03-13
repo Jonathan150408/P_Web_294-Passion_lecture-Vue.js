@@ -8,11 +8,12 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-async function loadData() {
-  //auteurs
-  const authorData = await AuthorService.getAuthors()
-  authors.value = authorData.data
+//import
+const category = ref(null)
+const books = ref([])
+const authors = ref({})
 
+async function loadData() {
   //categorie
   const categoryData = await CategoriesService.getCategory(route.params.category_id)
   category.value = categoryData.data
@@ -20,17 +21,19 @@ async function loadData() {
   //livres
   const booksData = await BookService.getBooksFromCategory(route.params.category_id)
   books.value = booksData.data
+
+  //auteurs
+  for (const book of books.value) {
+    if (!authors.value[book.writerId]) {
+      authors.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
+    }
+  }
 }
 
 // Faire en sorte que la page refresh si l'url change
 watch(route, () => {
   loadData()
 })
-
-//import des livres
-const category = ref(null)
-const books = ref(null)
-const authors = ref(null)
 
 onMounted(loadData)
 
@@ -43,7 +46,7 @@ const filteredBooks = computed(() => {
   const q = searchQuery.value.toLowerCase()
 
   return books.value.filter((book) => {
-    const author = authors.value.find((a) => a.id == book.writerId)
+    const author = authors[book.writerId] || ''
     const titleMatch = book.title.toLowerCase().includes(q)
     const authorMatch = author
       ? `${author.firstname} ${author.lastname}`.toLowerCase().includes(q)
@@ -52,13 +55,6 @@ const filteredBooks = computed(() => {
     return titleMatch || authorMatch
   })
 })
-
-function getAuthorNameFromId(id) {
-  if (!authors.value) return '...'
-
-  const author = authors.value.find((a) => a.id == id)
-  return author ? `${author.firstname} ${author.lastname}` : 'Auteur inconnu'
-}
 </script>
 
 <template>
@@ -78,8 +74,8 @@ function getAuthorNameFromId(id) {
         :book="book"
         :appearBig="false"
         :show-category="false"
-        :category-label="category.label"
-        :authorName="getAuthorNameFromId(book.writerId)"
+        :category-label="category?.label || '...'"
+        :authorName="authors[book.writerId] || '...'"
         v-show="book.categoryId === category.id"
       ></Book>
     </div>

@@ -19,5 +19,14 @@ export default {
   },
   getCategory(id) {
     return apiClient.get('/' + id)
-  }
+  },
+  async getCategoryLabelFromId(id) {
+    const categoriesData = await this.getCategories()
+    const categories = categoriesData.data
+
+    if (!categories) return '...'
+
+    const category = categories.find((c) => c.id == id)
+    return category ? category.label : 'Catégorie inconnue'
+  },
 }
