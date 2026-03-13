@@ -5,9 +5,8 @@ import CategoriesService from '../../services/CategoriesService'
 import AuthorService from '../../services/AuthorService'
 import { ref, onMounted } from 'vue'
 
-//import des livres
+//import
 const categories = ref(null)
-
 const booksByCategory = ref({})
 const authorNames = ref({})
 const categoryLabels = ref({})

@@ -6,15 +6,16 @@ import CategoriesService from '@/services/CategoriesService'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-const route = useRoute()
-
 //import
 const category = ref(null)
 const books = ref([])
 const authors = ref({})
 
+const searchQuery = ref('')
+const route = useRoute()
+
 async function loadData() {
-  //categorie
+  //catégorie
   const categoryData = await CategoriesService.getCategory(route.params.category_id)
   category.value = categoryData.data
 
@@ -34,10 +35,7 @@ async function loadData() {
 watch(route, () => {
   loadData()
 })
-
 onMounted(loadData)
-
-const searchQuery = ref('')
 
 // Les livres sous format filtré (en rapport à la recherche)
 const filteredBooks = computed(() => {

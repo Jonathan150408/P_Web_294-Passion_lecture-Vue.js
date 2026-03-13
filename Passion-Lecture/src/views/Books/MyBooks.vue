@@ -5,26 +5,28 @@ import CategoriesService from '../../services/CategoriesService'
 import AuthorService from '../../services/AuthorService'
 import { ref, onMounted } from 'vue'
 
-//import des livres
+//import
 const books = ref(null)
-const categories = ref(null)
+const authorNames = ref({})
+const categoryLabels = ref({})
 
-onMounted(() => {
-  BookService.getBooksFromUser(1)
-    .then((response) => {
-      books.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  CategoriesService.getCategories()
-    .then((response) => {
-      categories.value = response.data
-      console.log(categories.value)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+onMounted(async () => {
+  // livres
+  const booksData = await BookService.getBooksFromUser(1)
+  books.value = booksData.data
+
+  // catégories et auteurs
+  for (const book of books.value) {
+    if (!categoryLabels.value[book.categoryId]) {
+      categoryLabels.value[book.categoryId] = await CategoriesService.getCategoryLabelFromId(
+        book.categoryId,
+      )
+    }
+
+    if (!authorNames.value[book.writerId]) {
+      authorNames.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
+    }
+  }
 })
 </script>
 
@@ -40,8 +42,8 @@ onMounted(() => {
         :key="index"
         :book="book"
         :hasButtons="true"
-        :categoryLabel="CategoriesService.getCategoryLabelFromId(book.categoryId)"
-        :authorName="AuthorService.getAuthorNameFromId(book.writerId)"
+        :categoryLabel="categoryLabels[book.categoryId] || '...'"
+        :authorName="authorNames[book.writerId] || '...'"
         :appearBig="false"
         :showCategory="true"
       ></Book>

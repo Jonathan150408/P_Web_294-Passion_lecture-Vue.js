@@ -3,8 +3,11 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import CategoriesService from './services/CategoriesService.js'
 
+//import
 const categories = ref(null)
+
 onMounted(async () => {
+  //catégories
   const categoriesData = await CategoriesService.getCategories()
   categories.value = categoriesData.data
 })

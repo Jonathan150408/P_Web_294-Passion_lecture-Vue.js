@@ -6,13 +6,19 @@ import { onMounted, ref, watch } from 'vue'
 import BookService from '@/services/BookService'
 import { useRoute } from 'vue-router'
 import router from '@/router'
+import * as yup from 'yup'
 
-//url actuelle (/books/:book_id/update ou juste /books/create)
+//import
+const authors = ref(null)
+const editors = ref(null)
+const categories = ref(null)
+const books = ref(null)
+
+const isEditMode = ref(false)
+
 const route = useRoute()
 
-let isEditMode = false
-
-let book = ref({
+const book = ref({
   id: null,
   title: '',
   numberOfPages: 0,
@@ -25,66 +31,6 @@ let book = ref({
   comments: [],
 })
 
-async function loadData() {
-  // Reset
-  isEditMode = !!route.params.book_id
-  book = ref({
-    id: null,
-    title: '',
-    numberOfPages: 0,
-    pdfLink: '',
-    abstract: '',
-    categoryId: null,
-    writerId: null,
-    userId: '1',
-    editorId: [],
-    comments: [],
-  })
-
-  //auteurs
-  const authorData = await AuthorService.getAuthors()
-  authors.value = authorData.data
-
-  //éditeurs
-  const editorsData = await EditorService.getEditors()
-  editors.value = editorsData.data
-
-  //categories
-  const categoriesData = await CategoriesService.getCategories()
-  categories.value = categoriesData.data
-
-  //livres
-  const booksData = await BookService.getBooks()
-  books.value = booksData.data
-
-  //si on edit, on récupère d'abords les valeurs actuelles pour book
-  if (isEditMode) {
-    await BookService.getBook(route.params.book_id)
-      .then((response) => {
-        book.value = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-}
-
-// Faire en sorte que la page refresh si l'url change
-watch(route, () => {
-  loadData()
-})
-
-//savoir si on update ou create
-
-//variables utilisées dans le html
-const authors = ref(null)
-const editors = ref(null)
-const categories = ref(null)
-const books = ref(null)
-
-onMounted(loadData)
-
-import * as yup from 'yup'
 // critères de validation du form
 const schema = yup.object({
   title: yup
@@ -111,8 +57,56 @@ const schema = yup.object({
   editorId: yup.array().required().min(1, 'Le livre doit avoir au moins 1 éditeur'),
 })
 
-//tableau des critères non-respectés
+//objet de critères non-respectés
 const errors = ref({})
+
+async function loadData() {
+  //savoir si on update ou create
+  isEditMode.value = !!route.params.book_id
+
+  // Reset
+  book.value = {
+    id: null,
+    title: '',
+    numberOfPages: 0,
+    pdfLink: '',
+    abstract: '',
+    categoryId: null,
+    writerId: null,
+    userId: '1',
+    editorId: [],
+    comments: [],
+  }
+
+  //auteurs
+  const authorData = await AuthorService.getAuthors()
+  authors.value = authorData.data
+
+  //éditeurs
+  const editorsData = await EditorService.getEditors()
+  editors.value = editorsData.data
+
+  //catégories
+  const categoriesData = await CategoriesService.getCategories()
+  categories.value = categoriesData.data
+
+  //livres
+  const booksData = await BookService.getBooks()
+  books.value = booksData.data
+
+  //si on edit, on récupère d'abords les valeurs actuelles pour book
+  if (isEditMode.value) {
+    const bookData = await BookService.getBook(route.params.book_id)
+    book.value = bookData.data
+  }
+}
+
+// Faire en sorte que la page refresh si l'url change
+watch(route, () => {
+  loadData()
+})
+
+onMounted(loadData)
 
 //ajouter un livre
 function submitBook() {

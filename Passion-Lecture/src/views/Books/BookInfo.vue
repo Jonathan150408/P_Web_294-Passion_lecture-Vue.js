@@ -10,11 +10,9 @@ import { ref, onMounted, computed } from 'vue'
 const route = useRoute()
 const router = useRouter()
 
+//import
 const showDeleteModal = ref(false)
-
-//import des Catégories/auteurs
 const book = ref(null)
-
 const editorNames = ref([])
 const authorName = ref(null)
 const categoryLabel = ref(null)
