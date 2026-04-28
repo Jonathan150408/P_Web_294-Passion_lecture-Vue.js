@@ -1,16 +1,15 @@
 meta {
-  name: Hello World
+  name: Logout
   type: http
-  seq: 4
+  seq: 3
 }
 
-get {
-  url: {{BaseUrl}}
+post {
+  url: {{use}}/logout
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
-  timeout: 0
 }
