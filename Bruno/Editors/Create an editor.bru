@@ -1,0 +1,22 @@
+meta {
+  name: Create an editor
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{edi}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"Paul"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
