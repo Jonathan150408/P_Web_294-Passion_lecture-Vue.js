@@ -1,11 +1,11 @@
 meta {
-  name: Delete a user
+  name: Show self
   type: http
-  seq: 8
+  seq: 5
 }
 
-delete {
-  url: {{use}}/1
+get {
+  url: {{BaseUrl}}/me
   body: none
   auth: inherit
 }

@@ -12,15 +12,29 @@ export default class UsersController {
   }
 
   /**
+   *  Show own user info
+   */
+  async me({ auth, response }: HttpContext) {
+    // Return the authenticated user with status code 200
+    response.ok(auth.user)
+  }
+
+  /**
    * Show individual user
    */
-  async show({ params, response }: HttpContext) {
+  async show({ auth, params, response }: HttpContext) {
+    // Check to see if the user is an admin, otherwise return the 403 status code
+    if (auth.user?.role !== 'admin') {
+      response.forbidden({ message: "Only admins can see other user's info." })
+      return
+    }
+
     // Try to find the user by id
     const user = await User.find(params.id)
 
     // Return status code 404 if the user doesn't exist
     if (!user) {
-      response.notFound()
+      response.notFound({ message: 'User not found' })
       return
     }
 

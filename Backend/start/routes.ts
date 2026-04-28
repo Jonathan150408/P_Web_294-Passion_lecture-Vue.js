@@ -47,5 +47,8 @@ router
           .use(middleware.auth())
       })
       .prefix('/users')
+
+    // User
+    router.get('/me', [UsersController, 'me']).use(middleware.auth())
   })
   .prefix('/api')
