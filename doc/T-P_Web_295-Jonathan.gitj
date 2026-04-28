@@ -154,6 +154,46 @@
       "duration": 20,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "74671a94-8219-4567-a68d-41e53ae020d5",
+      "type": "commitless",
+      "name": "learn(projet 295 - backend) : introduire le projet",
+      "description": "Introduire le projet en classe",
+      "date": "2026-04-28T12:31:00.000Z",
+      "duration": 35,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "b53c5543-bef8-44a9-967f-369dc9a01c03",
+      "type": "commitless",
+      "name": "doc(Github repo et projet) : renommer le repo et setup le projet",
+      "description": "Créer toutes les tâches",
+      "date": "2026-04-28T12:32:00.000Z",
+      "duration": 50,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "7d66eb83-2e4a-4d4d-9193-900e613cdcc8",
+      "type": "commitless",
+      "name": "feat(environment) : créer et tester l'env Docker",
+      "description": "Réalisé en peer-programing",
+      "date": "2026-04-28T12:43:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "94b7e952-d85b-48a0-bf33-eef11218c49e",
+      "type": "commitless",
+      "name": "chore(fichier .env backend) : adapter le fichier",
+      "description": "peer-programing",
+      "date": "2026-04-28T13:45:00.000Z",
+      "duration": 5,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
