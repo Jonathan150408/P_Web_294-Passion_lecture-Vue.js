@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.timestamp('created_at')
       table.timestamp('updated_at')
       //fields
-      table.string('label')
+      table.string('label').notNullable().unique()
       //relations
       //TODO
     })
