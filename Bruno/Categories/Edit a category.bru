@@ -1,0 +1,22 @@
+meta {
+  name: Edit a category
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{cat}}/11
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "label": "Cats"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
