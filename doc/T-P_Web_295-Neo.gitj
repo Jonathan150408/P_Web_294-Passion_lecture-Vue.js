@@ -164,6 +164,36 @@
       "duration": 21,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "dc7d46f7-f61d-4162-bb47-bcad47ffeefc",
+      "type": "commitless",
+      "name": "learn(projet): Introduction au projet",
+      "description": "",
+      "date": "2026-04-28T11:44:00.000Z",
+      "duration": 34,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "5040323c-8e29-4eaf-943c-ccce5f4b450d",
+      "type": "commitless",
+      "name": "chore(environment): Test chez Jonathan pour voir si l'env docker fonctionne",
+      "description": "",
+      "date": "2026-04-28T12:45:00.000Z",
+      "duration": 2,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "21252ba1-563f-4c62-9eb8-e75f816da573",
+      "type": "commitless",
+      "name": "doc(Looping): Faire le MCD/MLD en peer programing",
+      "description": "On a du le faire en peer programming, car on ne pouvait pas continuer tant que cette tâche n'était pas fini",
+      "date": "2026-04-28T13:45:00.000Z",
+      "duration": 39,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
