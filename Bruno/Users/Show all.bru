@@ -1,16 +1,15 @@
 meta {
-  name: Hello World
+  name: Show all
   type: http
   seq: 4
 }
 
 get {
-  url: {{BaseUrl}}
+  url: {{use}}
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
-  timeout: 0
 }
