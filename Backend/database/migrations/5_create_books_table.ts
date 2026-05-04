@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       //default
-      table.increments('id')
+      table.increments('id').notNullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
 
@@ -19,8 +19,10 @@ export default class extends BaseSchema {
       table.string('image_path')
 
       //relations
-      table.foreign('user_id').references('user_id').inTable('users')
-      table.foreign('writer_id').references('writer_id').inTable('writers')
+      table.integer('user_id').unsigned().notNullable()
+      table.foreign('user_id').references('id').inTable('users')
+      table.integer('writer_id').unsigned().notNullable()
+      table.foreign('writer_id').references('id').inTable('writers')
     })
   }
 

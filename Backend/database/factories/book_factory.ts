@@ -6,8 +6,10 @@ import Writer from '#models/writer'
 export const BookFactory = factory
   .define(Book, async ({ faker }) => {
     //select a random user/writer
-    const user = await User.query().orderByRaw('RAND').firstOrFail()
-    const writer = await Writer.query().orderByRaw('RAND').firstOrFail()
+    const user = await User.query().orderByRaw('RAND()').firstOrFail()
+    const writer = await Writer.query().orderByRaw('RAND()').firstOrFail()
+    console.log('UserId : ', user.id)
+    console.log('WriterId : ', writer.id)
 
     return {
       title: faker.book.title(),
