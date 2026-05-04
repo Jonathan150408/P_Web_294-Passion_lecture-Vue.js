@@ -1,22 +1,18 @@
-import Writer from '#models/writer'
-import { WriterValidator } from '#validators/writer'
+import Book from '#models/book'
 import type { HttpContext } from '@adonisjs/core/http'
 
-export default class WritersController {
+export default class BooksController {
   /**
    * Display a list of resource
    */
   async index({ response }: HttpContext) {
-    response.ok(await Writer.all())
+    return await Book.query().preload('writer').orderBy('title', 'asc').exec()
   }
 
   /**
    * Handle form submission for the create action
    */
-  async store({ request, response }: HttpContext) {
-    const { firstname, lastname } = request.validateUsing(WriterValidator)
-    response.created(await Writer.create({ firstname, lastname }))
-  }
+  async store({ request }: HttpContext) {}
 
   /**
    * Show individual record
