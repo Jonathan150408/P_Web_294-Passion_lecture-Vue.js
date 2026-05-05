@@ -9,8 +9,9 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import BooksController from '#controllers/books_controller'
 
+const BooksController = () => import('#controllers/books_controller')
+const WritersController = () => import('#controllers/writers_controller')
 const EditorsController = () => import('#controllers/editors_controller')
 const CategoriesController = () => import('#controllers/categories_controller')
 const AuthController = () => import('#controllers/auth_controller')
@@ -31,6 +32,8 @@ router
     router.resource('editors', EditorsController).apiOnly()
     //books
     router.resource('books', BooksController).apiOnly()
+    //writers
+    router.resource('writers', WritersController).apiOnly()
 
     router
       .group(() => {
