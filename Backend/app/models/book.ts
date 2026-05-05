@@ -20,13 +20,13 @@ export default class Book extends BaseModel {
   @column()
   declare numberOfPages: number
   @column()
-  declare pdfLink: string
+  declare pdfLink: string | null
   @column()
-  declare abstract: string
+  declare abstract: string | null
   @column()
-  declare editionYear: number
+  declare editionYear: number | null
   @column()
-  declare imagePath: string
+  declare imagePath: string | null
 
   //relations
   @column()

@@ -1,0 +1,29 @@
+meta {
+  name: Edit a book
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{boo}}/11
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title" : "Something appened",
+    "numberOfPages" : 321,
+    "pdfLink" : "/somewhere",
+    "abstract" : "Just a book",
+    "editionYear" : "2026",
+    "imagePath" : "./none",
+    "userId" : 2,
+    "writerId" : 1
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
