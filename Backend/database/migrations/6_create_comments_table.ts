@@ -1,0 +1,29 @@
+import Book from '#models/book'
+import { hasMany } from '@adonisjs/lucid/orm'
+import { BaseSchema } from '@adonisjs/lucid/schema'
+
+export default class extends BaseSchema {
+  protected tableName = 'comments'
+
+  async up() {
+    this.schema.createTable(this.tableName, (table) => {
+      //default
+      table.increments('id')
+
+      table.timestamp('created_at')
+      table.timestamp('updated_at')
+
+      //fields
+      table.string('content').notNullable()
+      table.tinyint('rating').notNullable()
+
+      //relations
+      table.integer('book_id')
+      table.foreign('book_id').references('id').inTable('books')
+    })
+  }
+
+  async down() {
+    this.schema.dropTable(this.tableName)
+  }
+}
