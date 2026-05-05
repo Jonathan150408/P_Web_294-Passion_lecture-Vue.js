@@ -14,7 +14,7 @@ export default class extends BaseSchema {
       table.string('title').notNullable().unique()
       table.integer('number_of_pages').unsigned().notNullable()
       table.string('pdf_link')
-      table.string('abstract')
+      table.string('abstract', 1024)
       table.integer('edition_year')
       table.string('image_path')
 
