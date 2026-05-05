@@ -18,6 +18,8 @@ export default class extends BaseSchema {
       //relations
       table.integer('book_id').unsigned().notNullable()
       table.foreign('book_id').references('id').inTable('books')
+      table.integer('user_id').unsigned().notNullable()
+      table.foreign('user_id').references('id').inTable('users')
     })
   }
 

@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import Book from './book.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
 
 export default class Comment extends BaseModel {
   //default
@@ -22,5 +23,10 @@ export default class Comment extends BaseModel {
   @column()
   declare bookId: number
   @belongsTo(() => Book)
-  declare user: BelongsTo<typeof Book>
+  declare book: BelongsTo<typeof Book>
+
+  @column()
+  declare userId: number
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 }

@@ -16,6 +16,7 @@ const EditorsController = () => import('#controllers/editors_controller')
 const CategoriesController = () => import('#controllers/categories_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const UsersController = () => import('#controllers/users_controller')
+const CommentsController = () => import('#controllers/comments_controller')
 
 router
   .group(() => {
@@ -35,6 +36,21 @@ router
     //writers
     router.resource('writers', WritersController).apiOnly()
 
+    //comments
+    router
+      .group(() => {
+        //Access for all
+        router.get('/', [CommentsController, 'index'])
+        router.get('/:commentId', [CommentsController, 'show'])
+
+        //Authenticated only
+        router.post('/', [CommentsController, 'store']).use(middleware.auth())
+        router.put('/:commentId', [CommentsController, 'update']).use(middleware.auth())
+        router.delete('/:commentId', [CommentsController, 'destroy']).use(middleware.auth())
+      })
+      .prefix('/books/:bookId/comments')
+
+    //auth/users
     router
       .group(() => {
         //auth

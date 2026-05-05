@@ -1,0 +1,23 @@
+meta {
+  name: Create a comment under for a book
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{com}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "This is way too scary!!!",
+    "rating": 2
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

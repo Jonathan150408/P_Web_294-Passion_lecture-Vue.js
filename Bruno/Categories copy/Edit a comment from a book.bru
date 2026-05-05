@@ -1,0 +1,23 @@
+meta {
+  name: Edit a comment from a book
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{com}}/2
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "J'ai adoré!!!",
+    "rating": 5
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get all comments from a book
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{com}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
