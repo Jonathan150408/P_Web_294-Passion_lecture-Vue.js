@@ -14,22 +14,33 @@ export default class WritersController {
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
-    const { firstname, lastname } = request.validateUsing(WriterValidator)
+    const { firstname, lastname } = await request.validateUsing(WriterValidator)
     response.created(await Writer.create({ firstname, lastname }))
   }
 
   /**
    * Show individual record
    */
-  async show({ params }: HttpContext) {}
+  async show({ params, response }: HttpContext) {
+    response.ok(await Writer.findOrFail(params.id))
+  }
 
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {}
+  async update({ params, request, response }: HttpContext) {
+    const { firstname, lastname } = await request.validateUsing(WriterValidator)
+    const writer = await Writer.findOrFail(params.id)
+    writer.merge({ firstname, lastname })
+    response.ok(await writer.save())
+  }
 
   /**
    * Delete record
    */
-  async destroy({ params }: HttpContext) {}
+  async destroy({ params, response }: HttpContext) {
+    const writer = await Writer.findOrFail(params.id)
+    await writer.delete()
+    response.noContent()
+  }
 }
