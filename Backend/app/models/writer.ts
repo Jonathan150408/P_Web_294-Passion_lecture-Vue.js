@@ -16,7 +16,7 @@ export default class Writer extends BaseModel {
   @column()
   declare firstname: string
   @column()
-  declare lastname: string
+  declare lastname: string | null
 
   //relations
   @hasMany(() => Book)

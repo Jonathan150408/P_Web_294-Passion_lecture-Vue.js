@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.timestamp('updated_at')
 
       //fields
-      table.string('firsname').notNullable()
+      table.string('firstname').notNullable()
       table.string('lastname')
 
       //no relation(s)
