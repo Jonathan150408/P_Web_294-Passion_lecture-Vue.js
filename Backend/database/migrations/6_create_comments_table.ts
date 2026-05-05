@@ -1,5 +1,3 @@
-import Book from '#models/book'
-import { hasMany } from '@adonisjs/lucid/orm'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
