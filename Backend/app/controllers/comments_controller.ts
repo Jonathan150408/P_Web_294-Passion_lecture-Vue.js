@@ -66,15 +66,11 @@ export default class CommentsController {
       .andWhere('id', params.commentId)
       .firstOrFail()
 
-    console.log('ooga')
-
     //verify that the comment belongs to the user, unless they're an admin
     if (comment.userId !== user.id && user.role !== 'admin')
       return response.forbidden({
         message: 'You cannot update this comment, as you are not the author.',
       })
-
-    console.log('booga')
 
     //validate the updated values and assign them
     const { content, rating } = await request.validateUsing(commentValidator)

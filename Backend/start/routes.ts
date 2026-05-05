@@ -28,13 +28,60 @@ router
     })
 
     //categories
-    router.resource('categories', CategoriesController).apiOnly()
+    router
+      .group(() => {
+        //Access for all
+        router.get('/', [CategoriesController, 'index'])
+        router.get('/:id', [CategoriesController, 'show'])
+
+        //Authenticated only
+        router.post('/', [CategoriesController, 'store']).use(middleware.auth())
+        router.put('/:id', [CategoriesController, 'update']).use(middleware.auth())
+        router.delete('/:id', [CategoriesController, 'destroy']).use(middleware.auth())
+      })
+      .prefix('/categories')
+
     //editors
-    router.resource('editors', EditorsController).apiOnly()
+    router
+      .group(() => {
+        //Access for all
+        router.get('/', [EditorsController, 'index'])
+        router.get('/:id', [EditorsController, 'show'])
+
+        //Authenticated only
+        router.post('/', [EditorsController, 'store']).use(middleware.auth())
+        router.put('/:id', [EditorsController, 'update']).use(middleware.auth())
+        router.delete('/:id', [EditorsController, 'destroy']).use(middleware.auth())
+      })
+      .prefix('/editors')
+
     //books
-    router.resource('books', BooksController).apiOnly()
+    router
+      .group(() => {
+        //Access for all
+        router.get('/', [BooksController, 'index'])
+        router.get('/:id', [BooksController, 'show'])
+
+        //Authenticated only
+        router.post('/', [BooksController, 'store']).use(middleware.auth())
+        router.put('/:id', [BooksController, 'update']).use(middleware.auth())
+        router.delete('/:id', [BooksController, 'destroy']).use(middleware.auth())
+      })
+      .prefix('/books')
+
     //writers
-    router.resource('writers', WritersController).apiOnly()
+    router
+      .group(() => {
+        //Access for all
+        router.get('/', [WritersController, 'index'])
+        router.get('/:id', [WritersController, 'show'])
+
+        //Authenticated only
+        router.post('/', [WritersController, 'store']).use(middleware.auth())
+        router.put('/:id', [WritersController, 'update']).use(middleware.auth())
+        router.delete('/:id', [WritersController, 'destroy']).use(middleware.auth())
+      })
+      .prefix('/writers')
 
     //comments
     router
@@ -50,7 +97,7 @@ router
       })
       .prefix('/books/:bookId/comments')
 
-    //auth/users
+    //users
     router
       .group(() => {
         //auth

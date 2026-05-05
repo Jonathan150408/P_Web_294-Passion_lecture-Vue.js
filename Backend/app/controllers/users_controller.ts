@@ -6,9 +6,17 @@ export default class UsersController {
   /**
    * Display a list of users
    */
-  async index({ response }: HttpContext) {
-    // Return all users ordered by username in descending order (TODO in future: add preloads when the relations are set)
-    response.ok(await User.query().orderBy('username'))
+  async index({ auth, response }: HttpContext) {
+    // Check to see if the user is an admin, otherwise return the 403 status code
+    if (auth.user?.role !== 'admin') {
+      response.forbidden({ message: 'Only admins can see other users.' })
+      return
+    }
+
+    // Return all users ordered by username in descending order
+    response.ok(
+      await User.query().orderBy('username').preload('books').preload('comments').paginate(1, 20)
+    )
   }
 
   /**
@@ -16,7 +24,12 @@ export default class UsersController {
    */
   async me({ auth, response }: HttpContext) {
     // Return the authenticated user with status code 200
-    response.ok(auth.user)
+    const user = auth.user!
+
+    await user.load('books')
+    await user.load('comments')
+
+    return response.ok(user)
   }
 
   /**
@@ -30,7 +43,11 @@ export default class UsersController {
     }
 
     // Try to find the user by id
-    const user = await User.find(params.id)
+    const user = await User.query()
+      .where('id', params.id)
+      .preload('books')
+      .preload('comments')
+      .firstOrFail()
 
     // Return status code 404 if the user doesn't exist
     if (!user) {
@@ -47,7 +64,11 @@ export default class UsersController {
    */
   async update({ params, response, request, auth }: HttpContext) {
     // Try to find the user by id
-    const user = await User.find(params.id)
+    const user = await User.query()
+      .where('id', params.id)
+      .preload('books')
+      .preload('comments')
+      .firstOrFail()
 
     // Return status code 404 if the user doesn't exist
     if (!user) {
@@ -76,13 +97,7 @@ export default class UsersController {
     }
 
     // Try to find the user by id
-    const user = await User.find(params.id)
-
-    // Return status code 404 if the user doesn't exist
-    if (!user) {
-      response.notFound({ message: 'User not found' })
-      return
-    }
+    const user = await User.findOrFail(params.id)
 
     // Delete the user and return status code 204
     await user.delete()
