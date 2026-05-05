@@ -204,6 +204,26 @@
       "duration": 10,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "ddd95337-a397-4f84-9eec-6ed63ee1dafb",
+      "type": "commitless",
+      "name": "doc(github project) : créer de nouvelles tâches",
+      "description": "",
+      "date": "2026-05-05T14:43:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "jonathan150408"
+    },
+    {
+      "id": "4f15bd31-4dcc-4e3f-b524-780d8ed7f541",
+      "type": "commitless",
+      "name": "fix(debug requêtes commentaires) : avec mon teammate",
+      "description": "Comprendre pourquoi les requêtes put et delete ne fonctionnent pas (souci de routes)",
+      "date": "2026-05-05T14:44:00.000Z",
+      "duration": 20,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
