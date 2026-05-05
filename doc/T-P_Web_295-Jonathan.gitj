@@ -194,6 +194,16 @@
       "duration": 5,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "df77ac3f-131b-45f5-94bc-747648be9375",
+      "type": "commitless",
+      "name": "chore(daily scrum) : organisation et répartition du travail",
+      "description": "",
+      "date": "2026-05-05T11:22:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "jonathan150408"
     }
   ]
 }
