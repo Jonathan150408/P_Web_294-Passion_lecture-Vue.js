@@ -194,6 +194,16 @@
       "duration": 39,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "fb7441f3-82eb-4ec8-a13b-bb2a1b061ad5",
+      "type": "commitless",
+      "name": "chore(daily scrum): Apprendre ce que Jonathan a fait pendant mon absence",
+      "description": "J'étais à l'armée pendant cette journée (j'ai eu un score de 1 point sur 25 au saut en longueur)",
+      "date": "2026-05-05T13:23",
+      "duration": 13,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
