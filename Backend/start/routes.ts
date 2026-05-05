@@ -97,7 +97,7 @@ router
       })
       .prefix('/books/:bookId/comments')
 
-    //auth/users
+    //users
     router
       .group(() => {
         //auth

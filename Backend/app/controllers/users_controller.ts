@@ -6,7 +6,13 @@ export default class UsersController {
   /**
    * Display a list of users
    */
-  async index({ response }: HttpContext) {
+  async index({ auth, response }: HttpContext) {
+    // Check to see if the user is an admin, otherwise return the 403 status code
+    if (auth.user?.role !== 'admin') {
+      response.forbidden({ message: 'Only admins can see other users.' })
+      return
+    }
+
     // Return all users ordered by username in descending order
     response.ok(
       await User.query().orderBy('username').preload('books').preload('comments').paginate(1, 20)
