@@ -16,7 +16,7 @@ export default class extends BaseSchema {
       table.tinyint('rating').notNullable()
 
       //relations
-      table.integer('book_id')
+      table.integer('book_id').unsigned().notNullable()
       table.foreign('book_id').references('id').inTable('books')
     })
   }
