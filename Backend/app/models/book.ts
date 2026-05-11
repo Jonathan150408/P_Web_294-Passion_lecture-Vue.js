@@ -4,6 +4,8 @@ import User from './user.js'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Writer from './writer.js'
 import Comment from './comment.js'
+import Belong from './belong.js'
+import Edit from './edit.js'
 
 export default class Book extends BaseModel {
   //default
@@ -29,16 +31,23 @@ export default class Book extends BaseModel {
   declare imagePath: string | null
 
   //relations
+  //user
   @column()
   declare userId: number
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
-
+  //comment
+  @hasMany(() => Comment)
+  declare comments: HasMany<typeof Comment>
+  //edit -> editors
+  @hasMany(() => Edit)
+  declare edit : HasMany<typeof Edit>
+  //writer
   @column()
   declare writerId: number
   @belongsTo(() => Writer)
   declare writer: BelongsTo<typeof Writer>
-
-  @hasMany(() => Comment)
-  declare comments: HasMany<typeof Comment>
+  //categories
+  @hasMany(() => Belong)
+  declare belong : HasMany<typeof Belong>
 }
