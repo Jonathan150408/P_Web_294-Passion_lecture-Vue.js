@@ -54,15 +54,24 @@ export default class BooksController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request, response }: HttpContext) {
-    const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =
-      await request.validateUsing(BookValidator)
+  async update({ auth, params, request, response }: HttpContext) {
+    // Get the book early
     const book = await Book.query()
       .preload('comments')
       .preload('user')
       .preload('writer')
       .where('id', params.id)
       .firstOrFail()
+
+    // Check to see if the user has the authorization to do so, otherwise return the 403 status code
+    if (book.userId !== auth.user?.id && auth.user?.role !== 'admin') {
+      response.forbidden({ message: "You cannot update this book, as you aren't its uploader." })
+      return
+    }
+
+    const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =
+      await request.validateUsing(BookValidator)
+
     book.merge({
       title,
       numberOfPages,
@@ -73,20 +82,30 @@ export default class BooksController {
       userId,
       writerId,
     })
+
     response.ok(await book.save())
   }
 
   /**
    * Delete record
    */
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ auth, params, response }: HttpContext) {
+    // Get the book early
     const book = await Book.query()
       .preload('comments')
       .preload('user')
       .preload('writer')
       .where('id', params.id)
       .firstOrFail()
+
+    // Check to see if the user has the authorization to do so, otherwise return the 403 status code
+    if (book.userId !== auth.user?.id && auth.user?.role !== 'admin') {
+      response.forbidden({ message: "You cannot delete this book, as you aren't its uploader." })
+      return
+    }
+
     await book.delete()
+
     response.noContent()
   }
 }
