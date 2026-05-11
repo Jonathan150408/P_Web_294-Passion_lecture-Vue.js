@@ -204,6 +204,26 @@
       "duration": 13,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "97580840-cc2f-4db0-aab4-5642ca6d5b92",
+      "type": "commitless",
+      "name": "chore(80%): Discussion des 80%",
+      "description": "On va commencer l'évaluation des 80% à partir de demain (mardi 12)",
+      "date": "2026-05-11T10:27:00.000Z",
+      "duration": 7,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "e55832c4-676d-428a-abad-218b62103d49",
+      "type": "commitless",
+      "name": "chore(Peer programming): Aider Jonathan",
+      "description": "Il y avait eu un petit soucis à cause du seeder de la table Edit",
+      "date": "2026-05-11T11:19:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }
