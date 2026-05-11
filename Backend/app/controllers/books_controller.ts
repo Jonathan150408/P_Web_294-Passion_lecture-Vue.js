@@ -9,7 +9,9 @@ export default class BooksController {
   async index({ response }: HttpContext) {
     response.ok(
       await Book.query()
+        .preload('belong')
         .preload('comments')
+        .preload('edit')
         .preload('user')
         .preload('writer')
         .orderBy('title', 'asc')
@@ -21,6 +23,14 @@ export default class BooksController {
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
+    //get the categories
+    const categoriesIds = request.input('categoriesIds')
+
+    ///HERE !!!
+    /// validateur categories
+    throw new NotImplementedError("someFunction must be implemented.");
+
+    //create the book
     const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =
       await request.validateUsing(BookValidator)
     response.created(
