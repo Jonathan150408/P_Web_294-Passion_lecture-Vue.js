@@ -1,4 +1,3 @@
-import User from '#models/user'
 import Writer from '#models/writer'
 import { WriterValidator } from '#validators/writer'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -16,10 +15,7 @@ export default class WritersController {
   /**
    * Handle form submission for the create action
    */
-  async store({ auth, request, response }: HttpContext) {
-    // Make sure the user exists
-    await User.findOrFail(auth.user?.id)
-
+  async store({ request, response }: HttpContext) {
     const { firstname, lastname } = await request.validateUsing(WriterValidator)
     response.created(await Writer.create({ firstname, lastname }))
   }
