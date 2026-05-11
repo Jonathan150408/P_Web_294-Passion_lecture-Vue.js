@@ -1,12 +1,21 @@
 import Book from '#models/book'
 import Comment from '#models/comment'
 import User from '#models/user'
-import { commentValidator } from '#validators/comment'
+import { CommentValidator } from '#validators/comment'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CommentsController {
   /**
-   * Display a list of resource
+   * @index
+   * @operationId getBookComments
+   * @summary List comments for a book
+   * @description Returns a paginated list of comments for a specific book
+   * @tag Comments
+   *
+   * @paramPath bookId - The ID of the book - @type(number)
+   *
+   * @responseBody 200 - <Comment[]>.with(relations).paginated()
+   * @responseBody 404 - {"message": "Book not found"}
    */
   async index({ params, response }: HttpContext) {
     //make sure the book exists
@@ -19,7 +28,20 @@ export default class CommentsController {
   }
 
   /**
-   * Handle form submission for the create action
+   * @store
+   * @operationId createBookComment
+   * @summary Create a comment for a book
+   * @description Creates a new comment associated with a specific book
+   * @tag Comments
+   *
+   * @paramPath bookId - The ID of the book - @type(number)
+   *
+   * @requestBody <CommentValidator>
+   *
+   * @responseBody 201 - <Comment>
+   * @responseBody 401 - {"message": "Unauthorized"}
+   * @responseBody 404 - {"message": "Book not found"}
+   * @responseBody 422 - {"errors": [{"message": "Validation failed"}]}
    */
   async store({ auth, params, request, response }: HttpContext) {
     // Try to find the user by id
@@ -28,14 +50,24 @@ export default class CommentsController {
     //make sure the book exists
     await Book.findOrFail(params.bookId)
 
-    const { content, rating } = await request.validateUsing(commentValidator)
+    const { content, rating } = await request.validateUsing(CommentValidator)
     response.created(
       await Comment.create({ content, rating, bookId: params.bookId, userId: user.id })
     )
   }
 
   /**
-   * Show individual record
+   * @show
+   * @operationId getBookComment
+   * @summary Get a single comment for a book
+   * @description Returns a single comment belonging to a specific book
+   * @tag Comments
+   *
+   * @paramPath bookId - The ID of the book - @type(number)
+   * @paramPath commentId - The ID of the comment - @type(number)
+   *
+   * @responseBody 200 - <Comment>.with(relations)
+   * @responseBody 404 - {"message": "Book or comment not found"}
    */
   async show({ params, response }: HttpContext) {
     //make sure the book exists
@@ -51,7 +83,22 @@ export default class CommentsController {
   }
 
   /**
-   * Handle form submission for the edit action
+   * @update
+   * @operationId updateBookComment
+   * @summary Update a comment
+   * @description Updates a comment if the authenticated user is the author or an admin
+   * @tag Comments
+   *
+   * @paramPath bookId - The ID of the book - @type(number)
+   * @paramPath commentId - The ID of the comment - @type(number)
+   *
+   * @requestBody <CommentValidator>
+   *
+   * @responseBody 200 - <Comment>
+   * @responseBody 401 - {"message": "Unauthorized"}
+   * @responseBody 403 - {"message": "You cannot update this comment, as you are not the author."}
+   * @responseBody 404 - {"message": "Book or comment not found"}
+   * @responseBody 422 - {"errors": [{"message": "Validation failed"}]}
    */
   async update({ auth, params, request, response }: HttpContext) {
     // Try to find the user by id
@@ -73,7 +120,7 @@ export default class CommentsController {
       })
 
     //validate the updated values and assign them
-    const { content, rating } = await request.validateUsing(commentValidator)
+    const { content, rating } = await request.validateUsing(CommentValidator)
 
     comment.merge({ content, rating })
 
@@ -81,7 +128,19 @@ export default class CommentsController {
   }
 
   /**
-   * Delete record
+   * @destroy
+   * @operationId deleteBookComment
+   * @summary Delete a comment
+   * @description Deletes a comment if the authenticated user is the author or an admin
+   * @tag Comments
+   *
+   * @paramPath bookId - The ID of the book - @type(number)
+   * @paramPath commentId - The ID of the comment - @type(number)
+   *
+   * @responseBody 204 - Comment deleted successfully
+   * @responseBody 401 - {"message": "Unauthorized"}
+   * @responseBody 403 - {"message": "You cannot delete this comment, as you are not the author."}
+   * @responseBody 404 - {"message": "Book or comment not found"}
    */
   async destroy({ auth, params, response }: HttpContext) {
     // Try to find the user by id

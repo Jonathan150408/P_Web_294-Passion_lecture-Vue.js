@@ -1,7 +1,6 @@
-import Book from '#models/book'
 import vine from '@vinejs/vine'
 
-const commentValidator = vine.compile(
+const CommentValidator = vine.compile(
   vine.object({
     content: vine.string(),
     //The rating must be between 1 and 5
@@ -9,4 +8,4 @@ const commentValidator = vine.compile(
   })
 )
 
-export { commentValidator }
+export { CommentValidator }

@@ -1,10 +1,20 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { userRegisterValidator, userLoginValidator } from '#validators/user'
 import User from '#models/user'
+const { UserRegisterValidator, UserLoginValidator } = await import('#validators/user')
 
 export default class AuthController {
   /**
-   * Register a new user
+   * @register
+   * @operationId registerUser
+   * @summary Register a new user
+   * @description Creates a new user account and returns an access token
+   * @tag Users
+   *
+   * @requestBody <UserRegisterValidator>
+   *
+   * @responseBody 201 - {"token": "string", "user": "<User>"}
+   * @responseBody 400 - {"message": "Already logged in"}
+   * @responseBody 422 - {"errors": [{"message": "Validation failed"}]}
    */
   async register({ auth, request, response }: HttpContext) {
     // Check to see if the user is already logged in, if so return a 400 status code
@@ -14,7 +24,7 @@ export default class AuthController {
     }
 
     // Validate the request
-    const { username, password } = await request.validateUsing(userRegisterValidator)
+    const { username, password } = await request.validateUsing(UserRegisterValidator)
 
     // Create the user
     const user = await User.create({ username, password })
@@ -27,7 +37,18 @@ export default class AuthController {
   }
 
   /**
-   * Log into a user account
+   * @login
+   * @operationId loginUser
+   * @summary Log into a user account
+   * @description Authenticates a user and returns an access token
+   * @tag Users
+   *
+   * @requestBody <UserLoginValidator>
+   *
+   * @responseBody 200 - {"token": "string", "user": "<User>"}
+   * @responseBody 400 - {"message": "Already logged in"}
+   * @responseBody 401 - {"message": "Invalid credentials"}
+   * @responseBody 422 - {"errors": [{"message": "Validation failed"}]}
    */
   async login({ auth, request, response }: HttpContext) {
     // Check to see if the user is already logged in, if so return a 400 status code
@@ -37,7 +58,7 @@ export default class AuthController {
     }
 
     // Validate the request
-    const { username, password } = await request.validateUsing(userLoginValidator)
+    const { username, password } = await request.validateUsing(UserLoginValidator)
 
     // Validate the credientials
     const user = await User.verifyCredentials(username, password)
@@ -56,7 +77,15 @@ export default class AuthController {
   }
 
   /**
-   * Log out of a user account
+   * @logout
+   * @operationId logoutUser
+   * @summary Log out a user
+   * @description Revokes the authenticated user's current access token
+   * @tag Users
+   *
+   * @responseBody 200 - {"message": "Logged out successfully"}
+   * @responseBody 400 - {"message": "No token found"}
+   * @responseBody 401 - {"message": "Unauthorized"}
    */
   async logout({ auth, response }: HttpContext) {
     // Get the authenticated user

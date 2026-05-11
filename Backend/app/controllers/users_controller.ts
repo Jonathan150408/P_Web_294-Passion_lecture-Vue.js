@@ -1,10 +1,17 @@
 import User from '#models/user'
-import { userUpdateValidator } from '#validators/user'
+import { UserUpdateValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UsersController {
   /**
-   * Display a list of users
+   * @index
+   * @operationId getUsers
+   * @summary List users
+   * @description Returns a paginated list of users with their books and comments. Admin access required.
+   * @tag Users
+   *
+   * @responseBody 200 - <User[]>.with(relations).paginated()
+   * @responseBody 403 - {"message": "Only admins can see other users."}
    */
   async index({ auth, response }: HttpContext) {
     // Check to see if the user is an admin, otherwise return the 403 status code
@@ -20,7 +27,14 @@ export default class UsersController {
   }
 
   /**
-   *  Show own user info
+   * @me
+   * @operationId getCurrentUser
+   * @summary Get authenticated user
+   * @description Returns the authenticated user with their books and comments
+   * @tag Users
+   *
+   * @responseBody 200 - <User>.with(relations)
+   * @responseBody 401 - {"message": "Unauthorized"}
    */
   async me({ auth, response }: HttpContext) {
     // Return the authenticated user with status code 200
@@ -33,9 +47,18 @@ export default class UsersController {
   }
 
   /**
-   * Show individual user
-   */
-  async show({ auth, params, response }: HttpContext) {
+   * @show
+   * @operationId getUser
+   * @summary Get user by ID
+   * @description Returns a specific user with their books and comments. Admin access required.
+   * @tag Users
+   *
+   * @paramPath id - The ID of the user - @type(number)
+   *
+   * @responseBody 200 - <User>.with(relations)
+   * @responseBody 403 - {"message": "Only admins can see other user's info."}
+   * @responseBody 404 - {"message": "User not found"}
+   */ async show({ auth, params, response }: HttpContext) {
     // Check to see if the user is an admin, otherwise return the 403 status code
     if (auth.user?.role !== 'admin') {
       response.forbidden({ message: "Only admins can see other user's info." })
@@ -60,7 +83,20 @@ export default class UsersController {
   }
 
   /**
-   * Handle form submission for the edit action of a user
+   * @update
+   * @operationId updateUser
+   * @summary Update a user
+   * @description Updates a user's information
+   * @tag Users
+   *
+   * @paramPath id - The ID of the user - @type(number)
+   *
+   * @requestBody <UserUpdateValidator>
+   *
+   * @responseBody 200 - <User>
+   * @responseBody 401 - {"message": "Unauthorized"}
+   * @responseBody 404 - {"message": "User not found"}
+   * @responseBody 422 - {"errors": [{"message": "Validation failed"}]}
    */
   async update({ params, response, request, auth }: HttpContext) {
     // Try to find the user by id
@@ -77,7 +113,7 @@ export default class UsersController {
     }
 
     // Validate the request and pass the user id as meta to the validator to check for unique username
-    const { username, password } = await request.validateUsing(userUpdateValidator, {
+    const { username, password } = await request.validateUsing(UserUpdateValidator, {
       meta: { id: auth.user?.id },
     })
 
@@ -87,7 +123,17 @@ export default class UsersController {
   }
 
   /**
-   * Delete a user
+   * @destroy
+   * @operationId deleteUser
+   * @summary Delete a user
+   * @description Deletes a user. Admin access required.
+   * @tag Users
+   *
+   * @paramPath id - The ID of the user - @type(number)
+   *
+   * @responseBody 204 - User deleted successfully
+   * @responseBody 403 - {"message": "Only admins can delete users."}
+   * @responseBody 404 - {"message": "User not found"}
    */
   async destroy({ auth, response, params }: HttpContext) {
     // Check to see if the user is an admin, otherwise return the 403 status code

@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine'
 
-const userLoginValidator = vine.compile(
+const UserLoginValidator = vine.compile(
   vine.object({
     username: vine
       .string()
@@ -14,7 +14,7 @@ const userLoginValidator = vine.compile(
   })
 )
 
-const userRegisterValidator = vine.compile(
+const UserRegisterValidator = vine.compile(
   vine.object({
     username: vine
       .string()
@@ -32,7 +32,7 @@ const userRegisterValidator = vine.compile(
   })
 )
 
-const userUpdateValidator = vine.compile(
+const UserUpdateValidator = vine.compile(
   vine.object({
     username: vine
       .string()
@@ -55,4 +55,4 @@ const userUpdateValidator = vine.compile(
   })
 )
 
-export { userLoginValidator, userRegisterValidator, userUpdateValidator }
+export { UserLoginValidator, UserRegisterValidator, UserUpdateValidator }

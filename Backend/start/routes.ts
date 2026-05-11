@@ -10,6 +10,9 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
+import AutoSwagger from 'adonis-autoswagger'
+import swagger from '#config/swagger'
+
 const BooksController = () => import('#controllers/books_controller')
 const WritersController = () => import('#controllers/writers_controller')
 const EditorsController = () => import('#controllers/editors_controller')
@@ -20,13 +23,6 @@ const CommentsController = () => import('#controllers/comments_controller')
 
 router
   .group(() => {
-    //hello world
-    router.get('/', async () => {
-      return {
-        hello: 'world',
-      }
-    })
-
     //categories
     router
       .group(() => {
@@ -121,3 +117,12 @@ router
     router.get('/me', [UsersController, 'me']).use(middleware.auth())
   })
   .prefix('/api')
+
+// returns swagger in YAML
+router.get('swagger', async () => {
+  return AutoSwagger.default.docs(router.toJSON(), swagger)
+})
+// Renders Swagger-UI and passes YAML-output of /swagger
+router.get('docs', async () => {
+  return AutoSwagger.default.ui('/swagger', swagger)
+})
