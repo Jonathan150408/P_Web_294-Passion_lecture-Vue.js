@@ -6,16 +6,20 @@ export default class CategoriesController {
   /**
    * Display a list of resource
    */
-  async index({ response }: HttpContext) {
-    //no preloads as we need the t_appartenir table, which will then make us have to loop through all t_appartenit entries
-    const categories = await Categorie.query().orderBy('label').paginate(1, 20)
-    response.ok(categories)
+  async index({ response }: HttpContext) { 
+    response.ok(await Categorie.query().orderBy('label').preload('belong').paginate(1, 20))
   }
 
   /**
    * Handle form submission for the create action
    */
-  async store({ request, response }: HttpContext) {
+  async store({ auth, request, response }: HttpContext) {
+    // Check to see if the user is an admin, otherwise return the 403 status code
+    if (auth.user?.role !== 'admin') {
+      response.forbidden({ message: 'Only admins can update category information.' })
+      return
+    }
+
     const { label } = await request.validateUsing(categorieValidator)
     response.created(await Categorie.create({ label }))
   }
@@ -24,9 +28,7 @@ export default class CategoriesController {
    * Show individual record
    */
   async show({ params, response }: HttpContext) {
-    //no preloads as we need the t_appartenir table, which will then make us have to loop through all t_appartenit entries
-    const category = await Categorie.query().where('id', params.id).orderBy('label').firstOrFail()
-    response.ok(category)
+    response.ok(await Categorie.query().where('id', params.id).orderBy('label').preload('belong').firstOrFail())
   }
 
   /**

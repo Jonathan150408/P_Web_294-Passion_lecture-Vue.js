@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Belong from './belong.js'
 
 export default class Categorie extends BaseModel {
   //default
@@ -15,5 +17,6 @@ export default class Categorie extends BaseModel {
   declare label: string
 
   //relations
-  //TODO
+  @belongsTo(() => Belong)
+  declare belong : BelongsTo<typeof Belong>
 }
