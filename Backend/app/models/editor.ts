@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Edit from './edit.js'
 
 export default class Editor extends BaseModel {
   //default
@@ -15,5 +17,6 @@ export default class Editor extends BaseModel {
   declare name: string
 
   //relations
-  //belongsto -> book
+  @hasMany(() => Edit)
+  declare edit : HasMany<typeof Edit>
 }
