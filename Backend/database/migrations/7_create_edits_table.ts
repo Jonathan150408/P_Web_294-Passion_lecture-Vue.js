@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 't_editors'
+  protected tableName = 'edits'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -13,11 +13,11 @@ export default class extends BaseSchema {
       //fields
 
       //relations
-      table.integer("editorId").unsigned().notNullable()
-      table.foreign("editorId").references("id").inTable("editors")
+      table.integer("editor_id").unsigned().notNullable()
+      table.foreign("editor_id").references("id").inTable("editors")
 
-      table.integer("bookId").unsigned().notNullable()
-      table.foreign("bookId").references("id").inTable("books")
+      table.integer("book_id").unsigned().notNullable()
+      table.foreign("book_id").references("id").inTable("books")
     })
   }
 

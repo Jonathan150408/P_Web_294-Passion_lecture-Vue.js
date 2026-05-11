@@ -1,10 +1,10 @@
-import Book from './book.js'
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Editor from './editor.js'
+import Book from './book.js'
 
-export default class TEditor extends BaseModel {
+export default class Edit extends BaseModel {
   //default
   @column({ isPrimary: true })
   declare id: number

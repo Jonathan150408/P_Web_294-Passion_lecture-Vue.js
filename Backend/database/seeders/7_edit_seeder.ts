@@ -1,6 +1,6 @@
 import Book from '#models/book'
+import Edit from '#models/edit'
 import Editor from '#models/editor'
-import TEditor from '#models/t_editor'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
 export default class extends BaseSeeder {
@@ -8,13 +8,14 @@ export default class extends BaseSeeder {
     //get all data
     const books = await Book.all()
     const numberOfBooks = books.length
-    const numberOfEditors = (await Editor.all()).length
+    const editors = await Editor.all()
+    const numberOfEditors = editors.length
 
     //each book receive a t_editor record
     for (let i = 0; i < numberOfBooks; i++){
-      let editorId = Math.floor(Math.random() * numberOfEditors)
+      let editorId = editors[(Math.floor(Math.random() * numberOfEditors))].id
       let bookId = books[i].id
-      TEditor.create({ bookId, editorId })
+      await Edit.create({ bookId, editorId })
     }
   }
 }
