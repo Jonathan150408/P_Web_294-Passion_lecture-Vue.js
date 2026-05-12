@@ -16,9 +16,9 @@ export default class Belong extends BaseModel {
   //fields
   //relations
   @column()
-  declare categoryId : Number
+  declare categorieId : Number
   @belongsTo(() => Categorie)
-  declare category : BelongsTo<typeof Categorie>
+  declare categorie : BelongsTo<typeof Categorie>
 
   @column()
   declare bookId : Number

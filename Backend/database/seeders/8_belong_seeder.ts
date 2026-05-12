@@ -16,7 +16,7 @@ export default class extends BaseSeeder {
         let bookId = books[i].id
         //give from 0 to 3 categories per book
         for (let i = 0; i < Math.round(Math.random() * 4); i++){
-          await Belong.create({ bookId, categoryId: categories[(Math.floor(Math.random() * numberOfCategories))].id })
+          await Belong.create({ bookId, categorieId: categories[(Math.floor(Math.random() * numberOfCategories))].id })
         }
       }
     }

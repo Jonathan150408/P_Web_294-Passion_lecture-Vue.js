@@ -13,8 +13,8 @@ export default class extends BaseSchema {
       //fields
 
       //relations
-      table.integer('category_id').notNullable().unsigned()
-      table.foreign('category_id').references('id').inTable('categories')
+      table.integer('categorie_id').notNullable().unsigned()
+      table.foreign('categorie_id').references('id').inTable('categories')
       
       table.integer('book_id').notNullable().unsigned()
       table.foreign('book_id').references('id').inTable('books')

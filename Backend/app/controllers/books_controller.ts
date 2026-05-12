@@ -28,7 +28,7 @@ export default class BooksController {
 
     ///HERE !!!
     /// validateur categories
-    throw new NotImplementedError("someFunction must be implemented.");
+    // throw new NotImplementedError("someFunction must be implemented.");
 
     //create the book
     const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =

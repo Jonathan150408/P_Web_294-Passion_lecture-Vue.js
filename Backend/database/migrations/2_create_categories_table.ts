@@ -12,7 +12,6 @@ export default class extends BaseSchema {
       //fields
       table.string('label').notNullable().unique()
       //relations
-      //TODO
     })
   }
 
