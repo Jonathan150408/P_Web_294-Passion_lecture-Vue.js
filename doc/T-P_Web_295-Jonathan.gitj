@@ -234,6 +234,56 @@
       "duration": 10,
       "status": "Done",
       "author": "jonathan150408"
+    },
+    {
+      "id": "10ed3698-fcba-4aa0-985d-f5b3bb093a83",
+      "type": "commitless",
+      "name": "learn(parler en classe) : discuter de l'éval 80% et du test à venir",
+      "description": "",
+      "date": "2026-05-12T11:23:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "bdf6f788-32a5-4e25-a37c-2c41e8519511",
+      "type": "commitless",
+      "name": "chore(eval 80%) : évaluer le projet en faire la démo devant l'enseignant",
+      "description": "",
+      "date": "2026-05-12T12:29:00.000Z",
+      "duration": 25,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "7e6fab86-166e-4572-9096-72f75293b093",
+      "type": "commitless",
+      "name": "chore(présentation) : présenter le runner Bruno devant la classe",
+      "description": "",
+      "date": "2026-05-12T12:31:00.000Z",
+      "duration": 5,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "90f3ddf7-206c-4ff2-ac11-bf086aa6a860",
+      "type": "commitless",
+      "name": "chore(eval 80%) : terminer l'éval",
+      "description": "Repasser sur le runner pour les drenières requêtes qui n'ont pas fonctionné.\r\nMontrer Swagger",
+      "date": "2026-05-12T16:01",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "2fc6de1b-fbea-43f0-848d-d6fd13b58088",
+      "type": "commitless",
+      "name": "chore(release et zip 80%) : partager la release et le zip du projet dans ses 80%",
+      "description": "",
+      "date": "2026-05-12T14:40:00.000Z",
+      "duration": 5,
+      "status": "Done",
+      "author": "Jonathan150408"
     }
   ]
 }
