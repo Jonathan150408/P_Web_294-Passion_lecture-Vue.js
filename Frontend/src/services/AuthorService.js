@@ -38,13 +38,13 @@ export default {
   },
 
   // Create an author
-  async createAuthor(author) {
-    return await apiClient.post('', author)
+  async createAuthor(authorData) {
+    return await apiClient.post('', authorData)
   },
 
   // Update an author
-  async updateAuthor(author) {
-    return await apiClient.put(`/${author.id}`, author)
+  async updateAuthor(authorData) {
+    return await apiClient.put(`/${authorData.id}`, authorData)
   },
 
   // Delete an author

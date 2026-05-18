@@ -38,13 +38,13 @@ export default {
   },
 
   // Create a category
-  async createCategory(category) {
-    return await apiClient.post('', category)
+  async createCategory(categoryData) {
+    return await apiClient.post('', categoryData)
   },
 
   // Update a category
-  async updateCategory(category) {
-    return await apiClient.put(`/${category.id}`, category)
+  async updateCategory(categoryData) {
+    return await apiClient.put(`/${categoryData.id}`, categoryData)
   },
 
   // Delete a category

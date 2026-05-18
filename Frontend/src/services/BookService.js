@@ -38,13 +38,13 @@ export default {
   },
 
   // Create a book
-  async createBook(book) {
-    return await apiClient.post('', book)
+  async createBook(bookData) {
+    return await apiClient.post('', bookData)
   },
 
   // Update a book
-  async updateBook(book) {
-    return await apiClient.put(`/${book.id}`, book)
+  async updateBook(bookData) {
+    return await apiClient.put(`/${bookData.id}`, bookData)
   },
 
   // Delete a book
