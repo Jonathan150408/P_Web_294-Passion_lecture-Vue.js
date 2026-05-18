@@ -2,7 +2,7 @@
 import Book from '../../components/Book.vue'
 import AuthorService from '@/services/AuthorService'
 import BookService from '../../services/BookService'
-import CategoriesService from '@/services/CategoriesService'
+import CategoriesService from '@/services/CategoryService'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 

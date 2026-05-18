@@ -224,6 +224,46 @@
       "duration": 10,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "eca5cf3c-7893-4ee9-80ec-cb1a432ee322",
+      "type": "commitless",
+      "name": "learn(test 2): Appris le déroulement du test 2",
+      "description": "",
+      "date": "2026-05-18T10:26:00.000Z",
+      "duration": 6,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "9aae3bed-aafe-42b6-9e5c-c9934f57fef3",
+      "type": "commitless",
+      "name": "chore(tâches): Répartition des tâches",
+      "description": "",
+      "date": "2026-05-18T10:30:00.000Z",
+      "duration": 4,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "a1f5d766-32cd-4fbd-a31a-b80348678c13",
+      "type": "commitless",
+      "name": "feat(Services): Début de la modification de BookService",
+      "description": "J'ai pas pu aller bien loin, car je dois modifier les controllers pour faire en sorte que la pagination soit bien en place",
+      "date": "2026-05-18T13:27",
+      "duration": 10,
+      "status": "Done",
+      "author": "neo-darbellay"
+    },
+    {
+      "id": "aa365385-2ba6-421e-b4fb-335f29330d8c",
+      "type": "commitless",
+      "name": "chore(Données): analyse des anciennes données db.json vs Adonis.js",
+      "description": "",
+      "date": "2026-05-18T12:45:00.000Z",
+      "duration": 11,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }

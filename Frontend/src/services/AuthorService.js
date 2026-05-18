@@ -26,30 +26,30 @@ const apiClient = axios.create({
 export default {
   //NEW
   // Get all authors
-  async getAuthors(page = 1, limit = 20) {
+  getAuthors(page = 1, limit = 20) {
     const params = new URLSearchParams({ page, limit })
 
-    return await apiClient.get(`?${params}`)
+    return apiClient.get(`?${params}`)
   },
 
   // Get a singular author
-  async getAuthor(id) {
-    return await apiClient.get(id)
+  getAuthor(id) {
+    return apiClient.get(id)
   },
 
   // Create an author
-  async createAuthor(authorData) {
-    return await apiClient.post('', authorData)
+  createAuthor(authorData) {
+    return apiClient.post('', authorData)
   },
 
   // Update an author
-  async updateAuthor(authorData) {
-    return await apiClient.put(`/${authorData.id}`, authorData)
+  updateAuthor(authorData) {
+    return apiClient.put(`/${authorData.id}`, authorData)
   },
 
   // Delete an author
-  async deleteAuthor(id) {
-    return await apiClient.delete(id)
+  deleteAuthor(id) {
+    return apiClient.delete(id)
   },
 
   /*OLD

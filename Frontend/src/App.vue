@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue'
-import CategoriesService from './services/CategoriesService.js'
+import CategoriesService from './services/CategoryService.js'
 
 //import
 const categories = ref(null)
