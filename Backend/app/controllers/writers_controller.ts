@@ -12,10 +12,17 @@ export default class WritersController {
    *
    * @responseBody 200 - <Writer[]>.with(relations).paginated()
    */
-  async index({ response }: HttpContext) {
-    response.ok(
-      await Writer.query().orderBy('lastname').orderBy('firstname').preload('books').paginate(1, 20)
-    )
+  async index({ request, response }: HttpContext) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 20)
+
+    const writers = await Writer.query()
+      .orderBy('lastname')
+      .orderBy('firstname')
+      .preload('books')
+      .paginate(page, limit)
+
+    response.ok(writers)
   }
 
   /**

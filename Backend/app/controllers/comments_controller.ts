@@ -17,14 +17,20 @@ export default class CommentsController {
    * @responseBody 200 - <Comment[]>.with(relations).paginated()
    * @responseBody 404 - {"message": "Book not found"}
    */
-  async index({ params, response }: HttpContext) {
+  async index({ params, request, response }: HttpContext) {
     //make sure the book exists
     await Book.findOrFail(params.bookId)
 
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 20)
+
+    const comments = await Comment.query()
+      .where('bookId', params.bookId)
+      .preload('user')
+      .paginate(page, limit)
+
     //return every comment on a singular book, instead of every comments ever
-    response.ok(
-      await Comment.query().where('bookId', params.bookId).preload('user').paginate(1, 20)
-    )
+    response.ok(comments)
   }
 
   /**

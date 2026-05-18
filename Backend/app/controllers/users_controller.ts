@@ -13,17 +13,24 @@ export default class UsersController {
    * @responseBody 200 - <User[]>.with(relations).paginated()
    * @responseBody 403 - {"message": "Only admins can see other users."}
    */
-  async index({ auth, response }: HttpContext) {
+  async index({ request, response }: HttpContext) {
     // Check to see if the user is an admin, otherwise return the 403 status code
     if (auth.user?.role !== 'admin') {
       response.forbidden({ message: 'Only admins can see other users.' })
       return
     }
 
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 20)
+
+    const users = await User.query()
+      .orderBy('username')
+      .preload('books')
+      .preload('comments')
+      .paginate(page, limit)
+
     // Return all users ordered by username in descending order
-    response.ok(
-      await User.query().orderBy('username').preload('books').preload('comments').paginate(1, 20)
-    )
+    response.ok(users)
   }
 
   /**

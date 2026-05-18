@@ -12,8 +12,16 @@ export default class CategoriesController {
    *
    * @responseBody 200 - <Categorie[]>.with(relations).paginated()
    */
-  async index({ response }: HttpContext) {
-    response.ok(await Categorie.query().orderBy('label').preload('belong').paginate(1, 20))
+  async index({ request, response }: HttpContext) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 20)
+
+    const categories = await Categorie.query()
+      .orderBy('label')
+      .preload('belong')
+      .paginate(page, limit)
+
+    response.ok(categories)
   }
 
   /**
