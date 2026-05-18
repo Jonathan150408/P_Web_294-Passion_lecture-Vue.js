@@ -29,14 +29,6 @@ onMounted(async () => {
       authors.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
     }
   }
-
-  // Just a test to see if we can get data through CORS
-  const newData = await BookService.newGetBooks()
-
-  console.log({
-    old: booksData.data,
-    new: newData.data
-  })
 })
 </script>
 
