@@ -45,6 +45,7 @@ export default {
     return await apiClient.put(`/${book.id}`, book)
   },
 
+  // Delete a book
   async deleteBook(id) {
     return await apiClient.delete(id)
   },
