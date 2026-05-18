@@ -5,21 +5,23 @@ meta {
 }
 
 put {
-  url: {{boo}}/11
+  url: {{boo}}/9
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "title" : "Something appened",
+    "title" : "Something happened again",
     "numberOfPages" : 321,
     "pdfLink" : "/somewhere",
     "abstract" : "Just a book",
     "editionYear" : "2026",
     "imagePath" : "./none",
     "userId" : 2,
-    "writerId" : 1
+    "writerId" : 1, 
+    "categoriesIds" : [1, 2],
+    "editorsIds" : [3, 4]
   }
 }
 

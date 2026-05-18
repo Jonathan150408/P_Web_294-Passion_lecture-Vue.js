@@ -128,11 +128,11 @@ export default class BooksController {
           response.badRequest({ error: 'Editeur inexistant' })
           break
         case 'CATEGORY_NOT_FOUND':
-          response.badRequest({ error: 'Catégorie inexistant' })
+          response.badRequest({ error: 'Catégorie inexistante' })
           break
         case 'BOOK_VALIDATION_ERROR':
           response.unprocessableEntity({
-            error: 'La validation a échoué pour au moins une valeurs de book',
+            error: 'La validation a échoué pour au moins une valeur de book',
           })
           break
         case 'CATEGORY_VALIDATION_ERROR':
@@ -142,11 +142,12 @@ export default class BooksController {
           break
         case 'EDITOR_VALIDATION_ERROR':
           response.unprocessableEntity({
-            error: 'La validation a échoué pour au moins une catégories',
+            error: 'La validation a échoué pour au moins un éditeur',
           })
           break
         default:
           response.internalServerError({ error: 'Erreur inattendue' })
+          break
       }
     }
   }
@@ -169,35 +170,156 @@ export default class BooksController {
    * Handle form submission for the edit action
    */
   async update({ auth, params, request, response }: HttpContext) {
-    // Get the book early
-    const book = await Book.query()
-      .preload('comments')
-      .preload('user')
-      .preload('writer')
-      .where('id', params.id)
-      .firstOrFail()
+    //start transaction
+    try {
+      /**
+       * PART 1 : Book
+       */
+      const book = await db.transaction(async (trx) => {
+        // Get the old book early
+        const book = await Book.query()
+          .preload('comments')
+          .preload('user')
+          .preload('writer')
+          .where('id', params.id)
+          .firstOrFail()
 
-    // Check to see if the user has the authorization to do so, otherwise return the 403 status code
-    if (book.userId !== auth.user?.id && auth.user?.role !== 'admin') {
-      response.forbidden({ message: "You cannot update this book, as you aren't its uploader." })
-      return
+        //link to the transaction
+        book.useTransaction(trx)
+
+        // Check to see if the user has the authorization to do so, otherwise return the 403 status code
+        if (book.userId !== auth.user?.id && auth.user?.role !== 'admin') {
+          throw new Error('NO_PERMISSION')
+        }
+
+        //valiate the fields
+        const {
+          title,
+          numberOfPages,
+          pdfLink,
+          abstract,
+          editionYear,
+          imagePath,
+          userId,
+          writerId,
+        } = await request.validateUsing(BookValidator).catch(() => {
+          throw new Error('BOOK_VALIDATION_ERROR')
+        })
+
+        //merge the data
+        book.merge({
+          title,
+          numberOfPages,
+          pdfLink,
+          abstract,
+          editionYear,
+          imagePath,
+          userId,
+          writerId,
+        })
+
+        //save the book
+        await book.save()
+
+        /**
+         * PART 2 : Edits (book - to edit - editor)
+         */
+        //delete the olds edits
+        const edits = await Edit.query().where('bookId', book.id).exec()
+        for (const currentEdit of edits) {
+          currentEdit.delete()
+        }
+        //create new ones
+        const categoriesIds = request.input('categoriesIds')
+        try {
+          for (const currentCategorieId of categoriesIds) {
+            let categorie = await BelongValidator.validate({
+              categorieId: currentCategorieId,
+            }).catch(() => {
+              throw new Error('CATEGORY_VALIDATION_ERROR')
+            })
+            //create the belong
+            const belong = new Belong()
+            belong.categorieId = categorie.categorieId
+            belong.bookId = book.id
+            //link to transaction
+            belong.useTransaction(trx)
+            //save the belong
+            await belong.save()
+          }
+        } catch (error) {
+          console.log('BOOK CREATE - Categories error')
+          await trx.rollback()
+          throw new Error('CATEGORY_NOT_FOUND')
+        }
+
+        /**
+         * PART 3 : Belongs (book - to belongs to - category)
+         */
+        //delete the olds belongs
+        const belongs = await Belong.query().where('bookId', book.id).exec()
+        for (const currentBelong of belongs) {
+          currentBelong.delete()
+        }
+        //create new ones
+        try {
+          const editorsIds = request.input('editorsIds')
+          for (const currentEditorId of editorsIds) {
+            let editor = await EditValidator.validate({ editorId: currentEditorId }).catch(() => {
+              throw new Error('EDITOR_VALIDATION_ERROR')
+            })
+            //create the edit
+            const edit = new Edit()
+            edit.editorId = editor.editorId
+            edit.bookId = book.id
+            //link to transaction
+            edit.useTransaction(trx)
+            //save the edit
+            await edit.save()
+          }
+        } catch (error) {
+          console.log('BOOK CREATE - Editors error')
+          await trx.rollback()
+          throw new Error('EDITOR_NOT_FOUND')
+        }
+
+        return book
+      })
+      response.ok(book)
+    } catch (error: Error | any) {
+      console.log('ERREUR GÉRÉÉ : ', error.message)
+      switch (error.message) {
+        case 'NO_PERMISSION':
+          response.forbidden({
+            error: "Impossible de modifier le livre, vous n'avez pas les permissions nécéssaires.",
+          })
+          break
+        case 'EDITOR_NOT_FOUND':
+          response.badRequest({ error: 'Editeur inexistant' })
+          break
+        case 'CATEGORY_NOT_FOUND':
+          response.badRequest({ error: 'Catégorie inexistante' })
+          break
+        case 'BOOK_VALIDATION_ERROR':
+          response.unprocessableEntity({
+            error: 'La validation a échoué pour au moins une valeur de book',
+          })
+          break
+        case 'CATEGORY_VALIDATION_ERROR':
+          response.unprocessableEntity({
+            error: 'La validation a échoué pour au moins une catégories',
+          })
+          break
+        case 'EDITOR_VALIDATION_ERROR':
+          response.unprocessableEntity({
+            error: 'La validation a échoué pour au moins un éditeur',
+          })
+          break
+        default:
+          response.internalServerError({ error: 'Erreur inattendue' })
+          break
+      }
     }
-
-    const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =
-      await request.validateUsing(BookValidator)
-
-    book.merge({
-      title,
-      numberOfPages,
-      pdfLink,
-      abstract,
-      editionYear,
-      imagePath,
-      userId,
-      writerId,
-    })
-
-    response.ok(await book.save())
   }
 
   /**
