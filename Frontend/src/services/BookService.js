@@ -26,8 +26,10 @@ const apiClient = axios.create({
 export default {
   //NEW
   // Get all books
-  async getBooks() {
-    return await apiClient.get('')
+  async getBooks(page = 1, limit = 20) {
+    const params = new URLSearchParams({ page, limit })
+
+    return await apiClient.get(`?${params}`)
   },
 
   // Get a singular book
