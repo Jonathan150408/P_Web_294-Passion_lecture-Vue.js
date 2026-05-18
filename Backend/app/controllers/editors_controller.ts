@@ -12,8 +12,13 @@ export default class EditorsController {
    *
    * @responseBody 200 - <Editor[]>.with(relations).paginated()
    */
-  async index({ response }: HttpContext) {
-    response.ok(await Editor.query().orderBy('name').preload('edit').paginate(1, 20))
+  async index({ request, response }: HttpContext) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 20)
+
+    const editors = await Editor.query().orderBy('name').preload('edit').paginate(page, limit)
+
+    response.ok(editors)
   }
 
   /**

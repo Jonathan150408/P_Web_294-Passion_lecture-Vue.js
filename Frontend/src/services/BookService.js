@@ -3,6 +3,16 @@ import axios from 'axios'
 
 // Création de l'instance de Axios
 const apiClient = axios.create({
+  baseURL: 'http://localhost:3333/api/books/',
+  withCredentials: true,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+})
+
+/*OLD
+const apiClient = axios.create({
   baseURL: 'http://localhost:3000/books',
   withCredentials: false,
   headers: {
@@ -10,44 +20,79 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 })
+*/
 
 // Mettre à dispo
 export default {
+  //NEW
+  // Get all books
+  async getBooks(page = 1, limit = 20) {
+    const params = new URLSearchParams({ page, limit })
+
+    return await apiClient.get(`?${params}`)
+  },
+
+  // Get a singular book
+  async getBook(id) {
+    return await apiClient.get(id)
+  },
+
+  // Create a book
+  async createBook(bookData) {
+    return await apiClient.post('', bookData)
+  },
+
+  // Update a book
+  async updateBook(bookData) {
+    return await apiClient.put(`/${bookData.id}`, bookData)
+  },
+
+  // Delete a book
+  async deleteBook(id) {
+    return await apiClient.delete(id)
+  },
+
+  /*OLD
+  // The old functions that are indented more than the rest are not gonna be in the new BookService, as it'll be easier to access through another method
+
   //get tous les livres
   getBooks() {
     return apiClient.get('?_sort=createdAt&_order=desc')
   },
-  //get les livres de l'utilisateur
-  getBooksFromUser(id) {
-    return apiClient.get('?userId=' + id)
-  },
-  //get les livres d'une catégorie
-  getBooksFromCategory(id) {
-    return apiClient.get('?categoryId=' + id)
-  },
+              //get les livres de l'utilisateur
+              getBooksFromUser(id) {
+                return apiClient.get('?userId=' + id)
+              },
+
+              //get les livres d'une catégorie
+              getBooksFromCategory(id) {
+                return apiClient.get('?categoryId=' + id)
+              },
+
   //get un seul livre
   getBook(id) {
     return apiClient.get('/' + id)
   },
-  //post pour créer un commentaire
-  async addComment(bookId, comment) {
-    console.log('addComment called')
-    console.log(bookId, comment)
+              //post pour créer un commentaire
+              async addComment(bookId, comment) {
+                console.log('addComment called')
+                console.log(bookId, comment)
 
-    const response = this.getBook(bookId)
-    const book = (await response).data
+                const response = this.getBook(bookId)
+                const book = (await response).data
 
-    // Créer l'array s'il n'existe pas
-    if (!book.comments) {
-      book.comments = []
-    }
+                // Créer l'array s'il n'existe pas
+                if (!book.comments) {
+                  book.comments = []
+                }
 
-    comment.createdAt = new Date().toISOString()
+                comment.createdAt = new Date().toISOString()
 
-    book.comments.unshift(comment)
+                book.comments.unshift(comment)
 
-    return apiClient.put('/' + bookId, book)
-  },
+                return apiClient.put('/' + bookId, book)
+              },
+
   //post pour ajouter un livre
   async addBook(book) {
     console.log('addBook called')
@@ -69,6 +114,7 @@ export default {
 
     return apiClient.post('/', book)
   },
+
   // put pour modifier un livre
   async updateBook(book) {
     console.log('updateBook called')
@@ -83,7 +129,9 @@ export default {
 
     return apiClient.put(`/${book.id}`, updatedBook)
   },
+
   deleteBook(id) {
     return apiClient.delete('/' + id)
-  }
+  },
+  */
 }

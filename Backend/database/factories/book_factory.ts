@@ -3,14 +3,24 @@ import Book from '#models/book'
 import User from '#models/user'
 import Writer from '#models/writer'
 
+const usedTitles = new Set<string>()
+
 export const BookFactory = factory
   .define(Book, async ({ faker }) => {
     //select a random user/writer
     const user = await User.query().orderByRaw('RAND()').firstOrFail()
     const writer = await Writer.query().orderByRaw('RAND()').firstOrFail()
 
+    let title: string
+
+    do {
+      title = faker.book.title()
+    } while (usedTitles.has(title))
+
+    usedTitles.add(title)
+
     return {
-      title: faker.book.title(),
+      title,
       //arbitrary values for numberOfPages
       numberOfPages: faker.number.int({ min: 100, max: 800 }),
       pdfLink: faker.internet.url(),
