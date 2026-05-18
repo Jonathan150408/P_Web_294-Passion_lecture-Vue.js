@@ -33,7 +33,7 @@ export default {
   },
 
   // Get a singular editor
-  async geEditor(id) {
+  async getEditor(id) {
     return await apiClient.get(id)
   },
 
