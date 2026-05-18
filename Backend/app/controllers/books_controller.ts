@@ -6,6 +6,7 @@ import { BookValidator } from '#validators/book'
 import { EditValidator } from '#validators/edit'
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
+import { error } from 'console'
 
 export default class BooksController {
   /**
@@ -28,109 +29,122 @@ export default class BooksController {
    * Handle form submission for the create action
    */
   async store({ request, response }: HttpContext) {
-    const { book } = await db.transaction(async (trx) => {
-      /**
-       * PART 1 : create the book
-       */
-      const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =
-        await request.validateUsing(BookValidator)
-      const book = await Book.create({
-        title,
-        numberOfPages,
-        pdfLink,
-        abstract,
-        editionYear,
-        imagePath,
-        userId,
-        writerId,
+    //try is usefull for customs errors and status code handling
+    try {
+      const book = await db.transaction(async (trx) => {
+        /**
+         * PART 1 : create the book
+         */
+        const {
+          title,
+          numberOfPages,
+          pdfLink,
+          abstract,
+          editionYear,
+          imagePath,
+          userId,
+          writerId,
+        } = await request.validateUsing(BookValidator).catch(() => {
+          throw new Error('BOOK_VALIDATION_ERROR')
+        })
+        //create and set the values
+        const book = new Book()
+        book.title = title
+        book.numberOfPages = numberOfPages
+        book.pdfLink = pdfLink
+        book.abstract = abstract
+        book.editionYear = editionYear
+        book.imagePath = imagePath
+        book.userId = userId
+        book.writerId = writerId
+        //link to transaction
+        book.useTransaction(trx)
+        //save
+        await book.save()
+
+        /**
+         * PART 2 : create the edits records
+         */
+        const categoriesIds = request.input('categoriesIds')
+        try {
+          for (const currentCategorieId of categoriesIds) {
+            let categorie = await BelongValidator.validate({
+              categorieId: currentCategorieId,
+            }).catch(() => {
+              throw new Error('CATEGORY_VALIDATION_ERROR')
+            })
+            //create the belong
+            const belong = new Belong()
+            belong.categorieId = categorie.categorieId
+            belong.bookId = book.id
+            //link to transaction
+            belong.useTransaction(trx)
+            //save the belong
+            await belong.save()
+          }
+        } catch (error) {
+          console.log('BOOK CREATE - Categories error')
+          await trx.rollback()
+          throw new Error('CATEGORY_NOT_FOUND')
+        }
+
+        /**
+         * PART 3 : create the belongs records
+         */
+        try {
+          const editorsIds = request.input('editorsIds')
+          for (const currentEditorId of editorsIds) {
+            let editor = await EditValidator.validate({ editorId: currentEditorId }).catch(() => {
+              throw new Error('EDITOR_VALIDATION_ERROR')
+            })
+            //create the edit
+            const edit = new Edit()
+            edit.editorId = editor.editorId
+            edit.bookId = book.id
+            //link to transaction
+            edit.useTransaction(trx)
+            //save the edit
+            await edit.save()
+          }
+        } catch (error) {
+          console.log('BOOK CREATE - Editors error')
+          await trx.rollback()
+          throw new Error('EDITOR_NOT_FOUND')
+        }
+
+        return { book: book }
       })
 
-      /**
-       * PART 2 : create the edits records
-       */
-      const categoriesIds = request.input('categoriesIds')
-      categoriesIds.forEach(async (currentCategorieId: number) => {
-        let categorie = await BelongValidator.validate({ categorieId: currentCategorieId })
-        await Belong.create({ categorieId: categorie.categorieId, bookId: book.id })
-      })
-
-      /**
-       * PART 3 : create the belongs records
-       */
-      const editorsIds = request.input('categoriesIds')
-      editorsIds.forEach(async (currentEditorsIds: number) => {
-        let editor = await EditValidator.validate({ editorId: currentEditorsIds })
-        await Edit.create({ editorId: editor.editorId, bookId: book.id })
-      })
-
-      return { book }
-    })
-    response.created({ book })
-
-    // /// OLD
-    // let everythingIsFine = true
-
-    // //create the book
-    // const { title, numberOfPages, pdfLink, abstract, editionYear, imagePath, userId, writerId } =
-    //   await request.validateUsing(BookValidator)
-    // const newBook = await Book.create({
-    //   title,
-    //   numberOfPages,
-    //   pdfLink,
-    //   abstract,
-    //   editionYear,
-    //   imagePath,
-    //   userId,
-    //   writerId,
-    // })
-
-    // //create the record(s) for the relation : book -> belongs -> categorie
-    // const categoriesIds = request.input('categoriesIds')
-    // //check if not null
-    // if (categoriesIds === null || categoriesIds === undefined) {
-    //   response.unprocessableEntity({ Error: 'A book needs at least one category' })
-    //   everythingIsFine = false
-    // } else if (everythingIsFine) {
-    //   //create a record for each id
-    //   categoriesIds.forEach(async (currentCategorieId: number) => {
-    //     try {
-    //       let categorie = await BelongValidator.validate({ categorieId: currentCategorieId })
-    //       await Belong.create({ categorieId: categorie.categorieId, bookId: newBook.id })
-    //     } catch (error) {
-    //       everythingIsFine = false
-    //       console.error(
-    //         'Error while creating a new record in belong table (book -> belong <- category)\n',
-    //         error
-    //       )
-    //       response.expectationFailed({ Error: 'The specified category(ies) must exist' })
-    //     }
-    //   })
-    // }
-
-    // //create the record(s) for the relation : book <- edit <- editor
-    // const editorsIds = request.input('editorsIds')
-    // //check if not null
-    // if (editorsIds === null || editorsIds === undefined) {
-    //   response.unprocessableEntity({ Error: 'A book needs at least one editor' })
-    //   everythingIsFine = false
-    // } else if (everythingIsFine) {
-    //   //create a record for each id
-    //   editorsIds.forEach(async (currentEditorId: number) => {
-    //     let editorId = (await EditValidator.validate({ editorId: currentEditorId })).editorId
-    //     await Edit.create({ editorId: editorId, bookId: newBook.id }).catch(() => {
-    //       everythingIsFine = false
-    //       response.expectationFailed({ Error: 'The specified editor(s) must exist' })
-    //     })
-    //   })
-    // }
-
-    // if (everythingIsFine) {
-    //   response.created(newBook)
-    // } else {
-    //   //if something went wrong we delete the book
-    //   //(we need the book's id to create the realations, so we can't create the book at the end)
-    //   await newBook.delete()
-    // }
+      //finish with 201
+      response.created({ book })
+    } catch (error: Error | any) {
+      console.log('ERREUR GÉRÉE : ', error.message)
+      switch (error.message) {
+        case 'EDITOR_NOT_FOUND':
+          response.badRequest({ error: 'Editeur inexistant' })
+          break
+        case 'CATEGORY_NOT_FOUND':
+          response.badRequest({ error: 'Catégorie inexistant' })
+          break
+        case 'BOOK_VALIDATION_ERROR':
+          response.unprocessableEntity({
+            error: 'La validation a échoué pour au moins une valeurs de book',
+          })
+          break
+        case 'CATEGORY_VALIDATION_ERROR':
+          response.unprocessableEntity({
+            error: 'La validation a échoué pour au moins une catégories',
+          })
+          break
+        case 'EDITOR_VALIDATION_ERROR':
+          response.unprocessableEntity({
+            error: 'La validation a échoué pour au moins une catégories',
+          })
+          break
+        default:
+          response.internalServerError({ error: 'Erreur inattendue' })
+      }
+    }
   }
 
   /**
