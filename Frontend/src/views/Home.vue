@@ -1,7 +1,7 @@
 <script setup>
 import Book from '../components/Book.vue'
 import BookService from '../services/BookService'
-import CategoriesService from '../services/CategoriesService'
+import CategoriesService from '../services/CategoryService'
 import AuthorService from '../services/AuthorService'
 import { ref, onMounted } from 'vue'
 

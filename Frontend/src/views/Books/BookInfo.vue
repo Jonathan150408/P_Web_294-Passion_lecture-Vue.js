@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import Comments from '../../components/Comments.vue'
 import BookService from '../../services/BookService'
-import CategoriesService from '../../services/CategoriesService'
+import CategoriesService from '../../services/CategoryService'
 import AuthorService from '../../services/AuthorService'
 import EditorService from '../../services/EditorService'
 import { ref, onMounted, computed } from 'vue'

@@ -1,7 +1,7 @@
 <script setup>
 import AuthorService from '@/services/AuthorService'
 import EditorService from '@/services/EditorService'
-import CategoriesService from '@/services/CategoriesService'
+import CategoriesService from '@/services/CategoryService'
 import { onMounted, ref, watch } from 'vue'
 import BookService from '@/services/BookService'
 import { useRoute } from 'vue-router'
