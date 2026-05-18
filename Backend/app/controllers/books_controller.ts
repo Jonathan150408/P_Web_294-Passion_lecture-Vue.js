@@ -1,18 +1,22 @@
+//models
 import Belong from '#models/belong'
 import Book from '#models/book'
 import Edit from '#models/edit'
+//validators
 import { BelongValidator } from '#validators/belong'
 import { BookValidator } from '#validators/book'
 import { EditValidator } from '#validators/edit'
+//others
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
-import { error } from 'console'
 
 export default class BooksController {
   /**
    * Display a list of resource
    */
-  async index({ response }: HttpContext) {
+  async index({ response, request }: HttpContext) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 20)
     response.ok(
       await Book.query()
         .preload('belong')
@@ -21,7 +25,7 @@ export default class BooksController {
         .preload('user')
         .preload('writer')
         .orderBy('title', 'asc')
-        .exec()
+        .paginate(page, limit)
     )
   }
 
