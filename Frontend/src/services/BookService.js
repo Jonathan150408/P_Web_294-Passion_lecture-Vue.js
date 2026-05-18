@@ -11,6 +11,15 @@ const apiClient = axios.create({
   },
 })
 
+const newApiClient = axios.create({
+  baseURL: 'http://localhost:3333/api/books',
+  withCredentials: true,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+})
+
 // Mettre à dispo
 export default {
   //get tous les livres
@@ -85,5 +94,9 @@ export default {
   },
   deleteBook(id) {
     return apiClient.delete('/' + id)
-  }
+  },
+
+  newGetBooks() {
+    return newApiClient.get()
+  },
 }
