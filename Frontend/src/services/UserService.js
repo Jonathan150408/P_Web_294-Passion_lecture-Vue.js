@@ -35,45 +35,45 @@ const apiClient = axios.create({
 export default {
   //NEW
   // Register a user
-  async registerUser(userData) {
-    return await apiClient.post('register', userData)
+  registerUser(userData) {
+    return apiClient.post('register', userData)
   },
 
   // Log into a user
-  async Login(credentials) {
-    return await apiClient.post('login', credentials)
+  login(credentials) {
+    return apiClient.post('login', credentials)
   },
 
   // Log out of a user
-  async Logout() {
-    return await apiClient.post('logout')
+  logout() {
+    return apiClient.post('logout')
   },
 
   // Get all users
-  async getUsers(page = 1, limit = 20) {
+  getUsers(page = 1, limit = 20) {
     const params = new URLSearchParams({ page, limit })
 
-    return await apiClient.get(`?${params}`)
+    return apiClient.get(`?${params}`)
   },
 
   // Get a singular user
-  async getUser(id) {
-    return await apiClient.get(id)
+  getUser(id) {
+    return apiClient.get(id)
   },
 
   // Update a user
-  async updateUser(userData) {
-    return await apiClient.put(`/${userData.id}`, userData)
+  updateUser(userData) {
+    return apiClient.put(`/${userData.id}`, userData)
   },
 
   // Delete a user
-  async deleteUser(id) {
-    return await apiClient.delete(id)
+  deleteUser(id) {
+    return apiClient.delete(id)
   },
 
   // Get information about the currently logged in user
-  async Me() {
-    return await apiClientMe.get()
+  me() {
+    return apiClientMe.get()
   },
 
   /*OLD

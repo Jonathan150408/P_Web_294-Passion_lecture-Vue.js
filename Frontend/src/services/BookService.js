@@ -26,30 +26,30 @@ const apiClient = axios.create({
 export default {
   //NEW
   // Get all books
-  async getBooks(page = 1, limit = 20) {
+  getBooks(page = 1, limit = 20) {
     const params = new URLSearchParams({ page, limit })
 
-    return await apiClient.get(`?${params}`)
+    return apiClient.get(`?${params}`)
   },
 
   // Get a singular book
-  async getBook(id) {
-    return await apiClient.get(id)
+  getBook(id) {
+    return apiClient.get(id)
   },
 
   // Create a book
-  async createBook(bookData) {
-    return await apiClient.post('', bookData)
+  createBook(bookData) {
+    return apiClient.post('', bookData)
   },
 
   // Update a book
-  async updateBook(bookData) {
-    return await apiClient.put(`/${bookData.id}`, bookData)
+  updateBook(bookData) {
+    return apiClient.put(`/${bookData.id}`, bookData)
   },
 
   // Delete a book
-  async deleteBook(id) {
-    return await apiClient.delete(id)
+  deleteBook(id) {
+    return apiClient.delete(id)
   },
 
   /*OLD

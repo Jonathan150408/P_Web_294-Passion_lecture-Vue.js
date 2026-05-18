@@ -26,30 +26,30 @@ const apiClient = axios.create({
 export default {
   //NEW
   // Get all editors
-  async getEditors(page = 1, limit = 20) {
+  getEditors(page = 1, limit = 20) {
     const params = new URLSearchParams({ page, limit })
 
-    return await apiClient.get(`?${params}`)
+    return apiClient.get(`?${params}`)
   },
 
   // Get a singular editor
-  async getEditor(id) {
-    return await apiClient.get(id)
+  getEditor(id) {
+    return apiClient.get(id)
   },
 
   // Create an editor
-  async createEditor(editorData) {
-    return await apiClient.post('', editorData)
+  createEditor(editorData) {
+    return apiClient.post('', editorData)
   },
 
   // Update an editor
-  async updateEditor(editorData) {
-    return await apiClient.put(`/${editorData.id}`, editorData)
+  updateEditor(editorData) {
+    return apiClient.put(`/${editorData.id}`, editorData)
   },
 
   // Delete a editor
-  async deleteEditor(id) {
-    return await apiClient.delete(id)
+  deleteEditor(id) {
+    return apiClient.delete(id)
   },
 
   /*OLD

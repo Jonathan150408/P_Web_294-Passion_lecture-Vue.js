@@ -26,30 +26,30 @@ const apiClient = axios.create({
 export default {
   //NEW
   // Get all categories
-  async getCategories(page = 1, limit = 20) {
+  getCategories(page = 1, limit = 20) {
     const params = new URLSearchParams({ page, limit })
 
-    return await apiClient.get(`?${params}`)
+    return apiClient.get(`?${params}`)
   },
 
   // Get a singular category
-  async getCategory(id) {
-    return await apiClient.get(id)
+  getCategory(id) {
+    return apiClient.get(id)
   },
 
   // Create a category
-  async createCategory(categoryData) {
-    return await apiClient.post('', categoryData)
+  createCategory(categoryData) {
+    return apiClient.post('', categoryData)
   },
 
   // Update a category
-  async updateCategory(categoryData) {
-    return await apiClient.put(`/${categoryData.id}`, categoryData)
+  updateCategory(categoryData) {
+    return apiClient.put(`/${categoryData.id}`, categoryData)
   },
 
   // Delete a category
-  async deleteCategory(id) {
-    return await apiClient.delete(id)
+  deleteCategory(id) {
+    return apiClient.delete(id)
   },
 
   /*OLD
