@@ -284,6 +284,76 @@
       "duration": 5,
       "status": "Done",
       "author": "Jonathan150408"
+    },
+    {
+      "id": "9a503184-017e-4fe8-bb77-d7102bb23d9c",
+      "type": "commitless",
+      "name": "chore(organisation) : parler du ts2 et daily scrum avec Néo",
+      "description": "",
+      "date": "2026-05-18T10:32:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "258db751-f7a7-4461-9036-3e14c0cc5281",
+      "type": "commitless",
+      "name": "chore(organisation) : parler du ts2 et daily scrum avec Néo",
+      "description": "",
+      "date": "2026-05-18T10:32:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "0ddb6e13-d570-499f-8fa8-04cc63acea3e",
+      "type": "commitless",
+      "name": "chore(organisation) : parler du ts2 et daily scrum avec Néo",
+      "description": "",
+      "date": "2026-05-18T10:32:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "5ed66309-848a-4f66-8d8a-4360ec4a9731",
+      "type": "commitless",
+      "name": "chore(organisation) : parler du ts2 et daily scrum avec Néo",
+      "description": "",
+      "date": "2026-05-18T10:32:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "ccb059a0-e61a-40a5-b83b-d759c562ef78",
+      "type": "commitless",
+      "name": "chore(organisation) : parler du ts2 et daily scrum avec Néo",
+      "description": "",
+      "date": "2026-05-18T10:32:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "cb74978a-9389-4fb9-ab0b-7a36fcefb3ea",
+      "type": "commitless",
+      "name": "chore(organisation) : parler du ts2 et daily scrum avec Néo",
+      "description": "",
+      "date": "2026-05-18T10:32:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
+    },
+    {
+      "id": "482e8fd4-9dea-4d45-b5be-b869da8fcf7b",
+      "type": "commitless",
+      "name": "chore(discuter avec l'enseignant) : faire une sorte de point",
+      "description": "Mettre un ordre sur les choses  faire",
+      "date": "2026-05-18T10:42:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "Jonathan150408"
     }
   ]
 }
