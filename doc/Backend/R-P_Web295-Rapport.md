@@ -7,6 +7,10 @@ Module : C295
 
 ## Introduction
 
+> Au cours de ce projet, il nous a été demandé de mettre en place une application web de a à z. En effet, la première partie du projet était consacrée au développement du frontend, alors que la deuxième partie portait sur le développement du backend. Ce présent rapport parle et détaile la seconde partie du projet : partie backend.
+>
+> Dans ce rapport, nous parlerons de la manière par laquelle l'équipe a organisé et divisé les tâches ainsi que l'outil que nous avons utilisé afin de se faire. Nous aborderons une partie analyse de l'application et nous parlerons de l'architecture de la base de données. Nous présenterons un tableau des routes mises en place ainsi que leurs fonction. Enfin nous détaillerons l'organisation du code et de l'équipe par rapport à la réalisation des tâches. Nous conclurons évidemment par une conclusion générale ainsi qu'un cours paragraphe par personne sur une brève conclusion personnelle.
+
 CONTEXTE : Explication briève du projet
 PAGES : 1
 
