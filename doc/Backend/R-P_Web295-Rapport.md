@@ -23,9 +23,35 @@ PAGES : ?
 
 ### Analyse de l'API REST
 
-| Verbe HTTP | URI          | JSON                                                                                    |
-| :--------- | :----------- | :-------------------------------------------------------------------------------------- |
-| POST       | /api/example | { "ceci": "est", "un": "example", "de": "json", "necessaire": "pour", "la": "requete" } |
+#### Catégories
+
+| Verbe HTTP | URI                 | JSON             | Auth |
+| :--------- | :------------------ | :--------------- | :--- |
+| GET        | /api/categories     | -                | Non  |
+| GET        | /api/categories/:id | -                | Non  |
+| POST       | /api/categories     | {"label":"Dogs"} | Oui  |
+| PUT        | /api/categories/:id | {"label":"Cats"} | Oui  |
+| DELETE     | /api/categories/:id | -                | Oui  |
+
+#### Éditeurs
+
+| Verbe HTTP | URI              | JSON           | Auth |
+| :--------- | :--------------- | :------------- | :--- |
+| GET        | /api/editors     | -              | Non  |
+| GET        | /api/editors/:id | -              | Non  |
+| POST       | /api/editors     | {"name":"Noé"} | Oui  |
+| PUT        | /api/editors/:id | {"name":"Néo"} | Oui  |
+| DELETE     | /api/editors/:id | -              | Oui  |
+
+#### Livres
+
+| Verbe HTTP | URI            | JSON                                                                                                                                                                                                                                     | Auth |
+| :--------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--- |
+| GET        | /api/books     | -                                                                                                                                                                                                                                        | Non  |
+| GET        | /api/books/:id | -                                                                                                                                                                                                                                        | Non  |
+| POST       | /api/books     | {"title":"Something strange happened","numberOfPages":319,"pdfLink":"/false","abstract":"Just an easter egg for Noe to find","editionYear":"2025","imagePath":"./true","userId":1,"writerId":2,"editorsIds":[3,4],"categoriesIds":[1,2]} | Oui  |
+| PUT        | /api/books/:id | {"title":"Something strange happened","numberOfPages":319,"pdfLink":"/false","abstract":"Just an easter egg for Noe to find","editionYear":"2025","imagePath":"./true","userId":1,"writerId":2,"editorsIds":[3,4],"categoriesIds":[1,2]} | Oui  |
+| DELETE     | /api/books/:id | -                                                                                                                                                                                                                                        | Oui  |
 
 PAGES : 1
 
