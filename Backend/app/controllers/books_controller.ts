@@ -1,6 +1,7 @@
 //models
 import Belong from '#models/belong'
 import Book from '#models/book'
+import Comment from '#models/comment'
 import Edit from '#models/edit'
 //validators
 import { BelongValidator } from '#validators/belong'
@@ -9,6 +10,7 @@ import { EditValidator } from '#validators/edit'
 //others
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
+import { isBooleanObject } from 'node:util/types'
 
 export default class BooksController {
   /**
@@ -122,7 +124,7 @@ export default class BooksController {
       //finish with 201
       response.created({ book })
     } catch (error: Error | any) {
-      console.log('ERREUR GÉRÉE : ', error.message)
+      console.log('ERREUR CATCHÉÉ : ', error.message)
       switch (error.message) {
         case 'EDITOR_NOT_FOUND':
           response.badRequest({ error: 'Editeur inexistant' })
@@ -289,7 +291,7 @@ export default class BooksController {
       })
       response.ok(book)
     } catch (error: Error | any) {
-      console.log('ERREUR GÉRÉÉ : ', error.message)
+      console.log('ERREUR CATCHÉÉ : ', error.message)
       switch (error.message) {
         case 'NO_PERMISSION':
           response.forbidden({
@@ -328,22 +330,78 @@ export default class BooksController {
    * Delete record
    */
   async destroy({ auth, params, response }: HttpContext) {
-    // Get the book early
-    const book = await Book.query()
-      .preload('comments')
-      .preload('user')
-      .preload('writer')
-      .where('id', params.id)
-      .firstOrFail()
+    //start transaction
+    try {
+      await db.transaction(async (trx) => {
+        /**
+         * PART 1 : Edits (book - to edit - editor)
+         */
+        //delete the olds edits
+        const edits = await Edit.query().where('bookId', params.id).exec()
+        for (const currentEdit of edits) {
+          currentEdit.useTransaction(trx)
+          await currentEdit.delete()
+        }
 
-    // Check to see if the user has the authorization to do so, otherwise return the 403 status code
-    if (book.userId !== auth.user?.id && auth.user?.role !== 'admin') {
-      response.forbidden({ message: "You cannot delete this book, as you aren't its uploader." })
-      return
+        /**
+         * PART 2 : Belongs (book - to belongs to - category)
+         */
+        //delete the olds belongs
+        const belongs = await Belong.query().where('bookId', params.id).exec()
+        for (const currentBelong of belongs) {
+          currentBelong.useTransaction(trx)
+          await currentBelong.delete()
+        }
+
+        /**
+         * PART 3 : Comments (Book - Comments)
+         */
+        const comments = await Comment.query().where('bookId', params.id).exec()
+        for (const currentComment of comments) {
+          currentComment.useTransaction(trx)
+          await currentComment.delete()
+        }
+
+        /**
+         * PART 4 : Book (at the end because of fk contraints)
+         */
+        // Get the old book
+        const book = await Book.query()
+          .where('id', params.id)
+          .firstOrFail()
+          .catch(() => {
+            throw new Error('NO_BOOK_FOUND')
+          })
+
+        // Check to see if the user has the authorization to do so, otherwise return the 403 status code
+        if (book.userId !== auth.user?.id && auth.user?.role !== 'admin') {
+          throw new Error('NO_PERMISSION')
+        }
+
+        //link to the transaction
+        book.useTransaction(trx)
+
+        //delete the book
+        await book.delete()
+      })
+
+      //response if everything goes well
+      response.noContent()
+    } catch (error: Error | any) {
+      console.log('ERREUR CATCHÉÉ : ', error)
+      switch (error.message) {
+        case 'NO_PERMISSION':
+          response.forbidden({
+            error: "Impossible de modifier le livre, vous n'avez pas les permissions nécéssaires.",
+          })
+          break
+        case 'NO_BOOK_FOUND':
+          response.notFound({ error: 'No book found.' })
+          break
+        default:
+          response.internalServerError({ error: 'Erreur inattendue' })
+          break
+      }
     }
-
-    await book.delete()
-
-    response.noContent()
   }
 }
