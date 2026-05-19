@@ -227,6 +227,7 @@ export default class BooksController {
         //delete the olds edits
         const edits = await Edit.query().where('bookId', book.id).exec()
         for (const currentEdit of edits) {
+          currentEdit.useTransaction(trx)
           currentEdit.delete()
         }
         //create new ones
@@ -259,6 +260,7 @@ export default class BooksController {
         //delete the olds belongs
         const belongs = await Belong.query().where('bookId', book.id).exec()
         for (const currentBelong of belongs) {
+          currentBelong.useTransaction(trx)
           currentBelong.delete()
         }
         //create new ones
