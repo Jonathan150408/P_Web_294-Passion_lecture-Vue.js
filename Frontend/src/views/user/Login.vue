@@ -3,14 +3,25 @@
 import { ref } from 'vue'
 import UserService from '@/services/UserService'
 
+//variables de la page
 const credentials = ref({})
+const error = ref()
 
+//login avec les infos courrantes
 async function connect() {
+  //envoyer la request
   const cred = {
     username: credentials.value.username,
     password: credentials.value.password,
   }
-  await UserService.login(cred)
+
+  //stocker la réponse
+  const response = await UserService.login(cred)
+
+  //DETTE TECHNIQUE - utilisation du localstorage pour le moment
+  if (response.status == 200) {
+    localStorage.setItem('token', response.data.token.token)
+  }
 }
 </script>
 
@@ -43,6 +54,7 @@ async function connect() {
         <button type="submit">Se connecter</button>
       </form>
     </section>
+    <p v-if="!!error">{{ error }}</p>
   </main>
 </template>
 
