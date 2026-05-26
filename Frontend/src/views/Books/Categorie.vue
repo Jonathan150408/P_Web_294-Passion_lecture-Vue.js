@@ -1,56 +1,48 @@
 <script setup>
 import Book from '../../components/Book.vue'
-import AuthorService from '@/services/AuthorService'
-import BookService from '../../services/BookService'
 import CategoriesService from '@/services/CategoryService'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-//import
 const category = ref(null)
-const books = ref([])
-const authors = ref({})
 
 const searchQuery = ref('')
 const route = useRoute()
 
 async function loadData() {
-  //catégorie
   const categoryData = await CategoriesService.getCategory(route.params.category_id)
-  category.value = categoryData.data
 
-  //livres
-  const booksData = await BookService.getBooksFromCategory(route.params.category_id)
-  books.value = booksData.data
-
-  //auteurs
-  for (const book of books.value) {
-    if (!authors.value[book.writerId]) {
-      authors.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
-    }
-  }
+  // depending on API structure
+  category.value = categoryData.data.data || categoryData.data
 }
 
-// Faire en sorte que la page refresh si l'url change
-watch(route, () => {
-  loadData()
-})
+watch(
+  () => route.params.category_id,
+  () => {
+    loadData()
+  }
+)
+
 onMounted(loadData)
 
-// Les livres sous format filtré (en rapport à la recherche)
-const filteredBooks = computed(() => {
-  if (!books.value || !authors.value) return []
+// Extract books from category.belong
+const books = computed(() => {
+  return category.value?.belong?.map((b) => b.book) || []
+})
 
+// Filter books
+const filteredBooks = computed(() => {
   const q = searchQuery.value.toLowerCase()
 
   return books.value.filter((book) => {
-    const author = authors[book.writerId] || ''
-    const titleMatch = book.title.toLowerCase().includes(q)
-    const authorMatch = author
-      ? `${author.firstname} ${author.lastname}`.toLowerCase().includes(q)
-      : false
+    const authorName = book.writer
+      ? `${book.writer.firstname} ${book.writer.lastname}`.toLowerCase()
+      : ''
 
-    return titleMatch || authorMatch
+    return (
+      book.title.toLowerCase().includes(q) ||
+      authorName.includes(q)
+    )
   })
 })
 </script>
@@ -66,16 +58,8 @@ const filteredBooks = computed(() => {
     </div>
 
     <div class="books">
-      <Book
-        v-for="(book, index) in filteredBooks"
-        :key="index"
-        :book="book"
-        :appearBig="false"
-        :show-category="false"
-        :category-label="category?.label || '...'"
-        :authorName="authors[book.writerId] || '...'"
-        v-show="book.categoryId === category.id"
-      ></Book>
+      <Book v-for="(book, index) in filteredBooks" :key="index" :book="book" :appearBig="false"
+        :show-category="false" />
     </div>
   </main>
 </template>
@@ -119,7 +103,8 @@ main {
   position: relative;
   display: flex;
   align-items: center;
-  width: 260px; /* ou 100% en mobile */
+  width: 260px;
+  /* ou 100% en mobile */
 }
 
 .recherche input {
@@ -136,7 +121,8 @@ main {
   background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-size: 18px;
-  background-position: right 0.7rem center; /* <-- droite */
+  background-position: right 0.7rem center;
+  /* <-- droite */
 }
 
 .recherche input::placeholder {
