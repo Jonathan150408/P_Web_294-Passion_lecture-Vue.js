@@ -9,26 +9,22 @@ import { ref, onMounted } from 'vue'
 const books = ref([])
 const categories = ref([])
 const authors = ref({})
-const categoryLabels = ref({})
 
 onMounted(async () => {
   //livres
   const booksData = await BookService.getBooks()
-  books.value = booksData.data
+  books.value = booksData.data.data
 
   //catégories
-  const categoriesData = await CategoriesService.getCategories()
-  categories.value = categoriesData.data
-  for (const category of categories.value) {
-    categoryLabels.value[category.id] = category.label
-  }
-
-  //auteurs
-  for (const book of books.value) {
-    if (!authors.value[book.writerId]) {
-      authors.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
-    }
-  }
+  // for (const book of books.value) {
+  //   let tempCategoriesArray = ['Pas de catégorie trouvée']
+  //   for (const belong of book.belong) {
+  //     tempCategoriesArray = (await CategoriesService.getCategory(belong.categorieId)).data
+  //     console.log(tempCategoriesArray)
+  //   }
+  //   categories.value[book.id] = tempCategoriesArray
+  // }
+  categories.value = null
 })
 </script>
 
@@ -55,8 +51,8 @@ onMounted(async () => {
           v-for="(book, index) in books?.slice(0, 5)"
           :key="index"
           :book="book"
-          :categoryLabel="categoryLabels[book.categoryId] || '...'"
-          :authorName="authors[book.writerId] || '...'"
+          :categories="categories[book.categoryId] || '...'"
+          :authorName="book.writer.firstname || '...'"
           :appearBig="true"
           :showCategory="true"
         ></Book>

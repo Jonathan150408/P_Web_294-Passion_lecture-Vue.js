@@ -34,7 +34,7 @@ export default {
 
   // Get a singular category
   getCategory(id) {
-    return apiClient.get(id)
+    return apiClient.get(`/${id}`)
   },
 
   // Create a category

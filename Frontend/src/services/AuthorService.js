@@ -34,7 +34,7 @@ export default {
 
   // Get a singular author
   getAuthor(id) {
-    return apiClient.get(id)
+    return apiClient.get(`${id}`)
   },
 
   // Create an author

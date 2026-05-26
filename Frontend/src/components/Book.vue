@@ -16,8 +16,8 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  categoryLabel: {
-    type: String,
+  categories: {
+    type: Array,
     required: true,
   },
   authorName: {
@@ -40,6 +40,9 @@ function handleDelete() {
 function handleEdit() {
   router.push({ name: 'update-book', params: { book_id: props.book.id } })
 }
+
+//debug
+console.log('Tableau de catégories du livre : ', categories)
 </script>
 
 <template>
@@ -58,7 +61,11 @@ function handleEdit() {
     <div class="info">
       <div class="info-bar">
         <span class="author">{{ authorName }}</span>
-        <span class="category" v-if="showCategory">{{ categoryLabel }}</span>
+        <div v-if="showCategory">
+          <span class="category" v-for="(category, index) in categories" :key="index">{{
+            category.name
+          }}</span>
+        </div>
       </div>
       <div class="title-bar">
         <span class="title">{{ book.title }}</span>
