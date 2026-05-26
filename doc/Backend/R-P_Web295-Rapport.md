@@ -22,6 +22,26 @@ PAGES : 1
 
 ### Planification des tâches
 
+> Afin de travailler efficacement, nous avons décidé d'utiliser un outil de gestion de projet très répandu dans le monde de la programmation. En effet, afin de rester organisé, nous avons utilisé GitHub Project.  
+> Cet outil nous permet de notamment
+>
+> - Créer des tâches.
+> - Définir qui est responsable de quelle tâche.
+> - Déplacer des tâches dans des catégories en fonction de leur état.
+> - Et bien d'autres choses dont nous n'avons pas eu besoin jusqu'à présent.
+>
+> En effet, à l'aide de GitHub Project, nous avons pu créer des tâches concernant le projet. Nous avons essayé de maintenir une granularité d'environ 45 minutes à 1 heure pour ces tâches, c'est à dire que n'importe laquelle de ces tâches devrait pourvoir être réalisée en ces délais. Nous aurions pu décider de créer des tâches plus précises afin d'être ensuite plus efficace (une personne par demi-tâche afin d'expédier ce qui est bloquant tout de suite), mais nous avons décidé qu'une période par tâche serait un bon compromis. Ceci car le temps à disposition afin de réaliser le projet est très limité et nous ne souhaitions pas perdre trop de temps là dessus.
+>
+> Nous avons aussi parlé de l'assignation des tâches par GitHub. Cet outil merveilleux, nous permet en effet d'assigner et de s'assigner à plusieurs tâches. Les concernés sont alors notifié par mail (sauf si cela à été explicitement désactivé par le/la concerné(e)) et peuvent consulter la tâche à réaliser.
+>
+> Enfin GitHub Project nous permet aussi de déplacer des tâches en fonction de leur avancée dans diverses colonnes. GitHub nous mets directement plusieurs colonnes à disposition que voici.
+>
+> 1. **Backlog** : cette colonne indique que la tâche figure dans le backlog et devra être réalisée. Pour le moment, les circonstances ne permettent pas de réaliser la tâche. Par exemple, nous ne pouvons pas commencer à réaliser les _modèles_ et _migrations_ Adonis tant que les documents MCD et MLD n'ont pas été fournis.
+> 2. **Ready** : Dans cette catégorie, les tâches sont prêtes à être prises afin d'être réalisées, tout ce qu'il manque est un (ou plusieurs) participant assigné (et optionnellement motivé).
+> 3. **In progress** : ces issues sont en train d'être réalisé, tout n'est plus qu'une question de temps à ce moment. Un ou plusieurs développeur travaille activement dessus.
+> 4. **In review** : Ici, les activités sont en train d'être testées puis validées, une tâche laissée de côté peut se retrouver ici.
+> 5. **Done** : Enfin, ma colonne préférée, Done signifie que la présente tâche est terminée et validée, il n'y a donc plus aucun travail à fournir pour ce point.
+
 CONTEXTE : Parler de quel outil de planification (donner un lien aussi, probablement) a été utilisé pendant le projet
 PAGES : ?
 
