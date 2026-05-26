@@ -13,7 +13,7 @@ export default class UsersController {
    * @responseBody 200 - <User[]>.with(relations).paginated()
    * @responseBody 403 - {"message": "Only admins can see other users."}
    */
-  async index({ request, response }: HttpContext) {
+  async index({ auth, request, response }: HttpContext) {
     // Check to see if the user is an admin, otherwise return the 403 status code
     if (auth.user?.role !== 'admin') {
       response.forbidden({ message: 'Only admins can see other users.' })
@@ -47,8 +47,16 @@ export default class UsersController {
     // Return the authenticated user with status code 200
     const user = auth.user!
 
-    await user.load('books')
-    await user.load('comments')
+    await user.load('books', (query) => {
+      query
+        .preload('writer')
+        .preload('belong', (belongQuery) => {
+          belongQuery.preload('categorie')
+        })
+        .preload('edit', (editQuery) => {
+          editQuery.preload('editor')
+        })
+    })
 
     return response.ok(user)
   }

@@ -1,12 +1,12 @@
 // Import de Axios
 import axios from 'axios'
 
-//get the token
+// get the token
 const token = localStorage.getItem('token')
 
-// Création de l'instance de Axios
+// Création de l'instance Axios
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3333/api/users/',
+  baseURL: 'http://localhost:3333/api/',
   withCredentials: true,
   headers: {
     Authorization: `Bearer ${token}`,
@@ -15,79 +15,42 @@ const apiClient = axios.create({
   },
 })
 
-const apiClientMe = axios.create({
-  baseURL: 'http://localhost:3333/api/me/',
-  withCredentials: true,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-})
-
-/*OLD
-const apiClient = axios.create({
-  baseURL: 'http://localhost:3000/users',
-  withCredentials: false,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-})
-*/
-
 // Mettre à dispo
 export default {
-  //NEW
-  // Register a user
+  // Auth
   registerUser(userData) {
-    return apiClient.post('register', userData)
+    return apiClient.post('users/register', userData)
   },
 
-  // Log into a user
   login(credentials) {
-    return apiClient.post('login', credentials)
+    return apiClient.post('users/login', credentials)
   },
 
-  // Log out of a user
   logout() {
-    return apiClient.post('logout')
+    return apiClient.post('users/logout')
   },
 
-  // Get all users
+  // Users
   getUsers(page = 1, limit = 20) {
     const params = new URLSearchParams({ page, limit })
 
-    return apiClient.get(`?${params}`)
+    return apiClient.get(`users?${params}`)
   },
 
-  // Get a singular user
   getUser(id) {
-    return apiClient.get(id)
+    return apiClient.get(`users/${id}`)
   },
 
-  // Update a user
   updateUser(userData) {
-    return apiClient.put(`/${userData.id}`, userData)
+    return apiClient.put(`users/${userData.id}`, userData)
   },
 
-  // Delete a user
   deleteUser(id) {
-    return apiClient.delete(id)
+    return apiClient.delete(`users/${id}`)
   },
 
-  // Get information about the currently logged in user
+  // Current user
   me() {
-    return apiClientMe.get()
+    return apiClient.get('me')
   },
-
-  /*OLD
-  //get tous les auteurs
-  getUsers() {
-    return apiClient.get('/')
-  },
-
-  getUser(id) {
-    return apiClient.get('/' + id)
-  },
-  */
 }

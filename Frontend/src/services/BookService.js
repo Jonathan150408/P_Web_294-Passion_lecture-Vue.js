@@ -53,7 +53,7 @@ export default {
 
   // Delete a book
   deleteBook(id) {
-    return apiClient.delete(id)
+    return apiClient.delete(`${id}`)
   },
 
   /*OLD

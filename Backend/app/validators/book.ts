@@ -31,4 +31,24 @@ const BookValidator = vine.compile(
   })
 )
 
-export { BookValidator }
+const UpdateBookValidator = vine.compile(
+  vine.object({
+    title: vine.string(),
+
+    numberOfPages: vine.number().positive(),
+
+    pdfLink: vine.string().nullable(),
+
+    abstract: vine.string().nullable(),
+
+    editionYear: vine.number().positive().max(2026).min(1600).nullable(),
+
+    imagePath: vine.string().nullable(),
+
+    userId: vine.number().positive(),
+
+    writerId: vine.number().positive(),
+  })
+)
+
+export { BookValidator, UpdateBookValidator }
