@@ -15,9 +15,6 @@ Module : C295
 >
 > L’application développée permettra aux utilisateurs de consulter les ouvrages disponibles ainsi que leurs catégories. Les utilisateurs connectés peuvent ajouter, modifier ou supprimer leurs propres livres. Ils peuvent aussi ajouter des commentaires accompagnés d'une note de 0 à 5 sur les livres.
 
-CONTEXTE : Explication briève du projet
-PAGES : 1
-
 ## Analyse
 
 ### Planification des tâches
@@ -41,9 +38,6 @@ PAGES : 1
 > 3. **In progress** : ces issues sont en train d'être réalisé, tout n'est plus qu'une question de temps à ce moment. Un ou plusieurs développeur travaille activement dessus.
 > 4. **In review** : Ici, les activités sont en train d'être testées puis validées, une tâche laissée de côté peut se retrouver ici.
 > 5. **Done** : Enfin, ma colonne préférée, Done signifie que la présente tâche est terminée et validée, il n'y a donc plus aucun travail à fournir pour ce point.
-
-CONTEXTE : Parler de quel outil de planification (donner un lien aussi, probablement) a été utilisé pendant le projet
-PAGES : ?
 
 ### Analyse de l'API REST
 
@@ -119,9 +113,6 @@ PAGES : 1
 ![Schéma MCD de la base de données](./MM-P_Web_295-MCD.png)
 ![Schéma MLD de la base de données](./MM-P_Web_295-MLD.png)
 
-CONTEXTE : MCD, MLD, MPD (Migrations, optionnel dans notre contexte)
-PAGES : 1
-
 #### Relations des modèles
 
 > Nous allons détailler une peu plus ces relations entre les table de la base de données. En effet, il faut tout d'abords savoir qu'Adonis propose quelque relations prédéfinies telles que les 2 que nous avons utilisé. Nous parlons ici des relations `BelongsTo` et `HasMany`, ces dernières sont complémentaires et conviennent parfaitement à notre architecture db.  
@@ -130,54 +121,81 @@ PAGES : 1
 > Maintenant vient la partie plus complexe qui nous a posé problème durant la mise en place du CRUD des livres. Les relations entre Books - Catégories et Books - Éditeurs sont de type 1, n - 0, n. En effet, un livre doit appartenir à au moins une catégorie ainsi qu'un éditeur. Cependant ce même livre peut appartenir à plusieurs catégories et éditeurs. Et étant donné qu'une catégorie peut posséder entre 0 et n livre de même qu'un éditeur peut éditer entre 0 et n livres, nous aurions eu un problème de foreign key si nous nous étions contenté de 2 tables (et MySQL n'aurait de toutes manières pas accepté cet affront).  
 > C'est pourquoi nous avons mis en place un table intermédiaire qui possèdera les 2 fks. La relation se fait donc ainsi : Books Hasmany enregistrements dans la table intermédiaire et cette même table Belongsto un seul livre et en même temps un seul éditeur/catégorie. Évidemment un éditeur/catégorie Hasmany enregistrements dans la table intermédiaire.
 
-CONTEXTE : Parler des hasMany, hasOne, belongsTo, foreign key, etc. en complétant dans le MCD
-PAGES : ?
-
 ### Schéma d'interaction frontend/backend
 
-CONTEXTE : Faire un schéma des composants (API REST, DB, ORM, etc.) visuellement et leurs liens
-PAGES : ?
+> Parlons maintenant des relations à l'intérieur de l'application. Nous pouvons laisser la théorie concernant l'architecture de la base de données de côté pour le moment. Concernant le procédé, voici comment cela se déroule.
+>
+> 1. L'utilisateur demande une page (par exemple la page des livres).
+> 2. La partie frontend comprend le clic de l'utilisateur et demande les infos de ladite page au backend.
+> 3. Pendant que le backend réfléchit, la partie frontend de l'application dessine déjà la page sans aucun livre (donc juste nav, background, layout général).
+> 4. La partie backend reçoit la requête GET et va chercher tous les livres classés par catégories dans la fameuse base de données à l'aides des modèles (fournis par LucidORM).
+> 5. La base de données donne la liste de livre ordonnée et classée au serveur (qui est le backend).
+> 6. Le backend revoie les infos demandées accompagnées d'un code de status 200 (ou une erreur avec le code approprié selon ce qu'il s'est passé).
+> 7. Le frontend reçoit les infos et assigne une variable de type `ref()` à ces dernières.
+> 8. La variable `ref()` se trouve être en fait, un type spécial de variable qui est interactif. La page va donc ajouter les données de la variable `ref()` en temps réel.
+>
+> Et l'utilisateur voit donc sa page entière.
 
 ## Réalisation
 
 ### Authentification et rôles
 
-CONTEXTE : Parler de la gestion de l'auth et rôles
-PAGES : 1
+> Pour l'authentification, nous avons séparé les utilisateurs en deux groupes :
+>
+> - Les Users
+> - Les Admins
+>
+> Les **Users** peuvent uniquement éditer et supprimer leur propre livres, et créer des livres.a
+> Les **Admins** peuvent faire du CRUD sur toutes les tables (Editeurs, Catégories, Livres, Utilisateurs)
+>
+> L'authentification en elle même se fait en faisant un POST à `/api/users/login` dans le backend et en allant à la page `/login` sur le front end
+> Vu que nous n'avions pas le temps pour faire mieux, nous avons mis le token dans le localStorage.
+>
+> Les routes C, U et D du CRUD pour tout (sauf `/register` et `/login`) sont protégés par router.use(middleware)
 
 ### Mesures de sécurité
 
-CONTEXTE : Parler des mesures prises pour la sécurité de notre application
-PAGES : 1
+> Comme nous en avons parlé au chapitre précédent, la sécurisation a été mis en place de tel :
+> Les routes C U et D du CRUD ont été sécurisé, sauf `/api/users/register` et `/api/users/login`, en utilisant le middleware d'authentification
+> Seul les Admins peuvent avoir accès au CRUD complêt de chaque tables
+> Par contre, les Users peuvent créer des livres, et modifier/supprimer les leurs
 
 ## Test
 
-CONTEXTE : Parler des tests réalisés pour voir si tout marchait bien (ex. Bruno)
-PAGES : 1
+> Nous avons testé le **Backend** en utilisant Bruno. La collection Bruno est disponnible dans le repo Github sous `/Bruno`.  
+> Bruno est un outil très pratique dans le milieu du backend, en effet, ce dernier nous permet de tester les routes et requêtes sans avoir à monter le frontend. De plus, ce dernier est muni d'un outils encore plus pratique, laissez-moi introduire _le runner_. Le Runner (petit bonhomme en haut à droite), lance toutes les requêtes désirées, nous pouvons programmer lequelles executer et dans quel ordre, ce qui nous permet d'éviter le login -> logout et les autres ne fonctionnent plus. Ce que nous vous conseillons est donc de lancer _login_ à la main au départ et de stocker le token dans le variable correspondante (à trouver directement dans les variabvles de la collection). Ensuite, vous pourrez lancer le runner SANS les requêtes login et logout, voyez si tout fonctionne. Enfin testez logout seul.
+>
+> Une autre manière simple de déboguer les routes avec Adonis est de Lancer la commande `node ace list:routes` dans le **Backend**. Cela retourne une liste de tous les verbes HTTP, toutes les routes, les Handler (CONTROLLER.FUNC) et le middleware.
+> Nous avons testé le **Frontend** en vérifiant que chaque page fonctionne comme il le faut.
 
 ## Conclusion
 
 ### Organisation du groupe de la gestion du code
 
-CONTEXTE : Parler de comment on a fait avec GitHub
-PAGES : 0.5
+> Dans ce chapitre, nous revenons sur [le paragraphe](#planification-des-tâches), et comme cité précédemment, nous avons utilisé GitHub Project afin de nous organiser. En effet, le modèle de gestion de projet de type _kanban_, nous a permis de travailler efficacement sans se casser la tête. Ce modèle privilégie en effet la représentation visuelle et la facilité à se retrouver dans l'avancée du projet. Comme décrit plus haut le modèle est constitué de 5 colonnes/catégories permettant de classifier les tâches selon leur état.
+>
+> Nous avons donc mis en place une façon de s'oganiser plutôt stricte sans avoir à se le dire explicitement. Dans le principe, à chaque fois qu'une personne termine ou prend une tâche, cela est dit par oral. De plus lorsqu'une personne assigne une tâche à un autre membre du groupe, le membre assigné se retrouve notifié d'un email dans sa boite de réception. Cela fonctionne aussi si un tâche assignée à une personne est close par une autre, le propriétaire de la tâche reçoit un mail.
 
 ### Conclusion Générale
 
-CONTEXTE : Parler de ce qu'on a fait / pas fait / comment ça c'est déroulé / soucis
-PAGES : 0.5
+> Ce projet parraissait simple, mais c'est avoué compliqué vers la fin, car nous n'avions presque plus de temps.
+> Nous avons réussi à tout finir, malgré notre retard.
+> Notre rythme de travail était correct, mais nous avons eu des soucis concernant un membre de l'équipe qui était malade pendant une partie conséquente du projet.
 
 ### Conclusion Personelle
 
 #### Jonathan
 
-PAGES : 0.5
+> Ce fut un demi-projet plutôt simple sur le papier, plutôt compliqué sur sa fin. Selon moi, avoir 2 après midis de plus aurait été top (et nous n'aurions pas eu à terminner le rapport à 21h30). Le fait que 2 projets s'assemblent était très intéressant, surtout le fait de travailler en binômes.  
+> Avoir commencé par le frontend fut selon moi, le choix le moins confus pour les élèves. La seule remarque que je trouve serait de plus insister sur les routes durant le module frontend (1ere partie du projet). L'analyse des routes en verbes http est très importante pour la suite et un seul souci peu poser de graves pertes de temps par la suite.  
+> Autre chose pas forcément liée, mais que je trouve quand même intéressante à dire : Le P*Bulle Adonis est affreux et je n'ai, personnellement, rien vraiment appris durant ce temps à part à quel point un projet peut être douleureux. La critique est méchante et je suis conscient que les enseignants se donnent du mal pour faire au mieux, c'est pourquoi je propose qu'au lieu de ce P_Bulle sans théorie (et c'est le point principal qui fait de ce projet une chose compliquée pour les apprentis), et puisque (j'imagine) il est nécéssaire que ce soit un projet, l'année prochaine, les élèves commencent par 294, puis 295, puis bulle Adonis. Le but serait de montrer qu'Adonis est puissant et peut gérerles vues. Sinon, pourquoi ne pas introduire un module \_Express*, puisque nous avons eu à faire à des application de ce genre sans n'avoir jamais su comment cela fonctionne. Dans le cas où le projet n'est pas nécéssaire, j'ai pensé à rallonger le projet 294 - 295, afin que les participants aient plus de temps pour les détails (CRUD commentaire et autres).
 
 #### Néo
 
-PAGES : 0.5
+> J'ai trouvé ce projet fort intéressant, mais ai trouvé très dommage que je n'ai pas pu profiter de tout le temps à ma disposition à cause de mes absences maladies.
+> Si je devais refaire ce projet à l'avenir, j'espère que je ne serai pas aussi malade, car cela a causé de gros soucis de temps.
 
 ### Planification du projet
 
-CONTEXTE : Critique constructive sur notre planification
-PAGES : 0.5
+> La [planification](#planification-des-tâches) que nous avons fait pour ce projet était bien, mais aurait pu être séparée en plusieurs partie encore plus petites.
+> Vu que nous avons fait la planification sur GitHub Project, vous pouvez consulter l'intégralité des tâches à [ce lien](https://github.com/users/Jonathan150408/projects/9)
