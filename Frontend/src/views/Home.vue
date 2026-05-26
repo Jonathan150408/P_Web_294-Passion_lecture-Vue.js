@@ -10,8 +10,6 @@ onMounted(async () => {
   //livres
   const booksData = await BookService.getBooks(1, 5)
   books.value = booksData.data.data
-
-  console.log(books.value)
 })
 </script>
 
@@ -36,7 +34,13 @@ onMounted(async () => {
       <h2>Les 5 derniers ajouts</h2>
       <!-- Lister les livres -->
       <div class="books">
-        <Book v-for="book in books" :key="book.id" :book="book" :appearBig="true" :showCategory="true"></Book>
+        <Book
+          v-for="book in books"
+          :key="book.id"
+          :book="book"
+          :appearBig="true"
+          :showCategory="true"
+        ></Book>
       </div>
     </div>
   </main>

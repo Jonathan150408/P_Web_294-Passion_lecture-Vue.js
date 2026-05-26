@@ -5,12 +5,15 @@ import CategoriesService from './services/CategoryService.js'
 
 //import
 const categories = ref(null)
+const isLogged = ref(false)
 
 onMounted(async () => {
   //catégories
   const categoriesData = await CategoriesService.getCategories()
-  //ok with backend
   categories.value = categoriesData.data.data
+
+  //tester si user est login
+  isLogged.value = !!localStorage.getItem('token')
 })
 </script>
 
@@ -19,7 +22,10 @@ onMounted(async () => {
     <RouterLink :to="{ name: 'home' }">
       <img src="./assets/MM-P_Web_294-Logo-Cropped.png" alt="Logo du site" />
     </RouterLink>
-    <RouterLink :to="{ name: 'my-books' }">
+    <RouterLink v-if="isLogged" :to="{ name: 'my-books' }">
+      <img src="./assets/MM-P_Web_294-Logo-Utilisateur.png" alt="Logo d'un utilisateur" />
+    </RouterLink>
+    <RouterLink v-if="!isLogged" :to="{ name: 'login' }">
       <img src="./assets/MM-P_Web_294-Logo-Utilisateur.png" alt="Logo d'un utilisateur" />
     </RouterLink>
   </header>

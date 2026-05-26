@@ -21,6 +21,7 @@ async function connect() {
   //DETTE TECHNIQUE - utilisation du localstorage pour le moment
   if (response.status == 200) {
     localStorage.setItem('token', response.data.token.token)
+    window.location.replace('http://localhost:5173')
   }
 }
 </script>
