@@ -2,168 +2,181 @@
 import AuthorService from '@/services/AuthorService'
 import EditorService from '@/services/EditorService'
 import CategoriesService from '@/services/CategoryService'
-import { onMounted, ref, watch } from 'vue'
 import BookService from '@/services/BookService'
+
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
+
 import * as yup from 'yup'
 
-//import
-const authors = ref(null)
-const editors = ref(null)
-const categories = ref(null)
-const books = ref(null)
+const authors = ref([])
+const editors = ref([])
+const categories = ref([])
+const books = ref([])
 
 const isEditMode = ref(false)
 
 const route = useRoute()
 
-const book = ref({
+const defaultBook = () => ({
   id: null,
   title: '',
   numberOfPages: 0,
   pdfLink: '',
   abstract: '',
-  categoryId: null,
   writerId: null,
-  userId: '1',
-  editorId: [],
-  comments: [],
+  userId: 1,
+
+  // relational
+  categoryIds: [],
+  editorIds: [],
 })
 
-// critères de validation du form
+const book = ref(defaultBook())
+
 const schema = yup.object({
   title: yup
     .string()
     .required('Le titre ne peut pas être vide')
     .min(3, 'Le titre doit contenir au moins 3 caractères'),
+
   numberOfPages: yup
-    .number('Le nombre de pages doit être un nombre entier')
+    .number()
     .required('Le nombre de pages ne peut pas être vide')
     .positive('Le nombre de pages ne peut pas être négatif'),
+
   pdfLink: yup
     .string()
     .required('Le lien ne peut pas être vide')
-    .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/, //regex pour url
-      "l'url doit être valide",
-    ),
+    .url("L'url doit être valide"),
+
   abstract: yup
     .string()
     .required('Le résumé ne peut pas être vide')
     .min(10, 'Le résumé est trop court'),
-  categoryId: yup.number().required('Le livre doit appartenir à une catégorie'),
-  writerId: yup.number().required('Le livre doit avoir un auteur'),
-  editorId: yup.array().required().min(1, 'Le livre doit avoir au moins 1 éditeur'),
+
+  writerId: yup
+    .number()
+    .required('Le livre doit avoir un auteur'),
+
+  categoryIds: yup
+    .array()
+    .min(1, 'Le livre doit appartenir à une catégorie'),
+
+  editorIds: yup
+    .array()
+    .min(1, 'Le livre doit avoir au moins 1 éditeur'),
 })
 
-//objet de critères non-respectés
 const errors = ref({})
 
 async function loadData() {
-  //savoir si on update ou create
   isEditMode.value = !!route.params.book_id
 
-  // Reset
-  book.value = {
-    id: null,
-    title: '',
-    numberOfPages: 0,
-    pdfLink: '',
-    abstract: '',
-    categoryId: null,
-    writerId: null,
-    userId: '1',
-    editorId: [],
-    comments: [],
-  }
+  book.value = defaultBook()
 
-  //auteurs
-  const authorData = await AuthorService.getAuthors()
-  authors.value = authorData.data
+  const [
+    authorData,
+    editorsData,
+    categoriesData,
+    booksData,
+  ] = await Promise.all([
+    AuthorService.getAuthors(),
+    EditorService.getEditors(),
+    CategoriesService.getCategories(),
+    BookService.getBooks(),
+  ])
 
-  //éditeurs
-  const editorsData = await EditorService.getEditors()
-  editors.value = editorsData.data
+  authors.value = authorData.data.data || authorData.data
+  editors.value = editorsData.data.data || editorsData.data
+  categories.value = categoriesData.data.data || categoriesData.data
+  books.value = booksData.data.data || booksData.data
 
-  //catégories
-  const categoriesData = await CategoriesService.getCategories()
-  categories.value = categoriesData.data
-
-  //livres
-  const booksData = await BookService.getBooks()
-  books.value = booksData.data
-
-  //si on edit, on récupère d'abords les valeurs actuelles pour book
   if (isEditMode.value) {
-    const bookData = await BookService.getBook(route.params.book_id)
-    book.value = bookData.data
+    const response = await BookService.getBook(route.params.book_id)
+
+    const apiBook = response.data.data || response.data
+
+    book.value = {
+      id: apiBook.id,
+      title: apiBook.title,
+      numberOfPages: apiBook.numberOfPages,
+      pdfLink: apiBook.pdfLink,
+      abstract: apiBook.abstract,
+      writerId: apiBook.writerId,
+      userId: apiBook.userId,
+
+      categoryIds:
+        apiBook.belong?.map((b) => b.categorieId) || [],
+
+      editorIds:
+        apiBook.edit?.map((e) => e.editorId) || [],
+    }
   }
 }
 
-// Faire en sorte que la page refresh si l'url change
-watch(route, () => {
-  loadData()
-})
+watch(
+  () => route.params.book_id,
+  () => {
+    loadData()
+  }
+)
 
 onMounted(loadData)
 
-//ajouter un livre
-function submitBook() {
+async function submitBook() {
   try {
-    schema.validateSync(book.value, { abortEarly: false }) // valider les champs du form
+    await schema.validate(book.value, { abortEarly: false })
 
-    // envoi de la requête
-    if (isEditMode) {
-      BookService.updateBook(book.value)
-        .then(() => {
-          //ramène vers la page du livre
-          router.push({
-            name: 'book',
-            params: { book_id: book.id },
-          })
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+    errors.value = {}
+
+    if (isEditMode.value) {
+      await BookService.updateBook(book.value)
+
+      router.push({
+        name: 'book',
+        params: {
+          book_id: book.value.id,
+        },
+      })
     } else {
-      //vérification d'un potentiel duplicat seulement si on ajoute, pas si on modifie
-      //si titre + auteur + éditeur(s) sont les mêmes, on considère que le livre est un doublon
       const isAlreadyInDb = checkDuplicateEntry()
 
-      // ajout du livre en db
-      if (!isAlreadyInDb) {
-        BookService.addBook(book.value)
-          .then(() => {
-            //ramène vers la galerie
-            router.push({
-              name: 'books',
-            })
-          })
-          .catch((error) => {
-            console.error(error)
-          })
-      } else {
-        alert('Le livre figure déjà sur le site') //alerter l'utilisateur que le livre est déjà enregistré
+      if (isAlreadyInDb) {
+        alert('Le livre figure déjà sur le site')
+        return
       }
+
+      await BookService.createBook(book.value)
+
+      router.push({
+        name: 'books',
+      })
     }
   } catch (e) {
-    console.error('Erreur lors de la validation du livre' + e)
-    //update le tableau de critères non-respectés
     errors.value = {}
-    e.inner.forEach((err) => {
-      errors.value[err.path] = err.message
-    })
+
+    if (e.inner) {
+      e.inner.forEach((err) => {
+        errors.value[err.path] = err.message
+      })
+    }
+
+    console.error(e)
   }
 }
 
 function checkDuplicateEntry() {
-  return books.value.some(
-    (currentBook) =>
-      currentBook.title.trim().toLowerCase() === book.value.title.trim().toLowerCase() &&
-      Number(currentBook.writerId) === Number(book.value.writerId) &&
-      Number(currentBook.editorId) === Number(book.value.editorId),
-  )
+  return books.value.some((currentBook) => {
+    return (
+      currentBook.title?.trim().toLowerCase() ===
+      book.value.title.trim().toLowerCase() &&
+
+      Number(currentBook.writerId) ===
+      Number(book.value.writerId)
+    )
+  })
 }
 </script>
 
@@ -174,69 +187,45 @@ function checkDuplicateEntry() {
       <!-- titre -->
       <fieldset>
         <legend>Titre</legend>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Titre du livre"
-          v-model="book.title"
-        />
+        <input type="text" name="title" id="title" placeholder="Titre du livre" v-model="book.title" />
         <p v-if="!!errors.title" class="error">{{ errors.title }}</p>
       </fieldset>
       <!-- nombre de pages -->
       <fieldset>
         <legend>Nombre de pages</legend>
-        <input
-          type="number"
-          name="pages"
-          id="pages"
-          min="1"
-          v-model="book.numberOfPages"
-          :style="{ width: String(book.numberOfPages || ' ').length + 2 + 'ch' }"
-        />
+        <input type="number" name="pages" id="pages" min="1" v-model="book.numberOfPages"
+          :style="{ width: String(book.numberOfPages || ' ').length + 2 + 'ch' }" />
         <p v-if="!!errors.numberOfPages" class="error">{{ errors.numberOfPages }}</p>
       </fieldset>
       <!-- lien vers extrait -->
       <fieldset>
         <legend>Extrait</legend>
-        <input
-          type="url"
-          name="excerpt"
-          id="excerpt"
-          placeholder="Un lien vers un extrait du livre"
-          v-model="book.pdfLink"
-        />
+        <input type="url" name="excerpt" id="excerpt" placeholder="Un lien vers un extrait du livre"
+          v-model="book.pdfLink" />
         <p v-if="!!errors.pdfLink" class="error">{{ errors.pdfLink }}</p>
       </fieldset>
       <!-- résumé -->
       <fieldset>
         <legend>Résumé</legend>
-        <textarea
-          name="summary"
-          id="summary"
-          placeholder="Résumé du livre"
-          v-model="book.abstract"
-        ></textarea>
+        <textarea name="summary" id="summary" placeholder="Résumé du livre" v-model="book.abstract"></textarea>
         <p v-if="!!errors.abstract" class="error">{{ errors.abstract }}</p>
       </fieldset>
       <!-- editionYear = null -->
       <!-- image = null -->
       <!-- catégorie -->
       <fieldset>
-        <legend>Catégorie</legend>
-        <div>
-          <select name="categories" id="categories" v-model="book.categoryId">
-            <option value="null" disabled selected hidden>-- Sélectionnez --</option>
-            <option v-for="(categorie, index) in categories" :key="index" :value="categorie.id">
-              {{ categorie.label }}
-            </option>
-          </select>
+        <legend>Catégorie(s)</legend>
+        <div class="checkbox-group">
+          <label v-for="(categorie, index) in categories" :key="index" class="checkbox-item">
+            <input type="checkbox" :value="categorie.id" v-model="book.categoryIds" />
+            {{ categorie.label }}
+          </label>
         </div>
-        <p v-if="!!errors.categoryId" class="error">{{ errors.categoryId }}</p>
+        <p v-if="!!errors.categoryIds" class="error">{{ errors.categoryIds }}</p>
       </fieldset>
       <!-- auteur -->
       <fieldset>
-        <legend>Auteur(s)</legend>
+        <legend>Auteur</legend>
         <div>
           <select name="authors" id="authors" v-model="book.writerId">
             <option value="null" disabled selected hidden>-- Sélectionnez --</option>
@@ -251,24 +240,19 @@ function checkDuplicateEntry() {
       <!-- editeur -->
       <fieldset>
         <legend>Editeur(s)</legend>
-        <div>
-          <!-- ALERTE, ne fonctionne que pour 1 éditeur -->
-          <select name="editors" id="editors" v-model="book.editorId[0]">
-            <option value="undefined" disabled selected hidden>-- Sélectionnez --</option>
-            <option v-for="(editor, index) in editors" :key="index" :value="editor.id">
-              {{ editor.name }}
-            </option>
-          </select>
+        <div class="checkbox-group">
+          <label v-for="(editor, index) in editors" :key="index" class="checkbox-item">
+            <input type="checkbox" :value="editor.id" v-model="book.editorIds" />
+            {{ editor.name }}
+          </label>
         </div>
-        <p v-if="!!errors.editorId" class="error">{{ errors.editorId }}</p>
+        <p v-if="!!errors.editorIds" class="error">{{ errors.editorIds }}</p>
       </fieldset>
       <!-- comments = [] -->
 
       <div class="form-buttons">
-        <RouterLink
-          class="btn-base btn-cancel"
-          :to="isEditMode ? { name: 'book', params: { book_id: book.id } } : { name: 'books' }"
-        >
+        <RouterLink class="btn-base btn-cancel"
+          :to="isEditMode ? { name: 'book', params: { book_id: book.id } } : { name: 'books' }">
           Annuler
         </RouterLink>
 
@@ -291,6 +275,7 @@ input:not([type='number']) {
   width: calc(100% - 20px);
   padding: 10px;
 }
+
 textarea {
   resize: vertical;
   min-height: 40px;
@@ -302,6 +287,18 @@ input[type='number'] {
   border-radius: 6px;
 }
 
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .form-buttons {
   display: flex;
   justify-content: center;
@@ -311,7 +308,8 @@ input[type='number'] {
 
 /* ----- BASE COMMUNE ----- */
 .btn-base {
-  display: inline-flex; /* même comportement pour a et button */
+  display: inline-flex;
+  /* même comportement pour a et button */
   align-items: center;
   justify-content: center;
 
@@ -324,7 +322,8 @@ input[type='number'] {
   outline: none;
 
   color: black;
-  background-color: #555; /* remplacé ensuite */
+  background-color: #555;
+  /* remplacé ensuite */
   cursor: pointer;
 
   text-decoration: none !important;
@@ -337,6 +336,7 @@ input[type='number'] {
 .btn-cancel {
   background-color: #ffc965;
 }
+
 .btn-cancel:hover {
   background-color: #aa8644;
 }
@@ -345,6 +345,7 @@ input[type='number'] {
 .btn-submit {
   background-color: #007bff;
 }
+
 .btn-submit:hover {
   background-color: #0066d6;
 }

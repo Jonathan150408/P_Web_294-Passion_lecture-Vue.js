@@ -61,6 +61,8 @@ aside {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 aside nav {
