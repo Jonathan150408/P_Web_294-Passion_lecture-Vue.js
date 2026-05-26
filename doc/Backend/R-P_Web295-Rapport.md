@@ -53,6 +53,26 @@ PAGES : ?
 | PUT        | /api/books/:id | {"title":"Something strange happened","numberOfPages":319,"pdfLink":"/false","abstract":"Just an easter egg for Noe to find","editionYear":"2025","imagePath":"./true","userId":1,"writerId":2,"editorsIds":[3,4],"categoriesIds":[1,2]} | Oui  |
 | DELETE     | /api/books/:id | -                                                                                                                                                                                                                                        | Oui  |
 
+#### Users
+
+| Verbe HTTP | URI                 | JSON | Auth |
+| :--------- | :------------------ | :--- | :--- |
+| POST       | /api/users/register | -    | Non  |
+| POST       | /api/users/login    | -    | Non  |
+| POST       | /api/users/logout   | -    | Oui  |
+| GET        | /api/users          | -    | Oui  |
+| GET        | /api/users/:id      | -    | Oui  |
+| PUT        | /api/users/:id      | -    | Oui  |
+| DELETE     | /api/users/:id      | -    | Oui  |
+| GET        | /api/me             | -    | Oui  |
+
+#### Docs
+
+| Verbe HTTP | URI      | JSON | Auth |
+| :--------- | :------- | :--- | :--- |
+| GET        | /swagger | -    | Non  |
+| GET        | /docs    | -    | Non  |
+
 PAGES : 1
 
 ### Analyse de la DB
