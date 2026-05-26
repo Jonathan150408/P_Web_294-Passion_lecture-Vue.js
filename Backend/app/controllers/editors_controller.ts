@@ -19,7 +19,17 @@ export default class EditorsController {
     const editors = await Editor.query()
       .orderBy('name')
       .preload('edit', (query) => {
-        query.preload('book')
+        query.preload('book', (query2) => {
+          query2.preload('belong', (query3) => {
+            query3.preload('categorie')
+          })
+          query2.preload('comments')
+          query2.preload('edit', (query3) => {
+            query3.preload('editor')
+          })
+          query2.preload('user')
+          query2.preload('writer')
+        })
       })
       .paginate(page, limit)
 
@@ -60,7 +70,17 @@ export default class EditorsController {
         .where('id', params.id)
         .orderBy('name')
         .preload('edit', (query) => {
-          query.preload('book')
+          query.preload('book', (query2) => {
+            query2.preload('belong', (query3) => {
+              query3.preload('categorie')
+            })
+            query2.preload('comments')
+            query2.preload('edit', (query3) => {
+              query3.preload('editor')
+            })
+            query2.preload('user')
+            query2.preload('writer')
+          })
         })
         .firstOrFail()
     )

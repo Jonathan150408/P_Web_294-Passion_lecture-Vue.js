@@ -19,7 +19,17 @@ export default class CategoriesController {
     const categories = await Categorie.query()
       .orderBy('label')
       .preload('belong', (query) => {
-        query.preload('book')
+        query.preload('book', (query2) => {
+          query2.preload('belong', (query3) => {
+            query3.preload('categorie')
+          })
+          query2.preload('comments')
+          query2.preload('edit', (query3) => {
+            query3.preload('editor')
+          })
+          query2.preload('user')
+          query2.preload('writer')
+        })
       })
       .paginate(page, limit)
 
@@ -68,7 +78,17 @@ export default class CategoriesController {
         .where('id', params.id)
         .orderBy('label')
         .preload('belong', (query) => {
-          query.preload('book')
+          query.preload('book', (query2) => {
+            query2.preload('belong', (query3) => {
+              query3.preload('categorie')
+            })
+            query2.preload('comments')
+            query2.preload('edit', (query3) => {
+              query3.preload('editor')
+            })
+            query2.preload('user')
+            query2.preload('writer')
+          })
         })
         .firstOrFail()
     )
