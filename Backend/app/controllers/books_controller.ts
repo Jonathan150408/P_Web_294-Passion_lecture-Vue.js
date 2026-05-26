@@ -10,7 +10,6 @@ import { EditValidator } from '#validators/edit'
 //others
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
-import { isBooleanObject } from 'node:util/types'
 
 export default class BooksController {
   /**
@@ -21,9 +20,13 @@ export default class BooksController {
     const limit = request.input('limit', 20)
     response.ok(
       await Book.query()
-        .preload('belong')
+        .preload('belong', (query) => {
+          query.preload('categorie')
+        })
         .preload('comments')
-        .preload('edit')
+        .preload('edit', (query) => {
+          query.preload('editor')
+        })
         .preload('user')
         .preload('writer')
         .orderBy('title', 'asc')
@@ -160,7 +163,13 @@ export default class BooksController {
   async show({ params, response }: HttpContext) {
     response.ok(
       await Book.query()
+        .preload('belong', (query) => {
+          query.preload('categorie')
+        })
         .preload('comments')
+        .preload('edit', (query) => {
+          query.preload('editor')
+        })
         .preload('user')
         .preload('writer')
         .where('id', params.id)
