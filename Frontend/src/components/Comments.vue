@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Comment from './Comment.vue'
 import BookService from '@/services/BookService'
+import CommentService from '@/services/CommentService'
 
 const { book } = defineProps({
   book: {
@@ -28,7 +29,7 @@ async function submitComment() {
     userId: 1,
   }
 
-  await BookService.addComment(book.id, newComment)
+  await CommentService.createComment(book.id, newComment)
 
   window.location.reload()
 }
