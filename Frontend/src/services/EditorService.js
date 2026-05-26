@@ -1,11 +1,15 @@
 // Import de Axios
 import axios from 'axios'
 
+//get the token
+const token = localStorage.getItem('token')
+
 // Création de l'instance de Axios
 const apiClient = axios.create({
   baseURL: 'http://localhost:3333/api/editors/',
   withCredentials: true,
   headers: {
+    Authorization: `Bearer ${token}`,
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
