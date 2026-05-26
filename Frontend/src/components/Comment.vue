@@ -8,19 +8,6 @@ const { comment } = defineProps({
     required: true,
   },
 })
-
-const author = ref('Chargement...')
-
-onMounted(async () => {
-  const authorData = await UserService.getUser(comment.userId)
-  author.value = authorData.data
-})
-
-function getCommentAuthor() {
-  let name = author.value.username || 'John Doe'
-
-  return name
-}
 </script>
 
 <template>
@@ -29,7 +16,7 @@ function getCommentAuthor() {
       <img src="../assets/MM-logo_utilisateur.png" alt="Image de l'utilisateur" />
 
       <div class="content">
-        <h4>{{ getCommentAuthor() }}</h4>
+        <h4>{{ comment.user.username }}</h4>
         <p>{{ comment.content }}</p>
       </div>
     </div>
