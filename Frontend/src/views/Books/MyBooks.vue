@@ -1,8 +1,6 @@
 <script setup>
 import Book from '../../components/Book.vue'
-import BookService from '../../services/BookService'
-import CategoriesService from '../../services/CategoryService'
-import AuthorService from '../../services/AuthorService'
+import UserService from '../../services/UserService'
 import { ref, onMounted } from 'vue'
 
 //import
@@ -11,20 +9,20 @@ const authorNames = ref({})
 const categoryLabels = ref({})
 
 onMounted(async () => {
-  // livres
-  const booksData = await BookService.getBooksFromUser(1)
-  books.value = booksData.data
+  const response = await UserService.me()
+
+  const user = response.data
+
+  books.value = user.books
 
   // catégories et auteurs
   for (const book of books.value) {
-    if (!categoryLabels.value[book.categoryId]) {
-      categoryLabels.value[book.categoryId] = await CategoriesService.getCategoryLabelFromId(
-        book.categoryId,
-      )
+    if (book.belong?.length > 0) {
+      categoryLabels.value[book.id] = book.belong.map((b) => b.categorie.label).join(', ')
     }
 
-    if (!authorNames.value[book.writerId]) {
-      authorNames.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
+    if (book.writer) {
+      authorNames.value[book.id] = `${book.writer.firstname} ${book.writer.lastname}`
     }
   }
 })
@@ -42,8 +40,6 @@ onMounted(async () => {
         :key="index"
         :book="book"
         :hasButtons="true"
-        :categoryLabel="categoryLabels[book.categoryId] || '...'"
-        :authorName="authorNames[book.writerId] || '...'"
         :appearBig="false"
         :showCategory="true"
       ></Book>
