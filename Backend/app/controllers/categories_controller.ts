@@ -18,7 +18,9 @@ export default class CategoriesController {
 
     const categories = await Categorie.query()
       .orderBy('label')
-      .preload('belong')
+      .preload('belong', (query) => {
+        query.preload('book')
+      })
       .paginate(page, limit)
 
     response.ok(categories)
@@ -65,7 +67,9 @@ export default class CategoriesController {
       await Categorie.query()
         .where('id', params.id)
         .orderBy('label')
-        .preload('belong')
+        .preload('belong', (query) => {
+          query.preload('book')
+        })
         .firstOrFail()
     )
   }

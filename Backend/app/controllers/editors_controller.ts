@@ -16,7 +16,12 @@ export default class EditorsController {
     const page = request.input('page', 1)
     const limit = request.input('limit', 20)
 
-    const editors = await Editor.query().orderBy('name').preload('edit').paginate(page, limit)
+    const editors = await Editor.query()
+      .orderBy('name')
+      .preload('edit', (query) => {
+        query.preload('book')
+      })
+      .paginate(page, limit)
 
     response.ok(editors)
   }
@@ -51,7 +56,13 @@ export default class EditorsController {
    * @responseBody 404 - {"message": "Editor not found"}
    */ async show({ params, response }: HttpContext) {
     response.ok(
-      await Editor.query().where('id', params.id).orderBy('name').preload('edit').firstOrFail()
+      await Editor.query()
+        .where('id', params.id)
+        .orderBy('name')
+        .preload('edit', (query) => {
+          query.preload('book')
+        })
+        .firstOrFail()
     )
   }
 
