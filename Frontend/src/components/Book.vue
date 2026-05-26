@@ -1,7 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import BookService from '../services/BookService'
-import { ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   appearBig: {
@@ -16,14 +15,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  categories: {
-    type: Array,
-    required: true,
-  },
-  authorName: {
-    type: String,
-    required: true,
-  },
   hasButtons: {
     type: Boolean,
     required: false,
@@ -31,7 +22,6 @@ const props = defineProps({
 })
 
 const router = useRouter()
-const showDeleteModal = ref(false)
 
 function handleDelete() {
   router.push({ name: 'book', params: { book_id: props.book.id }, query: { openDelete: '1' } })
@@ -41,16 +31,14 @@ function handleEdit() {
   router.push({ name: 'update-book', params: { book_id: props.book.id } })
 }
 
-//debug
-console.log('Tableau de catégories du livre : ', categories)
+const author = computed(() => {
+  return props.book.writer.firstname + " " + props.book.writer.lastname
+})
 </script>
 
 <template>
-  <div
-    class="book"
-    :class="appearBig ? 'big' : 'normal'"
-    :style="{ backgroundImage: book.imagePath ? `url('${book.imagePath}')` : '' }"
-  >
+  <div class="book" :class="appearBig ? 'big' : 'normal'"
+    :style="{ backgroundImage: book.imagePath ? `url('${book.imagePath}')` : '' }">
     <div v-if="hasButtons" class="book-buttons">
       <span @click.stop.prevent="handleEdit" class="edit-btn" title="Modifier">✏️</span>
       <span @click.stop.prevent="handleDelete" class="delete-btn" title="Supprimer">🗑️</span>
@@ -60,11 +48,11 @@ console.log('Tableau de catégories du livre : ', categories)
 
     <div class="info">
       <div class="info-bar">
-        <span class="author">{{ authorName }}</span>
+        <span class="author">{{ author }}</span>
         <div v-if="showCategory">
-          <span class="category" v-for="(category, index) in categories" :key="index">{{
-            category.name
-          }}</span>
+          <span class="category" v-for="(belong, index) in book.belong.slice(0, 1)" :key="index">{{
+            belong.categorie?.label
+            }}</span>
         </div>
       </div>
       <div class="title-bar">
@@ -114,6 +102,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
 a:hover {
   color: inherit;
   text-decoration: none;
@@ -141,16 +130,19 @@ a:hover {
   align-items: flex-start;
   font-size: 1em;
 }
+
 .info-bar .author {
   font-size: 1em;
   font-weight: normal;
   margin: 0;
 }
+
 .info-bar .category {
   font-size: 0.95em;
   font-style: italic;
   margin: 0;
 }
+
 .title-bar {
   color: #fff;
   padding: 0.5em 1em 1em 1em;
@@ -159,6 +151,7 @@ a:hover {
   display: flex;
   align-items: flex-end;
 }
+
 .title-bar .title {
   font-size: 1.2em;
   font-weight: bold;
