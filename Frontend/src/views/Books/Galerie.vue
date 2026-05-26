@@ -13,50 +13,25 @@ const categoryLabels = ref({})
 
 onMounted(async () => {
   const categoriesData = await CategoriesService.getCategories()
-  categories.value = categoriesData.data
-
-  // Fetch books for each category
-  categories.value.forEach(async (categorie) => {
-    const booksData = await BookService.getBooksFromCategory(categorie.id)
-
-    booksByCategory.value[categorie.id] = booksData.data
-
-    // Récupère aussi les noms d'auteur et les nom de catégories des livres
-    categoryLabels.value[categorie.id] = await CategoriesService.getCategoryLabelFromId(
-      categorie.id,
-    )
-
-    for (const book of booksData.data) {
-      if (!authorNames.value[book.writerId]) {
-        authorNames.value[book.writerId] = await AuthorService.getAuthorNameFromId(book.writerId)
-      }
-    }
-  })
+  categories.value = categoriesData.data.data
 })
 </script>
 
 <template>
   <main>
-    <section class="category" v-for="(categorie, index) in categories" :key="index">
+    <section class="category" v-for="(category, index) in categories" :key="index">
       <!-- catégorie -->
       <div class="categoryTitles">
-        <h2>{{ categorie.label }}</h2>
-        <RouterLink :to="{ name: 'book-category', params: { category_id: categorie.id } }"
-          >Voir plus (redirige vers catégorie)</RouterLink
-        >
+        <h2>{{ category.label }}</h2>
+        <RouterLink :to="{ name: 'book-category', params: { category_id: category.id } }">Voir plus (redirige vers
+          catégorie)</RouterLink>
       </div>
+
+      {{ console.log(category.belong) }}
       <!-- liste des livres -->
       <div class="books">
-        <Book
-          v-for="(book, index) in booksByCategory[categorie.id]?.slice(0, 5) || []"
-          :key="index"
-          :book="book"
-          :appearBig="false"
-          :show-category="false"
-          :category-label="categoryLabels[categorie.id] || '...'"
-          :authorName="authorNames[book.writerId] || '...'"
-          v-show="book.categoryId === categorie.id"
-        ></Book>
+        <Book v-for="(belong, index) in category.belong?.slice(0, 5) || []" :key="index" :book="belong.book"
+          :appearBig="false" :show-category="false"></Book>
       </div>
     </section>
   </main>
