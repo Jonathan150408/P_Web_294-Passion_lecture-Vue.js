@@ -9,7 +9,8 @@ const categories = ref(null)
 onMounted(async () => {
   //catégories
   const categoriesData = await CategoriesService.getCategories()
-  categories.value = categoriesData.data
+  //ok with backend
+  categories.value = categoriesData.data.data
 })
 </script>
 
