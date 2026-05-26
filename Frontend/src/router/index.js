@@ -30,13 +30,18 @@ const router = createRouter({
     },
     {
       path: '/my-books',
-      name: "my-books",
+      name: 'my-books',
       component: () => import('../views/Books/MyBooks.vue'),
     },
     {
       path: '/books/category/:category_id',
       name: 'book-category',
       component: () => import('../views/Books/Categorie.vue'),
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/user/Login.vue'),
     },
   ],
 })
