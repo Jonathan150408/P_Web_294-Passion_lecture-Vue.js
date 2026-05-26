@@ -23,7 +23,9 @@ export default class BooksController {
         .preload('belong', (query) => {
           query.preload('categorie')
         })
-        .preload('comments')
+        .preload('comments', (query) => {
+          query.preload('user')
+        })
         .preload('edit', (query) => {
           query.preload('editor')
         })
@@ -166,7 +168,9 @@ export default class BooksController {
         .preload('belong', (query) => {
           query.preload('categorie')
         })
-        .preload('comments')
+        .preload('comments', (query) => {
+          query.preload('user')
+        })
         .preload('edit', (query) => {
           query.preload('editor')
         })

@@ -21,18 +21,10 @@ onMounted(async () => {
   if (route.query.openDelete) {
     showDeleteModal.value = true
   }
+
+  //appel api
   const bookData = await BookService.getBook(route.params.book_id)
   book.value = bookData.data
-
-  authorName.value = await AuthorService.getAuthorNameFromId(book.value.writerId)
-
-  categoryLabel.value = await CategoriesService.getCategoryLabelFromId(book.value.categoryId)
-
-  // Prendre tout les noms d'éditeurs nécessaire
-  for (const editorId of book.value.editorId) {
-    const name = await EditorService.getEditorNameFromId(editorId)
-    editorNames.value.push(name)
-  }
 })
 
 function confirmDelete() {
@@ -80,9 +72,11 @@ const getRating = computed(() => {
         <div>
           <h2>Catégories</h2>
           <ul>
-            <li>
-              <RouterLink :to="{ name: 'book-category', params: { category_id: book.categoryId } }">
-                {{ categoryLabel }}
+            <li v-for="(belong, index) in book.belong" :key="index">
+              <RouterLink
+                :to="{ name: 'book-category', params: { category_id: belong.categorieId } }"
+              >
+                {{ belong.categorie.label }}
               </RouterLink>
             </li>
           </ul>
@@ -91,10 +85,10 @@ const getRating = computed(() => {
           <h3>Infos divers</h3>
           <p>{{ book.numberOfPages }} pages</p>
           <p><a :href="book.pdfLink">Lien vers un extrait</a></p>
-          <p>{{ authorName }}</p>
+          <p>{{ book.writer.firstname }}</p>
           <h3>Editeurs</h3>
-          <p v-for="name in editorNames" :key="name">
-            {{ name }}
+          <p v-for="(edit, index) in editorNames" :key="index">
+            {{ edit.editor.name }}
           </p>
         </div>
         <p>{{ getRating }}</p>
