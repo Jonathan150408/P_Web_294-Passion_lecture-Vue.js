@@ -5,7 +5,7 @@ import Comment from '#models/comment'
 import Edit from '#models/edit'
 //validators
 import { BelongValidator } from '#validators/belong'
-import { BookValidator } from '#validators/book'
+import { BookValidator, UpdateBookValidator } from '#validators/book'
 import { EditValidator } from '#validators/edit'
 //others
 import type { HttpContext } from '@adonisjs/core/http'
@@ -217,7 +217,7 @@ export default class BooksController {
           imagePath,
           userId,
           writerId,
-        } = await request.validateUsing(BookValidator).catch(() => {
+        } = await request.validateUsing(UpdateBookValidator).catch(() => {
           throw new Error('BOOK_VALIDATION_ERROR')
         })
 

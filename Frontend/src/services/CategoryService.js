@@ -53,7 +53,7 @@ export default {
 
   // Delete a category
   deleteCategory(id) {
-    return apiClient.delete(id)
+    return apiClient.delete(`${id}`)
   },
 
   /*OLD

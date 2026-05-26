@@ -72,7 +72,7 @@ export default {
 
   // Delete a user
   deleteUser(id) {
-    return apiClient.delete(id)
+    return apiClient.delete(`${id}`)
   },
 
   // Get information about the currently logged in user

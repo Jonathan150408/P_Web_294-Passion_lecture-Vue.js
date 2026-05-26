@@ -25,12 +25,17 @@ const defaultBook = () => ({
   numberOfPages: 0,
   pdfLink: '',
   abstract: '',
+
+  editionYear: null,
+  imagePath: '',
+
+
   writerId: null,
   userId: 1,
 
   // relational
-  categoryIds: [],
-  editorIds: [],
+  categoriesIds: [],
+  editorsIds: [],
 })
 
 const book = ref(defaultBook())
@@ -55,9 +60,9 @@ const schema = yup.object({
 
   writerId: yup.number().required('Le livre doit avoir un auteur'),
 
-  categoryIds: yup.array().min(1, 'Le livre doit appartenir à une catégorie'),
+  categoriesIds: yup.array().min(1, 'Le livre doit appartenir à une catégorie'),
 
-  editorIds: yup.array().min(1, 'Le livre doit avoir au moins 1 éditeur'),
+  editorsIds: yup.array().min(1, 'Le livre doit avoir au moins 1 éditeur'),
 })
 
 const errors = ref({})
@@ -93,9 +98,12 @@ async function loadData() {
       writerId: apiBook.writerId,
       userId: apiBook.userId,
 
-      categoryIds: apiBook.belong?.map((b) => b.categorieId) || [],
+      editionYear: apiBook.editionYear,
+      imagePath: apiBook.imagePath,
 
-      editorIds: apiBook.edit?.map((e) => e.editorId) || [],
+      categoriesIds: apiBook.belong?.map((b) => b.categorieId) || [],
+
+      editorsIds: apiBook.edit?.map((e) => e.editorId) || [],
     }
   }
 }
@@ -114,6 +122,8 @@ async function submitBook() {
     await schema.validate(book.value, { abortEarly: false })
 
     errors.value = {}
+
+    console.log('Book payload:', JSON.parse(JSON.stringify(book.value)))
 
     if (isEditMode.value) {
       await BookService.updateBook(book.value)
@@ -242,11 +252,11 @@ function checkDuplicateEntry() {
         <legend>Catégorie(s)</legend>
         <div class="checkbox-group">
           <label v-for="(categorie, index) in categories" :key="index" class="checkbox-item">
-            <input type="checkbox" :value="categorie.id" v-model="book.categoryIds" />
+            <input type="checkbox" :value="categorie.id" v-model="book.categoriesIds" />
             {{ categorie.label }}
           </label>
         </div>
-        <p v-if="!!errors.categoryIds" class="error">{{ errors.categoryIds }}</p>
+        <p v-if="!!errors.categoriesIds" class="error">{{ errors.categoriesIds }}</p>
       </fieldset>
       <!-- auteur -->
       <fieldset>
@@ -267,11 +277,11 @@ function checkDuplicateEntry() {
         <legend>Editeur(s)</legend>
         <div class="checkbox-group">
           <label v-for="(editor, index) in editors" :key="index" class="checkbox-item">
-            <input type="checkbox" :value="editor.id" v-model="book.editorIds" />
+            <input type="checkbox" :value="editor.id" v-model="book.editorsIds" />
             {{ editor.name }}
           </label>
         </div>
-        <p v-if="!!errors.editorIds" class="error">{{ errors.editorIds }}</p>
+        <p v-if="!!errors.editorsIds" class="error">{{ errors.editorsIds }}</p>
       </fieldset>
       <!-- comments = [] -->
 

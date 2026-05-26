@@ -53,7 +53,7 @@ export default {
 
   // Delete an author
   deleteAuthor(id) {
-    return apiClient.delete(id)
+    return apiClient.delete(`${id}`)
   },
 
   /*OLD

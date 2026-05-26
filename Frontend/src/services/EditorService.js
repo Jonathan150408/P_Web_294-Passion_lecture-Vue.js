@@ -53,7 +53,7 @@ export default {
 
   // Delete a editor
   deleteEditor(id) {
-    return apiClient.delete(id)
+    return apiClient.delete(`${id}`)
   },
 
   /*OLD
