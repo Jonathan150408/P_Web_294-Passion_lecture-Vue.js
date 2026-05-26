@@ -124,6 +124,12 @@ PAGES : 1
 
 #### Relations des modèles
 
+> Nous allons détailler une peu plus ces relations entre les table de la base de données. En effet, il faut tout d'abords savoir qu'Adonis propose quelque relations prédéfinies telles que les 2 que nous avons utilisé. Nous parlons ici des relations `BelongsTo` et `HasMany`, ces dernières sont complémentaires et conviennent parfaitement à notre architecture db.  
+> Concernant la partie _simple_ des relations, nous avons mis en place la relation `HasMany` -> `BelongsTo` depuis Books vers Comments, Écrivains vers Books, Users vers Books et enfin Users vers Comments. Par exemple, une utilisateur peut créer plusieurs commentaires.
+>
+> Maintenant vient la partie plus complexe qui nous a posé problème durant la mise en place du CRUD des livres. Les relations entre Books - Catégories et Books - Éditeurs sont de type 1, n - 0, n. En effet, un livre doit appartenir à au moins une catégorie ainsi qu'un éditeur. Cependant ce même livre peut appartenir à plusieurs catégories et éditeurs. Et étant donné qu'une catégorie peut posséder entre 0 et n livre de même qu'un éditeur peut éditer entre 0 et n livres, nous aurions eu un problème de foreign key si nous nous étions contenté de 2 tables (et MySQL n'aurait de toutes manières pas accepté cet affront).  
+> C'est pourquoi nous avons mis en place un table intermédiaire qui possèdera les 2 fks. La relation se fait donc ainsi : Books Hasmany enregistrements dans la table intermédiaire et cette même table Belongsto un seul livre et en même temps un seul éditeur/catégorie. Évidemment un éditeur/catégorie Hasmany enregistrements dans la table intermédiaire.
+
 CONTEXTE : Parler des hasMany, hasOne, belongsTo, foreign key, etc. en complétant dans le MCD
 PAGES : ?
 
