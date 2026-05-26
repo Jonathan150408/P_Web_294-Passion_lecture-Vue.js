@@ -101,6 +101,24 @@ PAGES : 1
 
 ### Analyse de la DB
 
+> À présent, nous allons parler de la base de données et plus précisément de sa conception.
+>
+> Concernant la base de données, nous avons essayé de faire au plus simple, sans sacrifier les performances de l'application.
+>
+> La table `t_book` se coeur du schéma est . C’est là que l'on stocke tout le contenu des livre, c'est à dire
+>
+> - le titre
+> - le résumé
+> - le nombre de pages
+> - l'année
+> - les liens pour la couverture et le PDF.
+>
+> Afin de savoir qui a ajouté le livre sur le site, nous avons mis une simple relation belongsTo qui relie le livre à l'utilisateur. Nous avons aussi ajouté une table `t_writer` avec le même type de relation afin de lier un livre avec un écrivain.  
+> Plus compliqué ensuite, les relations entre books et leurs éditeurs ainsi que leurs catégories. Puisqu'un livre peut avoir plusieurs éditeurs et catégories, nous avons mis en place 2 tables (`t_appartenir` et `t_editer`). Ainsi lorsqu'un livre est créé, nous devons créer autant d'enregistrement dans les tables `belong` et `edit` qu'il y a d'éditeurs et de catégories attachées à ce livre.
+
+![Schéma MCD de la base de données](./MM-P_Web_295-MCD.png)
+![Schéma MLD de la base de données](./MM-P_Web_295-MLD.png)
+
 CONTEXTE : MCD, MLD, MPD (Migrations, optionnel dans notre contexte)
 PAGES : 1
 
