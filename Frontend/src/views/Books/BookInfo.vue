@@ -13,9 +13,6 @@ const router = useRouter()
 //import
 const showDeleteModal = ref(false)
 const book = ref(null)
-const editorNames = ref([])
-const authorName = ref(null)
-const categoryLabel = ref(null)
 
 onMounted(async () => {
   if (route.query.openDelete) {
@@ -56,6 +53,10 @@ const getRating = computed(() => {
 
   return 'Note : ' + average.toFixed(1) + '⭐'
 })
+
+const author = computed(() => {
+  return book.value.writer.firstname + " " + book.value.writer.lastname
+})
 </script>
 
 <template>
@@ -83,11 +84,13 @@ const getRating = computed(() => {
         </div>
         <div>
           <h3>Infos divers</h3>
-          <p>{{ book.numberOfPages }} pages</p>
           <p><a :href="book.pdfLink">Lien vers un extrait</a></p>
-          <p>{{ book.writer.firstname }}</p>
-          <h3>Editeurs</h3>
-          <p v-for="(edit, index) in editorNames" :key="index">
+          <h4>Nombre de pages</h4>
+          <p>{{ book.numberOfPages }}</p>
+          <h4>Auteur</h4>
+          <p>{{ author }}</p>
+          <h4>Editeurs</h4>
+          <p v-for="(edit, index) in book.edit" :key="index">
             {{ edit.editor.name }}
           </p>
         </div>
