@@ -1,9 +1,36 @@
 {
-  "repoUrl": "https://github.com/Jonathan150408/P_Web-Passion_lecture",
   "projectName": "P_Web-Passion_lecture",
   "branch": "main",
   "me": "neo-darbellay",
   "journalStartDate": null,
+  "columns": [
+    {
+      "label": "Date",
+      "source": "date",
+      "format": "date",
+      "field": "date"
+    },
+    {
+      "label": "Tâche",
+      "source": "name",
+      "field": "name"
+    },
+    {
+      "label": "Description",
+      "source": "description",
+      "field": "description"
+    },
+    {
+      "label": "Durée",
+      "source": "duration",
+      "format": "duration",
+      "field": "duration"
+    },
+    {
+      "label": "Auteur",
+      "source": "author"
+    }
+  ],
   "exceptions": [
     {
       "id": "a66c41d7-d4b5-449c-84f9-9f43bfabc128",
@@ -274,6 +301,15 @@
       "duration": 85,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "d2c3e4f7-d158-4fec-bac8-bb4f80a034b6",
+      "type": "commitless",
+      "author": "neo-darbellay",
+      "date": "2026-05-26T20:10:00.000Z",
+      "name": "doc(Rapport): Mise à jour du rapport avec Jonathan",
+      "description": "Ceci à pris du temps, car nous n'avions pas fait cela plus tôt",
+      "duration": 63
     }
   ]
 }
