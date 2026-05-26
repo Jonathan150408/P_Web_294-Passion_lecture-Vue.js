@@ -1,37 +1,26 @@
 <script setup>
 import Book from '../components/Book.vue'
 import BookService from '../services/BookService'
-import CategoriesService from '../services/CategoryService'
-import AuthorService from '../services/AuthorService'
 import { ref, onMounted } from 'vue'
 
 //import
 const books = ref([])
-const categories = ref([])
-const authors = ref({})
 
 onMounted(async () => {
   //livres
-  const booksData = await BookService.getBooks()
+  const booksData = await BookService.getBooks(1, 5)
   books.value = booksData.data.data
 
-  //catégories
-  // for (const book of books.value) {
-  //   let tempCategoriesArray = ['Pas de catégorie trouvée']
-  //   for (const belong of book.belong) {
-  //     tempCategoriesArray = (await CategoriesService.getCategory(belong.categorieId)).data
-  //     console.log(tempCategoriesArray)
-  //   }
-  //   categories.value[book.id] = tempCategoriesArray
-  // }
-  categories.value = null
+  console.log(books.value)
 })
 </script>
 
 <template>
   <main class="home">
     <div class="hero">
-      <div><h1>Bienvenue</h1></div>
+      <div>
+        <h1>Bienvenue</h1>
+      </div>
     </div>
     <div>
       <h2>Notre But</h2>
@@ -47,15 +36,7 @@ onMounted(async () => {
       <h2>Les 5 derniers ajouts</h2>
       <!-- Lister les livres -->
       <div class="books">
-        <Book
-          v-for="(book, index) in books?.slice(0, 5)"
-          :key="index"
-          :book="book"
-          :categories="categories[book.categoryId] || '...'"
-          :authorName="book.writer.firstname || '...'"
-          :appearBig="true"
-          :showCategory="true"
-        ></Book>
+        <Book v-for="book in books" :key="book.id" :book="book" :appearBig="true" :showCategory="true"></Book>
       </div>
     </div>
   </main>
