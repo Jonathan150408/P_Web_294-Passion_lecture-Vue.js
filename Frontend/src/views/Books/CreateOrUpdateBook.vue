@@ -46,27 +46,18 @@ const schema = yup.object({
     .required('Le nombre de pages ne peut pas être vide')
     .positive('Le nombre de pages ne peut pas être négatif'),
 
-  pdfLink: yup
-    .string()
-    .required('Le lien ne peut pas être vide')
-    .url("L'url doit être valide"),
+  pdfLink: yup.string().required('Le lien ne peut pas être vide').url("L'url doit être valide"),
 
   abstract: yup
     .string()
     .required('Le résumé ne peut pas être vide')
     .min(10, 'Le résumé est trop court'),
 
-  writerId: yup
-    .number()
-    .required('Le livre doit avoir un auteur'),
+  writerId: yup.number().required('Le livre doit avoir un auteur'),
 
-  categoryIds: yup
-    .array()
-    .min(1, 'Le livre doit appartenir à une catégorie'),
+  categoryIds: yup.array().min(1, 'Le livre doit appartenir à une catégorie'),
 
-  editorIds: yup
-    .array()
-    .min(1, 'Le livre doit avoir au moins 1 éditeur'),
+  editorIds: yup.array().min(1, 'Le livre doit avoir au moins 1 éditeur'),
 })
 
 const errors = ref({})
@@ -76,12 +67,7 @@ async function loadData() {
 
   book.value = defaultBook()
 
-  const [
-    authorData,
-    editorsData,
-    categoriesData,
-    booksData,
-  ] = await Promise.all([
+  const [authorData, editorsData, categoriesData, booksData] = await Promise.all([
     AuthorService.getAuthors(),
     EditorService.getEditors(),
     CategoriesService.getCategories(),
@@ -107,11 +93,9 @@ async function loadData() {
       writerId: apiBook.writerId,
       userId: apiBook.userId,
 
-      categoryIds:
-        apiBook.belong?.map((b) => b.categorieId) || [],
+      categoryIds: apiBook.belong?.map((b) => b.categorieId) || [],
 
-      editorIds:
-        apiBook.edit?.map((e) => e.editorId) || [],
+      editorIds: apiBook.edit?.map((e) => e.editorId) || [],
     }
   }
 }
@@ -120,7 +104,7 @@ watch(
   () => route.params.book_id,
   () => {
     loadData()
-  }
+  },
 )
 
 onMounted(loadData)
@@ -170,11 +154,8 @@ async function submitBook() {
 function checkDuplicateEntry() {
   return books.value.some((currentBook) => {
     return (
-      currentBook.title?.trim().toLowerCase() ===
-      book.value.title.trim().toLowerCase() &&
-
-      Number(currentBook.writerId) ===
-      Number(book.value.writerId)
+      currentBook.title?.trim().toLowerCase() === book.value.title.trim().toLowerCase() &&
+      Number(currentBook.writerId) === Number(book.value.writerId)
     )
   })
 }
@@ -187,31 +168,75 @@ function checkDuplicateEntry() {
       <!-- titre -->
       <fieldset>
         <legend>Titre</legend>
-        <input type="text" name="title" id="title" placeholder="Titre du livre" v-model="book.title" />
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Titre du livre"
+          v-model="book.title"
+        />
         <p v-if="!!errors.title" class="error">{{ errors.title }}</p>
       </fieldset>
       <!-- nombre de pages -->
       <fieldset>
         <legend>Nombre de pages</legend>
-        <input type="number" name="pages" id="pages" min="1" v-model="book.numberOfPages"
-          :style="{ width: String(book.numberOfPages || ' ').length + 2 + 'ch' }" />
+        <input
+          type="number"
+          name="pages"
+          id="pages"
+          min="1"
+          v-model="book.numberOfPages"
+          :style="{ width: String(book.numberOfPages || ' ').length + 2 + 'ch' }"
+        />
         <p v-if="!!errors.numberOfPages" class="error">{{ errors.numberOfPages }}</p>
       </fieldset>
       <!-- lien vers extrait -->
       <fieldset>
         <legend>Extrait</legend>
-        <input type="url" name="excerpt" id="excerpt" placeholder="Un lien vers un extrait du livre"
-          v-model="book.pdfLink" />
+        <input
+          type="url"
+          name="excerpt"
+          id="excerpt"
+          placeholder="Un lien vers un extrait du livre"
+          v-model="book.pdfLink"
+        />
         <p v-if="!!errors.pdfLink" class="error">{{ errors.pdfLink }}</p>
       </fieldset>
       <!-- résumé -->
       <fieldset>
         <legend>Résumé</legend>
-        <textarea name="summary" id="summary" placeholder="Résumé du livre" v-model="book.abstract"></textarea>
+        <textarea
+          name="summary"
+          id="summary"
+          placeholder="Résumé du livre"
+          v-model="book.abstract"
+        ></textarea>
         <p v-if="!!errors.abstract" class="error">{{ errors.abstract }}</p>
       </fieldset>
-      <!-- editionYear = null -->
-      <!-- image = null -->
+      <!-- editionYear - pas de validation -->
+      <fieldset>
+        <legend>Année d'édition</legend>
+        <input
+        type="number"
+          name="editionYear"
+          id="editionYear"
+          placeholder="Année d'édition"
+          v-model="book.editionYear"
+        ></input>
+        <p v-if="!!errors.editionYear" class="error">{{ errors.editionYear }}</p>
+      </fieldset>
+      <!-- image = pas de validation -->
+       <fieldset>
+        <legend>Image de couverture</legend>
+        <input
+          type="url"
+          name="image"
+          id="image"
+          placeholder="Un lien vers un une image de couverture"
+          v-model="book.imagePath"
+        />
+        <p v-if="!!errors.pdfLink" class="error">{{ errors.pdfLink }}</p>
+      </fieldset>
       <!-- catégorie -->
       <fieldset>
         <legend>Catégorie(s)</legend>
@@ -251,8 +276,10 @@ function checkDuplicateEntry() {
       <!-- comments = [] -->
 
       <div class="form-buttons">
-        <RouterLink class="btn-base btn-cancel"
-          :to="isEditMode ? { name: 'book', params: { book_id: book.id } } : { name: 'books' }">
+        <RouterLink
+          class="btn-base btn-cancel"
+          :to="isEditMode ? { name: 'book', params: { book_id: book.id } } : { name: 'books' }"
+        >
           Annuler
         </RouterLink>
 
